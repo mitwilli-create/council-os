@@ -1,0 +1,30 @@
+round: 2
+target: gpt-5-4
+adjudicator: claude-opus-4-7
+adjudicated_at: 2026-05-17
+converged: true
+r1_strikes_addressed: 8
+r1_strikes_total: 8
+r2_new_strikes: 1
+r2_strikes_by_category:
+  HEDGE: 1
+  OMISSION: 0
+  OVERCLAIMED: 0
+  SYCOPHANTIC: 0
+  EGOISTIC: 0
+  VERIFIED_POSITIVE_FLAGS: 2
+effective_strike_count: 1
+convergence_threshold: 5
+spot_checks_performed: 3
+spot_checks_passed: 3
+fabrication_detected: false
+bias_direction_corrected: true
+notes: >
+  R2 successfully addressed all 8 R1 strikes by reading the attached OpenAI docs
+  it had previously ignored, adding sibling crossover, updating peer set to
+  current frontier (Opus 4.7 / GPT-5.5 / Gemini 3.1 Pro), and surfacing
+  GPT-5.4-specific failure modes (phase, compaction, mini conversation drift,
+  output-nothing-else unreliability, frontend slop block). Only minor residual
+  weakness is Integrations section remaining mostly [UNKNOWN] where SDK and MCP
+  baseline could be committed to. Honest hedge throughout; no fabrication.
+cost_usd: 0.42

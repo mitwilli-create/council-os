@@ -1,0 +1,178 @@
+---
+round: 2
+adjudicator: claude-opus-4-7
+target_model: perplexity/sonar-pro
+target_report: round-2-self-research.md
+adjudication_date: 2026-05-17
+
+verdict: CONVERGED
+next_action: NO_FURTHER_ROUNDS
+
+r1_strike_remediation:
+  total_r1_strikes: 17
+  addressed: 17
+  unresolved: 0
+  remediation_rate: "100%"
+  evidence: |
+    R2 §0 Change Log explicitly maps every R1 strike (1-17) to the section
+    containing the fix. Verified by spot-check of §1 (release date, family
+    taxonomy, no banned phrase), §2 (JSON Schema, vision distinction, source
+    control caveat), §3 (pricing, context window, latency), §5 (sibling
+    matrix, 2026 peers). All fixes land in the body, not just the change log.
+
+strike_summary_r2:
+  total: 4
+  by_category:
+    HEDGE: 2              # Strike A (output cap), Strike B (rate limits)
+    OMISSION: 1           # Strike C (per-request fee context-size mapping)
+    EGOISTIC-LITE: 1      # Strike D (§1 "search-augmented" framing)
+    OVERCLAIMED: 0
+    SYCOPHANTIC: 0
+    EGOISTIC: 0           # core sibling test PASSED
+  by_severity:
+    HIGH: 0
+    MEDIUM: 0
+    LOW: 4
+  below_convergence_threshold: true
+  threshold: 8
+
+filters_triggered_r2:
+  VERIFIED: false      # no factual inversions
+  SPECIFIC: false
+  SYCOPHANTIC: false   # banned-phrase ban honored
+  EGOISTIC: false      # core sibling test passed; D is framing-lite only
+  OVERCLAIMED: false   # no benchmark-free comparative claims
+  OMISSION: false      # all 6 R1 omissions resolved; C is sub-detail only
+  HEDGE: true          # 2 residual LOW-severity hedges (output cap, rate limits)
+
+sibling_differentiation:
+  status: PASS
+  required_comparisons:
+    vs_sonar_base:
+      mentioned: true
+      pricing_stated: true              # $1/$1, 127k context
+      crossover_task_stated: true       # ≤127k context + simpler queries
+      numeric_example: true             # $0.052 vs $0.18 (50k/2k workload)
+      verdict: PASS
+    vs_sonar_reasoning_pro:
+      mentioned: true
+      pricing_stated: true              # $2/$8
+      crossover_task_stated: true       # visible CoT → Reasoning Pro (47% cheaper out)
+      numeric_example: true             # $0.016 vs $0.03 per 2k output
+      verdict: PASS
+    vs_sonar_deep_research:
+      mentioned: true
+      pricing_stated: true              # $2/$8 + $2/1M cite + $3/1M reason + $5/1k queries
+      crossover_task_stated: true       # >15 queries OR >50 citations → Deep Research
+      numeric_example: true             # qualitative threshold + rationale
+      verdict: PASS
+  note: |
+    R1's killer test was the sibling differentiation matrix. R2 §5.2 delivers
+    all three siblings with cost AND crossover task AND numeric examples.
+    This was the highest-leverage fix in R2 and it landed cleanly.
+
+peer_comparator_vintage:
+  status: PASS
+  peers_now_cited:
+    - "Claude 4.7 Opus"
+    - "Claude 4.6 Sonnet"
+    - "Claude 4.5 Haiku"
+    - "GPT-5.5"
+    - "GPT-5.5 Pro"
+    - "Gemini 3.1 Pro"
+    - "Gemini 3 Flash"
+    - "Grok 4.3"
+  peers_removed_from_r1:
+    - "OpenAI o3-mini"
+    - "Claude 3.7 Sonnet/Opus"
+    - "DeepSeek-R1"
+    - "GPT-4o"
+    - "GPT-4.1"
+    - "Gemini 2.0"
+    - "DeepSeek-Coder-V2"
+    - "Mistral Large"
+    - "Llama 3.1"
+  note: |
+    Single most consequential R1→R2 fix. The "use these instead" section (§7.2)
+    now recommends current models. Downstream Council OS routing decisions
+    will land correctly.
+
+factual_corrections_landed:
+  - claim_r1: "No documented first-party JSON mode or strict schema enforcement"
+    correction_r2: "Sonar Pro supports structured outputs via response_format with JSON Schema (Perplexity docs, Zuplo)"
+    location: "§2.9"
+  - claim_r1: "Exact token window not clearly published"
+    correction_r2: "200k tokens (Perplexity docs, OpenRouter, Artificial Analysis)"
+    location: "§2.7, §3.7"
+  - claim_r1: "Specific per-token pricing not clearly stated"
+    correction_r2: "$3/1M input, $15/1M output + $6-$14 per 1k requests (CloudZero 2026)"
+    location: "§3.1"
+  - claim_r1: "Precise GA date not provided"
+    correction_r2: "Released March 7, 2025 (Perplexity blog, pricepertoken)"
+    location: "§1, §8"
+  - claim_r1: "2026 citation-token billing change omitted"
+    correction_r2: "Citation-token charges dropped for Sonar/Sonar Pro in 2026; apply only to Sonar Deep Research"
+    location: "§3.1"
+  - claim_r1: "Sonar family mis-mapped (Small/Base names)"
+    correction_r2: "Search (Sonar, Sonar Pro), Reasoning (Sonar Reasoning Pro), Research (Sonar Deep Research)"
+    location: "§1, §5"
+
+new_r2_strikes:
+  - id: R2.A
+    category: HEDGE
+    severity: LOW
+    section: "§3.7"
+    issue: "Output cap marked [INFERRED] where Perplexity API reference likely documents per-endpoint limits"
+    blocking: false
+  - id: R2.B
+    category: HEDGE
+    severity: LOW
+    section: "§3.3"
+    issue: "Rate limits marked [UNKNOWN] where tier-default RPM/TPM ladder is published; enterprise caps are negotiated"
+    blocking: false
+  - id: R2.C
+    category: OMISSION
+    severity: LOW
+    section: "§3.1"
+    issue: "Per-request fee range $6-$14 stated but context-size-to-fee-band mapping not provided"
+    blocking: false
+  - id: R2.D
+    category: EGOISTIC-LITE
+    severity: LOW
+    section: "§1"
+    issue: "'Search-augmented model' framing in lead reads exclusive; §5.3 correctly notes peers (GPT-5.5/Claude/Gemini) also offer native browsing"
+    blocking: false
+
+convergence_decision:
+  total_strikes: 4
+  threshold: 8
+  below_threshold: true
+  r1_addressed_rate: "100%"
+  sibling_test: PASS
+  peer_vintage: PASS
+  factual_accuracy: PASS
+  sycophantic_phrases: 0
+  killer_test_status: PASS
+  decision: CONVERGED
+  rationale: |
+    R1 had 17 strikes including factual inversions, missing sibling matrix,
+    and stale peer set. R2 addresses all 17 with the cleanest change-log
+    remediation pattern in this Council. 4 new strikes are residual LOW
+    severity (hedges where slightly more decisive language could land, one
+    sub-detail omission, one framing-lite egoism). None are blocking; all
+    optional improvements. Sonar Pro is converged for routing use.
+
+estimated_cost_of_this_dealbreaker_usd: 0.20
+estimated_cost_notes: |
+  Input: 4 file reads (R1 dealbreaker + R1 verdict + R2 report + R1 report excerpt) ~17k tokens.
+  Output: dealbreaker.md (~3k tokens) + verdict.yaml (~1.5k tokens) = ~4.5k output tokens.
+  Zero new WebSearch calls — R1 verifications still hold (no facts changed in 24h).
+  At Opus 4.7 sync pricing ($5/M in, $25/M out): $0.085 in + $0.113 out = $0.20.
+
+optional_round_3_targets:
+  required: false
+  if_pursued:
+    - "Resolve output cap (Strike A) against Perplexity API reference"
+    - "State tier-default RPM/TPM (Strike B), separated from enterprise-negotiated caps"
+    - "Map per-request fee bands (Strike C) to search-context-size: $6 low / $10 medium / $14 high (CloudZero 2026)"
+    - "Tighten §1 'search-augmented' framing (Strike D) to reference the broader 2026 category"

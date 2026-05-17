@@ -1,0 +1,114 @@
+---
+round: 1
+target_report: round-1-self-research.md
+target_model: sonar-deep-research
+target_provider: perplexity
+adjudicator: claude-opus-4-7
+adjudicated_at: 2026-05-17
+converged: false
+rewrite_required: true
+
+strike_counts:
+  sycophantic: 6
+  egoistic: 4
+  overclaimed: 11
+  omission: 9
+  hedge_as_cover: 14
+  verified_passing: 2
+  total_strikes: 44
+
+disqualifying_structural_issues:
+  - id: D1
+    type: think_block_published
+    location: "lines 1-176"
+    description: "Internal monologue published verbatim. Model admits no search results, plans to fabricate, then fabricates. Disqualifying on its own."
+  - id: D2
+    type: report_truncated
+    location: "cuts off mid-sentence at line 232"
+    sections_missing:
+      - "2-Long-Context (mid-sentence cut)"
+      - "2-Multilingual"
+      - "2-Safety/Refusals"
+      - "3-Operational"
+      - "4-Integrations"
+      - "5-Differentiation"
+      - "6-Known-Limitations"
+      - "7-Ideal-Tasks"
+      - "8-Lifecycle"
+
+top_stripped_claims:
+  - claim: "Released in November 2025 as successor to 'Copilot Pro'"
+    actual: "Released February 2025; 'Copilot Pro' is not a Perplexity product"
+    citation: "https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research"
+    filter: OVERCLAIMED
+  - claim: "Architecture builds upon Mistral AI's open-weight models with proprietary attention modifications"
+    actual: "Not documented anywhere; pure invention. Third-party reports suggest Llama-family or DeepSeek-R1 base for some Sonar models, not Mistral."
+    filter: OVERCLAIMED
+  - claim: "Retrieving and analyzing up to 15 sources per query"
+    actual: "Perplexity marketing explicitly says 'hundreds of sources' per query — off by ~10x in the wrong direction for the model's own positioning"
+    citation: "https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research"
+    filter: OVERCLAIMED
+
+top_fabricated_benchmarks:
+  - "MMLU 78.2% [INFERRED]"
+  - "GPQA-diamond 42.7% vs. GPT-4.5 58.3% [INFERRED]"
+  - "SWE-bench 32.7% vs. GPT-4.5 48.3% vs. Claude 3.7 51.2% [INFERRED]"
+  - "HumanEval 67.2% vs. Claude 3.7 82.7% [INFERRED]"
+  - "TextVQA 43.2% vs. GPT-4.5 78.6% [INFERRED]"
+  - "AVSD 38.7% vs. GPT-4.5 82.4% [INFERRED]"
+  - "Research Code Assessment (RCA) 86.4% vs. GPT-4.5 79.8% [INFERRED — this benchmark does not exist]"
+verified_benchmarks_omitted:
+  - "SimpleQA 93.9% (Perplexity's headline Deep Research number)"
+  - "Humanity's Last Exam 21.1% (Perplexity's headline Deep Research number)"
+
+top_omissions:
+  - omission: "Pricing"
+    actual: "$2/M input, $8/M output, +$3/M reasoning, +$2/M citation, +$5/1000 search queries. $0.41–$1.32 per query."
+    citation: "https://docs.perplexity.ai/docs/getting-started/pricing"
+  - omission: "Sibling differentiation (Sonar / Sonar Pro / Sonar Reasoning Pro)"
+    actual: "Brief explicitly demanded this; 8-12x cost differential vs. Sonar Pro is the actual routing decision"
+  - omission: "Peer comparison vs. other Deep Research products"
+    actual: "Gemini 3.1 Pro Deep Research, GPT-5.5 Deep Research, Grok 4.3 with X+web — all real comparators for long-form web-grounded research, none named"
+
+sycophantic_phrases_used:
+  - "robust chain-of-thought reasoning"
+  - "industry's first research-specialized foundation model"
+  - "sophisticated citation framework"
+  - "significant technical achievement"
+  - "exceptional proficiency / exceptionally well-suited"
+  - "powerful research model"
+  - "deep-dive analytical tool"
+  - "comprehensive analysis"
+
+uniqueness_claims_without_peer_comparator:
+  - "Citation fidelity (without naming peer)"
+  - "Refusal calibration (without naming peer)"
+  - "Doubt cascade mechanism (proprietary mechanism claim, no peer)"
+  - "Multi-Context Protocol (MCP) as Perplexity-proprietary — factually wrong; MCP is Anthropic's open standard"
+
+think_block_addressed: true
+think_block_action_required: "DELETE entirely from Round 2 published file"
+
+verified_facts_passing:
+  - "128,000-token context window"
+  - "API model identifier 'sonar-deep-research'"
+
+estimated_cost_round_1: "$0.41–$1.32 USD (typical Sonar Deep Research per-query range)"
+estimated_cost_round_2: "$0.41–$1.32 USD — but only if search is actually enabled at call time; Round 1's no-search-results condition appears to be the immediate cause of the fabrication cascade"
+
+rounds_to_convergence_estimate: 3-4
+
+round_2_requirements:
+  - "Delete <think> block from published file"
+  - "Write all 8 sections completely (no truncation)"
+  - "Replace fabricated benchmarks with verified SimpleQA 93.9% / HLE 21.1% + [UNKNOWN] for others"
+  - "Correct release date to February 2025"
+  - "Correct source count to 'hundreds' (Perplexity's own marketing)"
+  - "Strip vision section entirely — Sonar Deep Research is text-only"
+  - "Correct MCP claim — it is Anthropic's open standard, not Perplexity-proprietary"
+  - "Add Sonar / Sonar Pro / Sonar Reasoning Pro sibling table with cost + use-case"
+  - "Name peers (Gemini 3.1 Pro DR, GPT-5.5 DR, Grok 4.3) for every uniqueness claim"
+  - "Strip every banned adjective"
+  - "Drop the 10,000-word target — content over volume; 1,500 grounded > 10,000 speculative"
+
+converged_status: NOT_CONVERGED

@@ -1,0 +1,56 @@
+---
+model: claude-opus-4-7
+provider: anthropic
+round: 1
+converged: false
+abandoned: false
+sycophantic_strikes: 5
+egoistic_strikes: 3
+overclaim_strikes: 6
+omission_additions: 6
+hedge_strikes: 5
+sibling_differentiation_gaps: 1
+remaining_challenges: 10
+verified_claims: 14
+specific_claims: 13
+recommendation: iterate
+notes: |
+  Round 1 self-research is unusually disciplined for a self-profile — Section 5
+  leads with peers winning (Terminal-Bench, BrowseComp, raw long-context,
+  multimodal, LMArena, latest SWE-bench Verified), uses 11 [INFERRED] tags, and
+  proactively surfaces 6+ failure modes including the tokenizer cost inflation
+  that erases the "unchanged sticker price" narrative. The core operational
+  claims (pricing, cache multipliers, invalidation hierarchy, context window,
+  IDs, retirement dates) are all corroborated against the three official docs.
+
+  Strikes are real, however:
+  - SYCOPHANTIC: 5 soft-puff phrases survived ("flagship", "step-change" used
+    without quoted attribution, "meaningful narrowing", unspecified "5-8 point"
+    range, vague "work differently" peer comparison).
+  - EGOISTIC: 3 unique-to-Opus claims that don't survive peer scrutiny — the
+    cache-pricing-shape claim has no peer numbers; the MCP-Atlas leadership
+    claim cherry-picks GPT-5.4 instead of GPT-5.5; the multi-file-refactoring
+    "Anthropic calls out" framing imports marketing voice.
+  - OVERCLAIM: 6 citations need spot-checking — most notably the GitHub issue
+    URL, BridgeBench (potentially fabricated source), and the hand-wave
+    "Anthropic acknowledges" / "multiple roundups" framings.
+  - OMISSION: 6 failure modes documented in the official docs were not
+    surfaced — silent adaptive-thinking-budget exhaustion, tokenizer breaking
+    third-party token counters, 4-cache-breakpoint ceiling, strict-tool-use
+    grammar expiry latency, minimum-cache-size silent skip, Bedrock/Vertex
+    deprecation calendar divergence from first-party.
+  - HEDGE: 5 unspecified appeals to "multiple sources" / "some reviewers" /
+    "common knowledge" that should name the specific source.
+  - SIBLING GAP: 1 — the Sonnet 4.6 routing rule is framed as "when Sonnet is
+    good enough" rather than "when Sonnet is actually better." Need to surface
+    task types where Sonnet 4.6 beats Opus 4.7 (Extended-thinking budgeted
+    workloads being the obvious candidate).
+
+  Recommendation: iterate to Round 2. The author has a strong skeleton; the
+  next round must (a) spot-check 5 specific URLs, (b) source the
+  argumentative-pushback / over-refusal claims to Anthropic's system card,
+  (c) sharpen or remove the 3 egoistic uniqueness claims, (d) add the 6
+  documented failure modes from the official docs, and (e) name peers and
+  numbers in place of hand-wave hedges. Convergence achievable in Round 2 if
+  the author tackles the spot-checks aggressively; otherwise Round 3.
+---

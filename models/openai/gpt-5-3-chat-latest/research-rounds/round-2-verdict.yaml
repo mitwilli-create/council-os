@@ -1,0 +1,218 @@
+---
+model: gpt-5.3-chat-latest
+provider: openai
+round: 2
+adjudicator: claude-opus-4-7 (dealbreaker agent, anti-sycophancy + anti-egoism profile)
+adjudicated_at: 2026-05-17
+report_under_review: round-2-self-research.md
+prior_artifact: round-1-dealbreaker.md
+
+# === MODEL-SLOT STATUS ===
+model_slot_label: gpt-5.3-chat-latest
+actual_responder_model_id: gpt-5  # Inherited from R1 metadata; lib chain unchanged
+slot_fallback_chain: ["gpt-5.3-chat-latest", "chat-latest", "gpt-5"]
+slot_status: disclosed_but_unresolvable
+slot_disposition: |
+  R2 opens (line 2) with explicit acknowledgment that the model cannot verify
+  its own API ID from inside the call, references the R1 fall-back finding,
+  and reframes the profile from self-introspection to a sourced documentary
+  reference compiled from official OpenAI docs. This is the correct path
+  under R1's OR clause ("explicit re-attempt with model param OR mark the
+  profile clearly as 'actually gpt-5 fallback'"). The lib chain itself
+  (gpt-5.3-chat-latest → chat-latest → gpt-5) cannot be re-routed from
+  inside the model; that is an orchestrator-layer fix.
+
+# === CONVERGENCE ===
+converged: true
+abandoned: false
+recommendation: converge
+
+# === STRIKE COUNTS ===
+sycophantic_strikes: 0
+egoistic_strikes: 0
+overclaim_strikes: 0  # 1 soft / corroborated, not counted as hard strike
+omission_additions: 2  # minor (Batch discount, third-party latency benchmarks)
+hedge_strikes: 0
+sibling_differentiation_gaps: 0
+structural_strikes_new: 1  # minor (preamble fencing)
+model_slot_mismatch_strikes: 1  # disclosed-unresolvable
+total_strikes_r2: 4
+
+# === R1 STRIKE RESOLUTION ===
+round_1_strikes_total: 24
+round_1_strikes_addressed: 23
+round_1_strikes_unresolvable_disclosed: 1  # model-slot fall-back
+round_1_strikes_unaddressed: 0
+
+round_1_resolution_by_category:
+  sycophantic_phrases:
+    r1: 3
+    r2_resolved: 3
+    r2_residual: 0
+  egoism_self_puff:
+    r1: 1
+    r2_resolved: 1
+    r2_residual: 0
+  unsupported_or_fabricated_claims:
+    r1: 4
+    r2_resolved: 4
+    r2_residual: 0
+  omissions_decision_relevant:
+    r1: 11
+    r2_resolved: 11
+    r2_residual: 0
+  structural_framing_failures:
+    r1: 4
+    r2_resolved: 4
+    r2_residual: 0
+  model_slot_mismatch_critical:
+    r1: 1
+    r2_resolved: 0
+    r2_disclosed_unresolvable: 1
+
+# === SYCOPHANCY SCAN ===
+sycophancy_dictionary_hits_r2: 0
+sycophancy_phrases_checked:
+  - "highly capable"
+  - "industry-leading"
+  - "robust"
+  - "versatile"
+  - "excels at"
+  - "best-in-class"
+  - "leading"
+  - "powerful"
+  - "advanced"
+  - "cutting-edge"
+  - "comprehensive"
+  - "particularly strong"
+  - "demonstrably superior"
+  - "uniquely positioned"
+  - "world-class"
+  - "state-of-the-art"
+  - "premier"
+  - "elite"
+
+# === SPOT-CHECKS PERFORMED ===
+spot_checks:
+  - claim: "Pricing $1.75 / $14 / $0.175 per 1M tokens"
+    status: verified
+    source: R1 dealbreaker corroboration + official docs
+  - claim: "Context 128k / Max output 16,384"
+    status: verified
+    source: R1 dealbreaker corroboration + official docs
+  - claim: "Knowledge cutoff Aug 31, 2025"
+    status: verified
+    source: R1 dealbreaker + llm-stats.com
+  - claim: "OpenAI Instant family 'not recommended for production'"
+    status: verified
+    source: _official-models-overview.md lines 111-114 + chat-latest doc
+  - claim: "Predecessor = GPT-5.2 Chat"
+    status: verified
+    source: _official-models-overview.md line 106
+  - claim: "No reasoning.effort surface on Instant family"
+    status: verified
+    source: _official-reasoning.md (effort surface is frontier-only)
+  - claim: "chat-latest = $5/$30/400k/128k"
+    status: verified
+    source: R1 dealbreaker + official chat-latest doc
+  - claim: "Cost crossover 65% input / 53% output cheaper vs GPT-5.5"
+    status: verified
+    source: recomputed ($5-$1.75)/$5 = 65%; ($30-$14)/$30 = 53.3%
+  - claim: "2.86× input / 2.14× output cheaper vs chat-latest"
+    status: verified
+    source: recomputed $5/$1.75 = 2.857; $30/$14 = 2.143
+  - claim: "Silent 272k context loss vs chat-latest"
+    status: verified
+    source: recomputed 400000 - 128000 = 272000
+  - claim: "Snapshot date 2026-03-03 for gpt-5.3-chat-latest"
+    status: third_party_source
+    source: AI/ML API docs (via R1 dealbreaker); not independently re-verified
+
+# === ROUTING KB GUIDANCE ===
+routing_kb_guidance:
+  primary_label: "documentary reference for gpt-5.3-chat-latest"
+  not_introspection: true
+  profile_authoritative_for:
+    - pricing
+    - context_window
+    - max_output
+    - knowledge_cutoff
+    - vision_support
+    - audio_support
+    - reasoning_effort_surface_availability
+    - sibling_differentiation
+    - cost_crossover_math
+  profile_NOT_authoritative_for:
+    - refusal_patterns (inferred, not tested)
+    - latency_observations (inferred, not measured)
+    - tokenizer_quirks (responder may be gpt-5, not gpt-5.3-chat-latest)
+    - safety_behavioral_specifics (inferred from OpenAI safety policies)
+  orchestrator_layer_action_required: |
+    Pin model=gpt-5.3-chat-latest explicitly OR document the lib-chain
+    fall-back in the routing layer so callers know they may get gpt-5
+    behavior when requesting gpt-5.3-chat-latest.
+
+# === KEY OPERATIONAL FACTS (FROM R2, VERIFIED) ===
+operational_facts:
+  pricing_input_per_mtok: 1.75
+  pricing_output_per_mtok: 14.00
+  pricing_cached_input_per_mtok: 0.175
+  context_window_tokens: 128000
+  max_output_tokens: 16384
+  knowledge_cutoff: "2025-08-31"
+  vision_input: true
+  vision_output: false
+  audio_input: false
+  audio_output: false
+  video_input: false
+  video_output: false
+  reasoning_effort_parameter: false
+  parallel_tool_calls: true
+  structured_outputs: true
+  function_calling: true
+  snapshot_date: "2026-03-03"  # third-party
+  predecessor: "gpt-5.2-chat-latest"
+  family: "ChatGPT Instant snapshot"
+  openai_production_use_recommendation: "disrecommended_use_gpt-5.5_instead"
+  source_url: "https://developers.openai.com/api/docs/models/gpt-5.3-chat-latest"
+
+# === SIBLING DIFFERENTIATION (FROM R2, VERIFIED) ===
+sibling_differentiation:
+  vs_gpt_5_5_frontier:
+    pick_5_5_when: "hard reasoning, math, code with reasoning controls"
+    pricing_delta_pct_input_savings_using_5_3: 65
+    pricing_delta_pct_output_savings_using_5_3: 53
+    reasoning_effort_5_5: true
+    reasoning_effort_5_3: false
+  vs_chat_latest:
+    pick_chat_latest_when: "need 400k context or 128k output"
+    pricing_multiplier_chat_latest_more_expensive_input: 2.857
+    pricing_multiplier_chat_latest_more_expensive_output: 2.143
+    context_5_3: 128000
+    context_chat_latest: 400000
+    silent_context_loss_tokens: 272000
+    max_output_5_3: 16384
+    max_output_chat_latest: 128000
+  vs_gpt_5_4_mini_and_gpt_5_mini_nano:
+    pick_smaller_when: "even lower cost suffices and instant-tier capability is acceptable"
+    detail: "exact price/perf depends on those models' docs"
+  vs_audio_realtime:
+    audio_routing_target: ["gpt-realtime-2", "gpt-audio-1.5"]
+  vs_image_generation:
+    image_output_routing_target: "OpenAI Image generation models (separate family)"
+
+# === COST ===
+estimated_round_2_cost_usd: 0.04
+estimated_round_2_cost_range_usd: [0.03, 0.05]
+cost_basis: |
+  R2 self-research: ~3000-5000 output tokens at gpt-5 frontier pricing (slot
+  fall-back). Adjudicator: single read pass with local-file spot-checks (no
+  net-new WebFetch needed; R1 dealbreaker already corroborated the key facts).
+  Cheap round overall — the heavy lifting was in R1's research recovery.
+
+# === ARTIFACTS ===
+artifacts:
+  dealbreaker_path: /Users/mitchellwilliams/Documents/council-os/models/openai/gpt-5-3-chat-latest/research-rounds/round-2-dealbreaker.md
+  verdict_path: /Users/mitchellwilliams/Documents/council-os/models/openai/gpt-5-3-chat-latest/research-rounds/round-2-verdict.yaml
+  prior_round_dealbreaker: /Users/mitchellwilliams/Documents/council-os/models/openai/gpt-5-3-chat-latest/research-rounds/round-1-dealbreaker.md
+  prior_round_verdict: /Users/mitchellwilliams/Documents/council-os/models/openai/gpt-5-3-chat-latest/research-rounds/round-1-verdict.yaml

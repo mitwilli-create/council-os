@@ -1,0 +1,99 @@
+---
+round: 1
+target: gpt-5-4
+target_round_doc: round-1-self-research.md
+adjudicator: claude-opus-4-7 (dealbreaker agent)
+adjudicated_at: 2026-05-17
+bias_filters:
+  - VERIFIED
+  - SPECIFIC
+  - SYCOPHANTIC
+  - EGOISTIC
+  - OVERCLAIMED
+  - OMISSION
+  - HEDGE
+
+strike_counts:
+  total_substantive: 8
+  by_filter:
+    VERIFIED: 0       # report makes few positive claims to verify against
+    SPECIFIC: 0       # report avoids specifics by design (the failure mode)
+    SYCOPHANTIC: 0    # no self-praise; opposite failure mode
+    EGOISTIC: 0       # no self-aggrandizement
+    OVERCLAIMED: 1    # Strike 4 — stale peer set named confidently while own spec disclaimed
+    OMISSION: 6       # Strikes 1, 2, 3, 5, 6, 7, 8 — failure to read attached provider docs
+    HEDGE: 1          # Strike 1 — excessive [UNVERIFIED] when answer was one file open away
+  note: |
+    Primary failure mode is OMISSION + HEDGE, not the typical sycophancy/egoism.
+    Self-report is "anti-egoistic to a fault" — refuses to commit to verifiable facts.
+    Provider docs attached to inputs contain explicit GPT-5.4 positioning, pricing,
+    sibling lineup, reasoning effort surface, and prompting guidance. Self-report
+    invokes [UNVERIFIED] on each rather than reading the doc.
+
+top_3_strikes_summary:
+  - id: 1
+    section: "1 Identity"
+    filter: OMISSION + HEDGE
+    summary: "Marked release date, predecessor, model IDs, positioning all [UNVERIFIED] when _official-models-overview.md line 20 spells out positioning verbatim and pricepertoken.com confirms March 5 2026 release."
+  - id: 3
+    section: "3 Operational"
+    filter: OMISSION
+    summary: "Pricing, context window, batch discount, cached read all [UNVERIFIED]. Web search returns: $2.50/$15 base, $0.75/$4.50 mini, $0.20/$1.25 nano, 400k context / 128k output, 10% cached rate. All public, all on official OpenAI pricing page."
+  - id: 5
+    section: "5 Differentiation"
+    filter: OMISSION
+    summary: "ZERO sibling differentiation despite task brief requiring sharp crossover with GPT-5.5 / mini / nano. Web search confirms GPT-5.5 wins 9/10 shared benchmarks; +7.6pp Terminal-Bench 2.0; 2× the cost. Mini/nano crossover criteria documented in prompt-guidance doc but not surfaced."
+
+top_3_omissions_summary:
+  - id: A
+    item: "Compaction support (/responses/compact endpoint)"
+    consequence: "Long-running GPT-5.4 sessions hit context limits without it; documented in prompt-guidance line 952."
+  - id: B
+    item: "phase parameter for long-running tool agents"
+    consequence: "Missing or dropped phase causes preambles to be interpreted as final answers; documented in prompt-guidance lines 616-622."
+  - id: C
+    item: "Mini/nano packaging quirks (keep-conversation-going default, output nothing else unreliable)"
+    consequence: "Routing decisions to mini/nano require explicit output_contract block to suppress documented packaging behavior."
+
+sibling_differentiation_status: FAILED
+sibling_differentiation_note: |
+  Task brief explicitly required sharp sibling crossover (GPT-5.5 vs GPT-5.4 vs mini/nano).
+  Self-report produced ZERO sibling comparisons. Round 2 must surface:
+    - GPT-5.5: 2× the price; wins 9/10 shared benchmarks; +7.6pp Terminal-Bench 2.0,
+      +11.7pp ARC-AGI-2, +8.1pp MCP Atlas; route to 5.5 only when accuracy delta
+      justifies 2× spend on bounded task.
+    - GPT-5.4-pro: smarter/more precise per overview line 21; spec [UNKNOWN].
+    - GPT-5.4-mini ($0.75/$4.50): 3-4× cheaper; near-frontier on coding/computer-use/subagents;
+      route for well-scoped tasks with explicit step order.
+    - GPT-5.4-nano ($0.20/$1.25): 12.5× cheaper; labels/enums/short JSON only.
+
+converged: false
+convergence_threshold_met: true  # 8 substantive strikes ≥ 5 threshold
+convergence_threshold_value: 5
+round_2_required: true
+
+round_2_must_address:
+  - "Fill all [UNVERIFIED] in Sections 1, 3, 8 with verified release date (March 5 2026), pricing ($2.50/$15 base), context window (400k/128k), predecessor (GPT-5.2), successor (GPT-5.5)"
+  - "Rewrite Section 2 capability claims using documented strengths from _official-prompt-guidance.md (long-context, agentic workflow robustness, parallel tool calling, structured output/Excel workflows)"
+  - "Replace Section 5 stale peer set (Opus 4/4.1, Gemini 2.5 Pro, o3, DeepSeek-R1) with current frontier set (Opus 4.7, GPT-5.5, Gemini 3.1 Pro) and named benchmark numbers"
+  - "Add full sibling-differentiation block: GPT-5.5 / pro / mini / nano with $ deltas and crossover criteria"
+  - "Replace Section 6 generic failure modes with 6 GPT-5.4-specific items: mini/nano packaging quirks, phase parameter loss, compaction requirement, xhigh latency, image detail:auto unreliability, output nothing else unreliable on mini"
+  - "Surface compaction (/responses/compact), phase parameter, frontend-prompt block, reasoning_effort surface (none/low/medium/high/xhigh) as documented Section 2/3 affordances"
+
+recommendation: |
+  Round 2 mandatory. The self-report fails by under-claiming rather than over-claiming
+  — a less common bias mode but equally unfit for procurement. Round 2 must commit
+  to verifiable facts from the attached provider docs and the publicly searchable
+  pricing/benchmark pages, then anchor every adjective in Section 5 to a named peer
+  + benchmark score (the same standard Opus 4.7 Round 2 met). Specifically: GPT-5.4
+  IS "the affordable frontier-class OpenAI model for coding and professional work"
+  per provider doc; sibling lineup IS documented; pricing IS public; successor GPT-5.5
+  IS already released and benchmarked. Refusing to say so is not epistemic humility,
+  it is procurement obstruction.
+
+estimated_cost:
+  notes: "Single-round dealbreaker pass on Opus 4.7. Tool calls: 5 Reads + 3 WebSearches + 2 Writes. Approx input ~50k tokens (peer profile + 5 OpenAI docs + self-report) + output ~7k tokens."
+  approx_input_tokens: 50000
+  approx_output_tokens: 7000
+  approx_total_usd: 0.43
+  basis: "Opus 4.7 base pricing $5/MTok input + $25/MTok output (per peer profile Section 3); 3 WebSearch calls + 5 Read calls + 2 Write calls; no batch discount; no cache hit (single pass)."

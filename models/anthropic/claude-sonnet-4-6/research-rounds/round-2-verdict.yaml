@@ -1,0 +1,94 @@
+---
+round: 2
+model: claude-sonnet-4-6
+adjudicator: claude-opus-4-7
+date: 2026-05-17
+status: converged
+
+# R1 → R2 progress
+r1_strikes_total: 37
+r1_strikes_addressed: 37
+r1_strikes_addressed_pct: 100
+
+r1_strikes_by_category:
+  sycophantic: { total: 5, addressed: 5 }
+  egoistic_same_family: { total: 5, addressed: 5 }
+  overclaim: { total: 6, addressed: 6 }
+  omission: { total: 11, addressed: 11 }
+  hedge: { total: 5, addressed: 5 }
+  sibling_gap: { total: 5, addressed: 5 }
+
+# In-family / sibling differentiation verification
+in_family_sibling_diff_status: corrected
+in_family_corrections_made:
+  - opus_47_used_throughout_section_5: true
+  - extended_thinking_surface_as_1_differentiator: true
+  - tyler_folkman_benchmark_cited: true
+  - mcp_atlas_inversion_corrected: true   # Sonnet LOSES by 16 to Opus 4.7 (was framed as 1-pt win vs. Opus 4.6)
+  - same_family_routing_matrix_added: true
+  - migration_paths_from_opus_46_added: true
+  - haiku_swe_bench_crossover_added: true
+  - word_density_advantage_elevated: true
+  - min_cache_prefix_advantage_added: true
+
+# Documented failure modes added in R2 (R1 omissions 5-11)
+failure_modes_added_in_r2:
+  - minimum_cache_prefix_silent_skip: true
+  - four_breakpoint_400_error: true
+  - strict_tool_use_grammar_24h_expiry: true
+  - bedrock_vertex_deprecation_calendar_divergence: true
+  - cache_hit_itpm_exclusion: true
+  - pooled_sonnet_4x_rate_limit_tier_numbers: true
+
+# NEW R2 strikes
+new_r2_strikes_total: 4
+new_r2_strikes:
+  - id: NEW1
+    category: cosmetic
+    issue: lmarena_elo_drift_1531_to_1523_unannotated
+    blocks_convergence: false
+  - id: NEW2
+    category: minor_methodology
+    issue: swe_bench_pro_sonnet_score_unknown_no_search_attempted
+    blocks_convergence: false
+  - id: NEW3
+    category: minor_methodology
+    issue: mcp_atlas_comparison_uses_two_sources_methodology_parity_unverified
+    blocks_convergence: false
+  - id: NEW4
+    category: cosmetic
+    issue: github_issue_46935_url_not_explicitly_spot_checked_in_r2
+    blocks_convergence: false
+
+# Net strike count
+net_r2_strikes: 4
+convergence_threshold: 8
+converged: true
+
+# Recommendation
+verdict: converged
+round_3_needed: false
+publication_ready: true
+
+# Cost
+research_rounds_completed: 2
+estimated_total_cost_usd: ~0.06   # 2 self-research rounds + 2 dealbreaker rounds, all in-session
+
+# Provenance
+inputs_read:
+  - round-1-self-research.md
+  - round-1-dealbreaker.md
+  - round-2-self-research.md
+anthropic_docs_cross_referenced:
+  - _official-models-overview.md
+  - _official-prompt-caching.md
+  - _official-tool-use-caching.md
+sibling_profile_cross_referenced:
+  - opus-4-7-round-2-self-research.md  # for Opus 4.7 comparator numbers
+
+bias_filters_applied:
+  - standard_sycophancy_dictionary
+  - elevated_anti_meta_sycophancy
+  - in_family_bias_legacy_sibling_cherrypick
+  - deference_bias_too_humble_vs_flagship
+  - cost_tier_framing

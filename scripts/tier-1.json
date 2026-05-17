@@ -1,0 +1,38 @@
+{
+  "$comment": "Tier 1 = models in scope for Phase 3 self-research + Dealbreaker loop. Tier 2 = deferred (same-family variants / prior-gen / image-gen). Mitchell's choice 2026-05-17: Tier 1 only for initial build.",
+  "selected_date": "2026-05-17",
+  "tier_1_models": [
+    {"provider": "anthropic", "version": "claude-opus-4-7", "rationale": "current flagship"},
+    {"provider": "anthropic", "version": "claude-sonnet-4-6", "rationale": "balanced mid-tier; preferred over prior-gen Opus in coding evals"},
+    {"provider": "anthropic", "version": "claude-haiku-4-5", "rationale": "fast/cheap tier"},
+    {"provider": "openai", "version": "gpt-5-5", "rationale": "newest frontier (non-Pro)"},
+    {"provider": "openai", "version": "gpt-5-5-pro", "rationale": "highest-cost/trust GPT-5.5 variant"},
+    {"provider": "openai", "version": "gpt-5-3-instant", "rationale": "default for all tiers including free — high volume baseline"},
+    {"provider": "openai", "version": "gpt-5-4-thinking", "rationale": "deeper reasoning tier"},
+    {"provider": "google", "version": "gemini-3-1-pro", "rationale": "current flagship Pro"},
+    {"provider": "google", "version": "gemini-3-flash", "rationale": "Pro-level intelligence at Flash speed/price"},
+    {"provider": "google", "version": "gemini-3-1-flash-live-preview", "rationale": "uniquely positioned A2A / real-time dialogue model"},
+    {"provider": "xai", "version": "grok-4-3", "rationale": "current flagship; 1M context"},
+    {"provider": "xai", "version": "grok-4-20-multi-agent", "rationale": "unique multi-agent variant"},
+    {"provider": "perplexity", "version": "sonar-pro", "rationale": "200k context, 2x retrieval — bread-and-butter Sonar tier"},
+    {"provider": "perplexity", "version": "sonar-deep-research", "rationale": "uniquely positioned long-form synthesis across hundreds of sources"}
+  ],
+  "tier_2_deferred": [
+    {"provider": "openai", "version": "gpt-5-4-pro", "reason": "redundant with gpt-5-5-pro for our routing purposes"},
+    {"provider": "openai", "version": "gpt-5-2", "reason": "prior-gen — low marginal routing value"},
+    {"provider": "google", "version": "gemini-3-1-flash-lite", "reason": "marginal vs. gemini-3-flash"},
+    {"provider": "google", "version": "nano-banana-pro", "reason": "image-gen — out of scope for council-style text routing"},
+    {"provider": "google", "version": "nano-banana-2", "reason": "image-gen — out of scope"},
+    {"provider": "xai", "version": "grok-4-20-reasoning", "reason": "covered by multi-agent variant + grok-4-3"},
+    {"provider": "xai", "version": "grok-4-20-non-reasoning", "reason": "latency variant — covered by multi-agent"},
+    {"provider": "xai", "version": "grok-3", "reason": "prior-gen"},
+    {"provider": "xai", "version": "grok-3-mini", "reason": "prior-gen"},
+    {"provider": "perplexity", "version": "sonar", "reason": "covered by sonar-pro"},
+    {"provider": "perplexity", "version": "sonar-reasoning-pro", "reason": "covered by sonar-deep-research + sonar-pro"}
+  ],
+  "totals": {
+    "tier_1_count": 14,
+    "tier_2_count": 11,
+    "total_known": 25
+  }
+}

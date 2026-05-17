@@ -1,0 +1,89 @@
+model: grok-4.20-multi-agent
+vendor: xai
+round: 2
+date: 2026-05-17
+mode: verification
+
+r1_baseline:
+  total_strikes: 35
+  by_category:
+    sycophancy: 8
+    egoism: 4
+    overclaim: 6
+    omission: 8
+    hedge: 5
+    sibling_gap: 4
+
+r2_results:
+  r1_strikes_addressed: 35
+  r1_strikes_addressed_pct: 100
+  r1_strikes_surviving: 0
+  r1_addressed_by_category:
+    sycophancy: 8
+    egoism: 4
+    overclaim: 6
+    omission: 8
+    hedge: 5
+    sibling_gap: 4
+  new_r2_strikes: 2
+  new_r2_by_category:
+    structural_mixed_paragraph: 1
+    structural_circular_task_class: 1
+    sycophancy: 0
+    egoism: 0
+    overclaim: 0
+    omission: 0
+  total_r2_strikes: 2
+
+key_verification_items:
+  sub_agent_token_billing_multiplier:
+    status: verified
+    location: "round-2-self-research.md §3 line 31"
+    quantification: "2-4× at 4-agent depth; 8-16× at 16-agent xhigh; $0.10 → $0.40-$1.60 example"
+    notes: "Explicit cost-surprise framing per R1 dealbreaker omission #4"
+  latency_tax_acknowledged:
+    status: verified
+    location: "round-2-self-research.md §3 line 32 + §6 line 63"
+    quantification: "TTFT several seconds to tens of seconds at 16-agent depth; wall-clock dominated by slowest agent + leader synthesis"
+    notes: "Called 'disqualifying for interactive UX' per R1 dealbreaker omission #8"
+  defensible_niche_honest:
+    status: verified
+    location: "round-2-self-research.md §5 line 54 + line 56"
+    framing: "the only frontier model that exposes parallel-agent collaboration (4 or 16 agents, leader-only output, optional encrypted sub-thoughts) in a single API call"
+    honest_concession: "Nothing that cannot be approximated by external scaffolding in peers"
+    notes: "Matches R1 dealbreaker prescription verbatim; parallel-agent collaboration in single API call IS the value"
+  sibling_crossover_complete:
+    status: verified
+    gaps_addressed:
+      g1_grok_4_3: "verbatim adoption of dealbreaker rewrite — II 49 vs 53, GDPval-AA 1500 vs 1179, 38%/58% price delta"
+      g2_grok_4_20_single_agent_reasoning: "same $2/$6 sticker, lower token consumption, supports max_tokens, Chat Completions API"
+      g3_cross_family_routing: "explicit per-peer routing rules with price/quality tradeoffs in §5 + §7"
+      g4_heavy_xhigh_relationship: "honestly tagged [INFERRED]"
+
+convergence:
+  threshold: 10
+  r1_total: 35
+  r2_total: 2
+  converged: true
+  status: CONVERGED
+  recommendation: "No R3 needed for content. If publishing, strip meta-narration scaffolding (Round 2 Revision Notes + per-section dealbreaker correction notes) — those are verification artifacts."
+
+artifact_quality:
+  publication_ready: true
+  caveats:
+    - "Meta-narration scaffolding should be removed before publication"
+    - "§5 weakness paragraph mixes content (1 minor structural strike)"
+    - "§7 ideal-task #5 reads as routing condition not task class (1 minor structural strike)"
+  honesty_score: high
+  uncertainty_tags: 11
+  uncertainty_tags_acceptable: true
+  uncertainty_tags_note: "Honest disclosure of [UNKNOWN]/[INFERRED] per dealbreaker prescription; ~30% of operational profile is third-party-inferred but cleanly tagged"
+
+cost:
+  mode: verification_only
+  websearch_calls: 0
+  websearch_note: "Verification leveraged R1 dealbreaker's existing spot-check work; no fresh web verification needed"
+  tokens_input_est: 14700
+  tokens_output_est: 3900
+  usd_est: 0.51
+  cost_efficiency: "single Opus call, ~$0.51 for full R2 verification"

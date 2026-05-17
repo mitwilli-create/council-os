@@ -1,0 +1,67 @@
+---
+round: 1
+model: claude-haiku-4-5
+adjudicator: claude-opus-4-7
+bias_filter: standard + anti-meta-sycophancy
+date: 2026-05-17
+converged: false
+strikes_total: 12
+strikes_threshold_for_convergence: 5
+in_family_sibling_diff_status: partial
+
+strikes_by_category:
+  factual_errors: 4              # S1, S2, S3, S4
+  missing_first_party_benchmarks: 3   # S5, S6, S7
+  wrong_operational_numbers: 2   # S8, S9
+  sibling_differentiation: 2     # S10, S11
+  egoism_or_positioning: 1       # S12
+
+cost_positioning_leniency_applied: false
+cost_positioning_leniency_reason: >
+  Prompt allowed extra leniency on [INFERRED] markers when paired with strong
+  cost-positioning. Leniency NOT applied because the cost positioning itself is
+  incomplete — cache pricing is wrong (S8: inferred $0.30 read vs. actual
+  $0.10), batch discount is blank (S9: actual 50% off), and the "Sonnet 4
+  quality at 1/3 cost" central positioning is missing (S7). Cannot reward
+  [INFERRED] when the price-anchor is itself wrong.
+
+published_pricing_verified:
+  input_per_mtok_usd: 1.00
+  output_per_mtok_usd: 5.00
+  cache_read_multiplier: 0.1    # 90% off
+  cache_write_5min_multiplier: 1.25
+  cache_write_1hr_multiplier: 2.0
+  batch_discount_pct: 50
+  source: https://platform.claude.com/docs/en/about-claude/pricing
+
+published_benchmarks_omitted_by_self_research:
+  - benchmark: SWE-bench Verified
+    score_pct: 73.3
+    note: "50-run average, two-tool scaffold, no test-time compute"
+    source: https://www.anthropic.com/news/claude-haiku-4-5
+  - benchmark: OSWorld
+    score_pct: 50.7
+    note: "Highest Haiku ever; beats Sonnet 4's 42.2%"
+    source: https://www.anthropic.com/news/claude-haiku-4-5
+
+in_family_siblings:
+  - claude-sonnet-4-6
+  - claude-opus-4-7
+in_family_thinking_shape_verified:
+  claude-haiku-4-5: { extended: true,  adaptive: false }
+  claude-sonnet-4-6: { extended: true,  adaptive: true  }
+  claude-opus-4-7:   { extended: false, adaptive: true  }
+
+top_3_stripped:
+  - "Section 2 line 13: adaptive-thinking framing is wrong — both Sonnet and Opus do NOT both have extended thinking; Opus 4.7 dropped extended in favor of adaptive only"
+  - "Section 2 line 54: 'same loop quality as Sonnet 4.6' is unsupported; no head-to-head OSWorld at same scaffold"
+  - "Section 8 line 160: 'Successor: None announced as of knowledge cutoff (Feb 2025)' is a category error — routing facts should be web-verified at write time, not pulled from training data"
+
+top_3_omissions:
+  - "SWE-bench Verified 73.3% (Anthropic-published launch number) — the headline coding score"
+  - "OSWorld 50.7% (Anthropic-published) — the headline computer-use score"
+  - "'Sonnet 4 quality at ~1/3 the cost' positioning + correct cache (90% off, $0.10/MTok read) + batch (50% off) economics, surfaced as an explicit routing rule"
+
+estimated_cost_usd: 0.45
+adjudication_artifact: round-1-dealbreaker.md
+round_2_required: true

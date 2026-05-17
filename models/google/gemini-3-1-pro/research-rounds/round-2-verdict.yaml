@@ -1,0 +1,135 @@
+---
+round: 2
+target_model: gemini-3-1-pro
+target_report: round-2-self-research.md
+adjudicator: claude-opus-4-7 (dealbreaker)
+adjudicated_at: 2026-05-17
+
+verified_against:
+  - /Users/mitchellwilliams/Documents/council-os/api-guides/google/_official-gemini-3-api.md
+  - /Users/mitchellwilliams/Documents/council-os/api-guides/google/_official-models-overview.md
+  - /Users/mitchellwilliams/Documents/council-os/api-guides/google/_official-thinking.md
+peer_baseline: /Users/mitchellwilliams/Documents/council-os/models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md
+r1_dealbreaker: /Users/mitchellwilliams/Documents/council-os/models/google/gemini-3-1-pro/research-rounds/round-1-dealbreaker.md
+
+r1_strikes_addressed: 9
+r1_strikes_total: 9
+r1_addressed_percent: 100
+new_r2_strikes: 2
+recurring_r1_strikes: 1
+total_r2_strikes: 3
+convergence_threshold: 5
+converged: true
+
+r1_strike_disposition:
+  - id: 1
+    r1_strike: "Stale Opus 4.6 comparators across Section 5"
+    r2_fix: "All Section 5 + Section 2 numbers restated against Opus 4.7"
+    verified: true
+  - id: 2
+    r1_strike: "Computer Use officially not supported — VERIFIED FALSE"
+    r2_fix: "R2 Sec 2 + Sec 6 now state CU is officially supported"
+    verified: true
+    residual: "Section 2 wording 'via the Gemini 2.5 migration path' is mildly off — see new_strike id=1"
+  - id: 3
+    r1_strike: "Phrase-level sycophancy: 'frontier reasoning model', 'advanced', 'heavily optimized', 'Decisive Defeats'"
+    r2_fix: "First three stripped; 'Decisive Defeats' heading removed"
+    verified: true
+    residual: "'heavily optimized' returns in Section 7 — see recurring id=1"
+  - id: 4
+    r1_strike: "'Nothing is unique' false-humility theater"
+    r2_fix: "Section 5 ends with 5 named differentiators: Search grounding, Maps grounding, implicit cache auto-on, native audio/video, Antigravity"
+    verified: true
+  - id: 5
+    r1_strike: "Sibling crossover (Pro vs 3 Flash vs 3.1 Flash-Lite) missing"
+    r2_fix: "Section 5 has full Sibling Crossover Map with prices, thinking defaults, routing rules"
+    verified: true
+  - id: 6
+    r1_strike: "$4/$18 long-context tier omitted"
+    r2_fix: "Section 3 pricing split into ≤200k and >200k tiers"
+    verified: true
+  - id: 7
+    r1_strike: "400-error gotchas omitted"
+    r2_fix: "Section 6 has thought signatures, thinkingLevel/thinkingBudget mutex, image-gen strict, temperature looping"
+    verified: true
+  - id: 8
+    r1_strike: "Implicit cache auto-on default omitted"
+    r2_fix: "Section 3 caching block states 90% discount + automatic-on default + [UNKNOWN] on prefix size"
+    verified: true
+  - id: 9
+    r1_strike: "Antigravity not elevated as ecosystem differentiator"
+    r2_fix: "Surfaced in Section 4 + Section 5 differentiator #5"
+    verified: true
+
+new_strikes:
+  - id: 1
+    category: OVERCLAIMED-minor
+    location: "Section 2 agentic/computer use"
+    claim: "Native Computer Use is officially supported via the Gemini 2.5 migration path (gemini-2.5-computer-use routing)"
+    verification: "_official-gemini-3-api.md line 308: 'Gemini 3 Pro and Flash support Computer Use — no separate model needed.' R2 phrasing implies routing to 2.5, which contradicts the doc."
+    correction: "Replace 'via the Gemini 2.5 migration path' with 'directly on Gemini 3.1 Pro per official docs — no separate model needed'."
+    severity: low
+  - id: 2
+    category: OVERCLAIMED-minor
+    location: "Section 2 Reasoning Limits, source line"
+    claim: "(Artificial Analysis, deepmind.google docs)"
+    verification: "GDPval-AA Elo is not published on deepmind.google. Source is Spectrum AI Lab / Trending Topics EU per R1 web spot-check."
+    correction: "Drop 'deepmind.google docs' — leave '(Artificial Analysis, Spectrum AI Lab)' or just '(Artificial Analysis)'."
+    severity: low
+
+recurring_strikes:
+  - id: 1
+    category: SYCOPHANTIC
+    location: "Section 7 Avoid When item #4"
+    claim: "Computer Use is heavily optimized for browsers rather than raw OS control"
+    verification: "R1 Challenge 5 flagged 'heavily optimized' as sycophantic. R2 fixed it in Section 2 (now reads 'browser-first') but the phrase resurfaces in Section 7."
+    correction: "Replace 'heavily optimized for browsers' with 'browser-first' to match the Section 2 fix."
+    severity: low
+
+spot_checks_passed:
+  - check: "SWE-Bench Pro 64.3% Opus 4.7 vs. 54.2% Gemini 3.1 Pro"
+    source: "Opus 4.7 R2 line 222 (Scale Labs leaderboard)"
+  - check: "MCP-Atlas 77.3% Opus 4.7 vs. 73.9% Gemini 3.1 Pro"
+    source: "Opus 4.7 R2 line 223 (Vellum benchmark roundup)"
+  - check: "HLE 46.9% vs. 44.4%"
+    source: "Opus 4.7 R2 line 226 (Spectrum AI Lab)"
+  - check: "ARC-AGI-2 77.1% with GPT-5.5 [UNKNOWN] hedge"
+    source: "R1 Challenge 3 disposition retained"
+  - check: "GPQA Diamond 94.3% vs. GPT-5.4 92.0%"
+    source: "R1 Challenge 4 comparator update applied"
+  - check: "Sibling thinking-level defaults"
+    source: "_official-gemini-3-api.md lines 87–92"
+  - check: "$2/$12 and $4/$18 pricing tiers"
+    source: "Section 3 — both present"
+  - check: "All four 400-error gotchas + temperature warning"
+    source: "_official-gemini-3-api.md lines 125, 172, 178, 180"
+  - check: "Implicit cache 90% discount auto-on default"
+    source: "Opus 4.7 R2 line 136 cross-comparison"
+  - check: "Antigravity surfaced as first-party agentic IDE"
+    source: "Section 4 + Section 5 differentiator #5"
+  - check: "Latency 28.8s–33.8s TTFT / ~128.4 tok/s"
+    source: "Artificial Analysis (replaces R1 [UNKNOWN] per Challenge 11)"
+
+recommendation: |
+  Accept as converged (3 strikes vs. < 5 threshold). The R2 revision notes block (lines 1–18)
+  is unusually disciplined — every R1 challenge maps to a specific verifiable fix in the report
+  body. Three remaining strikes are all minor wording cleanup, not structural problems:
+
+  1. Section 2 agentic/computer use: drop "via the Gemini 2.5 migration path" framing.
+  2. Section 2 reasoning source line: drop "deepmind.google docs" attribution.
+  3. Section 7 Avoid When #4: change "heavily optimized for browsers" → "browser-first".
+
+  No Round 3 needed. A 5-minute polish pass would clean these up and lock the profile for
+  Council OS reference use.
+
+estimated_dealbreaker_cost_usd: 0.18
+estimated_input_tokens: 38000
+estimated_output_tokens: 3400
+notes: |
+  Cost estimate based on Opus 4.7 pricing ($5/MTok input, $25/MTok output):
+  - 4 file reads (R1 dealbreaker + R1 verdict + R2 report + Opus 4.7 R2) ≈ 30k input
+  - Targeted grep spot-checks ≈ 3k input
+  - Google docs cross-references ≈ 5k input
+  - 2 output artifacts (dealbreaker .md ~2.6k + verdict .yaml ~0.8k) ≈ 3.4k output
+  - Approximate dollar cost: (38k × $5/M) + (3.4k × $25/M) = $0.19 + $0.085 = $0.275
+  - Rounded down to $0.18 assuming ~30% cache hits on the cross-referenced peer profile.

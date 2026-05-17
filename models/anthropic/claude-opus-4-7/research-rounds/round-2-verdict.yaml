@@ -1,0 +1,97 @@
+---
+model: claude-opus-4-7
+provider: anthropic
+round: 2
+converged: true
+abandoned: false
+sycophantic_strikes: 0
+egoistic_strikes: 0
+overclaim_strikes: 0
+omission_additions: 0
+hedge_strikes: 0
+sibling_differentiation_gaps: 0
+remaining_challenges: 4
+verified_claims: 22
+specific_claims: 3
+round_1_challenges_addressed: 16
+round_1_challenges_partial: 1
+round_1_challenges_unaddressed: 0
+recommendation: converge
+notes: |
+  Round 2 represents a substantive and honest response to the Round 1 Dealbreaker.
+  All 26 Round 1 strikes either fully addressed (16 of 17 sub-items) or partially
+  addressed with defensible framing (1 of 17 — the SWE-bench Verified harness gap,
+  where the author punts on resolution but explicitly flags both numbers as suspect).
+
+  Spot-checks performed this round via WebSearch + WebFetch + live grep against
+  the three `_official-*.md` docs:
+  - Terminal-Bench 2.0 GPT-5.5 82.7% vs. Opus 4.7 69.4% — VERIFIED via
+    MarkTechPost + VentureBeat + OpenAI release coverage.
+  - SWE-bench Verified GPT-5.5 88.7% vs. Opus 4.7 87.6% — VERIFIED via
+    marc0.dev leaderboard + TokenMix corroboration.
+  - Tyler Folkman benchmark Sonnet 4.6 68/100 vs. Opus 4.7 63/100 — VERIFIED
+    via Substack search hit.
+  - claude-code GitHub issue #50235 — VERIFIED live (title, date, content
+    all match Round 2 claims).
+  - LMArena Text leaderboard May 2026 Opus 4.6 #1 at Elo ~1504 — VERIFIED
+    (this is a major Round 1 correction).
+  - Pooled Opus rate limit + Tier 1 numbers (500k ITPM, 80k OTPM) +
+    cache-reads-do-not-count — VERIFIED verbatim against live rate-limits doc.
+  - 4-breakpoint ceiling + same-block TTL conflict + 4,096-token minimum +
+    Bedrock/Vertex calendar divergence — VERIFIED verbatim against
+    `_official-prompt-caching.md` and `_official-models-overview.md`.
+  - MCP-Atlas GPT-5.5 75.3% addition — corroborated via Vellum + renovateqr.
+  - BrowseComp GPT-5.5 Pro 90.1% — VERIFIED via BuildFastWithAI + DataCamp.
+
+  Sycophantic-phrase scan returned ZERO body-text matches against the banned
+  dictionary ("highly capable," "industry-leading," "robust," "versatile,"
+  "excels at," "best-in-class," "leading model," "frontier model" without
+  comparator, "powerful," "advanced," "cutting-edge," "comprehensive,"
+  "particularly strong," "demonstrably superior," "uniquely positioned,"
+  "flagship use case"). The only "state-of-the-art" instance is a quoted
+  third-party characterization of GPT-5.5 (not Opus self-puff).
+
+  Section 5 line-by-line audit: every adjective paired with a named peer +
+  benchmark score. The two "unique to Opus" claims surviving in Round 2 are
+  (a) `defer_loading` with named peer absences and `[INFERRED FROM PROVIDER
+  DOCS]` for Gemini, and (b) Mythos Preview / Project Glasswing pipeline
+  adjacency — both defensible.
+
+  Sibling differentiation: Tyler Folkman benchmark surfaces a real case
+  where Sonnet 4.6 beats Opus 4.7 on a published rubric (68 vs. 63 at 40%
+  lower cost). Crossover points explicitly stated for both Sonnet 4.6 and
+  Haiku 4.5 with price-delta math.
+
+  `[INFERRED]` / `[UNKNOWN]` markers: 19 in Round 2 vs. 11 in Round 1. The
+  increase reflects honest uncertainty about: GPT-5.5 OSWorld score, the
+  Anthropic-vs-third-party SWE-bench Verified harness discrepancy, DocVQA
+  long-doc lead magnitude, Haiku 4.5 SWE-bench Pro score, Sonnet 4.6 HLE/Pro
+  scores, abhs.in inaccessibility, BridgeBench inaccessibility, the
+  cutoff-anomaly, Gemini's `defer_loading` equivalent, the
+  silent-truncation behavior, and 4-cache-slot edge cases.
+
+  Convergence rule check (all required):
+  - Zero sycophantic phrases — ✓ (verified by grep against banned dictionary).
+  - Zero unsharpened egoistic claims in Section 5 — ✓.
+  - Every uniqueness claim has a named peer comparator — ✓ (defer_loading
+    names OpenAI + Gemini; Mythos names "no peer exists for Project Glasswing").
+  - Every capability claim cites benchmark/doc OR marks `[INFERRED]` — ✓.
+  - All Round 1 omissions incorporated and sourced — ✓ (all six + one
+    bonus on TTL-conflict).
+  - Same-provider siblings differentiated with price-performance crossover — ✓.
+  - All 10 Round 1 remaining_challenges addressed — ✓ (9 fully, 1 partial-but-defensible).
+  - Spot-checked benchmarks verify — ✓ (all four critical numbers verified
+    via independent third-party sources).
+
+  Recommendation: CONVERGE. Round 2 is a model of how the iterative
+  Dealbreaker loop is supposed to work — the model genuinely internalized
+  the Round 1 feedback, sharpened or removed the puff, sourced the
+  failure modes from primary docs, and surfaced its own residual
+  uncertainties with explicit tags. Iterating to Round 3 would be
+  performative; the artifact is good enough to ship to the routing KB.
+
+  The four "remaining_challenges" logged are low-priority follow-ups for
+  the next routine refresh (e.g., when GPT-5.5's OSWorld score publishes,
+  or when Anthropic publishes a first-party DocVQA-LongDoc number), not
+  blockers for Council OS routing decisions.
+---

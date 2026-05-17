@@ -1,0 +1,94 @@
+---
+model: claude-sonnet-4-6
+provider: anthropic
+round: 1
+converged: false
+abandoned: false
+sycophantic_strikes: 5
+egoistic_strikes: 5
+overclaim_strikes: 6
+omission_additions: 11
+hedge_strikes: 5
+sibling_differentiation_gaps: 5
+remaining_challenges: 10
+verified_claims: 19
+specific_claims: 7
+recommendation: iterate
+estimated_cost_round_1_dealbreaker_usd: 0.42
+notes: |
+  Round 1 self-research has a competent skeleton: every operational claim
+  (pricing, context window, cache pricing, model IDs, lifecycle, deprecation
+  warnings) is corroborated against `_official-models-overview.md` and
+  `_official-prompt-caching.md`. Every headline benchmark (SWE-bench 79.6%,
+  Tau2 97.9/91.7, LMArena Code 1531, GDPval 1,633) corroborates against
+  WebSearch this round.
+
+  The fatal gap is SAME-FAMILY differentiation — the special focus of this
+  round per the dealbreaker prompt. Sonnet 4.6 systematically compares itself
+  to LEGACY siblings (Opus 4.6, GPT-5.4, Sonnet 4.5) instead of CURRENT
+  FLAGSHIPS (Opus 4.7, GPT-5.5). The pattern is identical to the Opus 4.7
+  Round 1 dealbreaker but with the comparator-direction flipped. Highlights:
+
+  - MCP-Atlas claim "Sonnet 4.6 beats its more-expensive sibling 61.3 vs.
+    60.3" cherry-picks Opus 4.6. Opus 4.7 is at 77.3% per Vellum — Sonnet 4.6
+    LOSES by 16 points to the current Anthropic flagship. This single
+    comparator error inverts the headline routing decision.
+  - GDPval-AA "leads the field at 1,633 Elo" excludes Opus 4.7 and GPT-5.5
+    from the comparison. GPT-5.5's GDPval is 84.9% per MarkTechPost (cited
+    in the Opus 4.7 Round 2 self-research). Re-comparison required.
+  - Conversational-quality preference benchmark cites GPT-5.4 not GPT-5.5 —
+    the same cherry-pick the Opus 4.7 Round 1 dealbreaker flagged for Opus.
+
+  The single most important in-family routing fact is COMPLETELY UNSTATED:
+  Sonnet 4.6 retains the **Extended thinking explicit-budget surface** that
+  Opus 4.7 LOST. Per `_official-models-overview.md` lines 33-34: Sonnet 4.6
+  Extended thinking = Yes; Opus 4.7 Extended thinking = No. Callers who
+  built workloads around `thinking: { budget_tokens: N }` on Opus 4.6
+  CANNOT keep that surface on Opus 4.7 — but they CAN on Sonnet 4.6 or
+  Haiku 4.5. This is the biggest in-family routing differentiator
+  Sonnet 4.6 has, and the report does not mention it once.
+
+  Conversely, the single best concrete Sonnet-WINS-vs-Opus-4.7 benchmark
+  (Tyler Folkman's 7-category custom rubric: Sonnet 4.6 68/100 vs.
+  Opus 4.7 63/100 at 40% lower cost) is cited in the Opus 4.7 Round 2
+  self-research but is NOT cited in Sonnet 4.6's own self-research.
+  Sonnet 4.6 is being too humble — a different flavor of in-family bias
+  (deference instead of egoism) but still bias.
+
+  Haiku crossover is similarly fuzzy: the report places Haiku as "simple
+  Q&A only" but Haiku 4.5 scores 73.3% on SWE-bench Verified (only 6.3 pts
+  behind Sonnet 4.6 at 1/3 the price). For cost-sensitive code workloads,
+  this is a routing-flip-worthy delta the report doesn't surface.
+
+  Six failure modes documented in the official Anthropic docs are not
+  surfaced: minimum cacheable prefix size silent skip, 4-cache-breakpoint
+  ceiling 400 error, strict-tool-use grammar 24h expiry latency, Bedrock /
+  Vertex deprecation calendar divergence from first-party, cache-hit ITPM
+  exclusion, pooled Sonnet 4.x rate-limit tier numbers. All sourced to
+  Opus 4.7 Round 2 self-research as cross-reference.
+
+  Two factual errors require fixing:
+  - "No native JSON schema validation at the API layer" is false. Anthropic
+    ships strict tool use (`strict: true`) AND JSON outputs
+    (`output_config.format`) per the structured-outputs doc. Both compile
+    JSON schemas into grammar that constrains generation.
+  - "Batch API pricing [INFERRED]" is wrong — the 50% Batch API discount
+    is documented in `_official-prompt-caching.md` line 285 and stacks
+    with cache pricing.
+
+  One conflicting third-party number requires methodology disclosure: GPQA
+  Diamond 74.1% (used by report) vs. 89.9% (other source surfaced in
+  WebSearch this round). Likely cause: different effort levels or harness
+  configurations. Report should cite both with effort-level annotation.
+
+  Recommendation: ITERATE to Round 2. Convergence achievable in Round 2 if
+  the author (a) replaces all Opus-4.6 / GPT-5.4 comparators with
+  Opus-4.7 / GPT-5.5 in Section 5, (b) adds the Extended-thinking surface
+  as Section 5's #1 in-family Sonnet 4.6 advantage, (c) adds the Tyler
+  Folkman benchmark as the decisive Sonnet-WINS-vs-Opus-4.7 entry, (d)
+  adds the task-by-task same-family routing matrix shown in Sibling Gap
+  #1 of the dealbreaker, (e) adds the 6 omitted failure modes from the
+  official docs, and (f) fixes the JSON-validation overclaim and the
+  Batch-API [INFERRED] tag. Items (a)-(d) are the gates; (e)-(f) are
+  mechanical cleanups. Round 3 should not be needed if these land.
+---

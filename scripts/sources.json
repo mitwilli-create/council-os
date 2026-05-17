@@ -1,0 +1,251 @@
+{
+  "$comment": "Canonical source manifest for Council OS. Updated when new model versions ship or providers update their doc URLs. Verified against provider docs on 2026-05-17.",
+  "verified_date": "2026-05-17",
+  "providers": {
+    "anthropic": {
+      "display_name": "Anthropic",
+      "api_base": "https://api.anthropic.com",
+      "auth_header": "x-api-key",
+      "env_var": "ANTHROPIC_API_KEY",
+      "docs_root": "https://platform.claude.com/docs",
+      "pricing_page": "https://www.anthropic.com/pricing",
+      "release_notes": "https://releasebot.io/updates/anthropic/claude",
+      "provider_wide_docs": [
+        {"url": "https://platform.claude.com/docs/en/about-claude/models/overview", "purpose": "models-overview"},
+        {"url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching", "purpose": "prompt-caching"},
+        {"url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-use-with-prompt-caching", "purpose": "tool-use-caching"}
+      ],
+      "models": {
+        "claude-opus-4-7": {
+          "display_name": "Claude Opus 4.7",
+          "api_model_id": "claude-opus-4-7",
+          "release_date": "2026-04-08",
+          "positioning": "flagship",
+          "pricing": {"input_per_1m": 5.00, "output_per_1m": 25.00, "currency": "USD"}
+        },
+        "claude-sonnet-4-6": {
+          "display_name": "Claude Sonnet 4.6",
+          "api_model_id": "claude-sonnet-4-6",
+          "release_date": "2026-03-15",
+          "positioning": "balanced — preferred over prior-gen Opus in coding evals",
+          "pricing": {"input_per_1m": 3.00, "output_per_1m": 15.00, "currency": "USD"}
+        },
+        "claude-haiku-4-5": {
+          "display_name": "Claude Haiku 4.5",
+          "api_model_id": "claude-haiku-4-5",
+          "release_date": "2026-02-20",
+          "positioning": "fastest + most cost-efficient",
+          "pricing": {"input_per_1m": 1.00, "output_per_1m": 5.00, "currency": "USD"}
+        }
+      }
+    },
+    "openai": {
+      "display_name": "OpenAI",
+      "api_base": "https://api.openai.com",
+      "auth_header": "Authorization",
+      "env_var": "OPENAI_API_KEY",
+      "docs_root": "https://developers.openai.com/api/docs",
+      "pricing_page": "https://openai.com/api/pricing",
+      "release_notes": "https://help.openai.com/en/articles/9624314-model-release-notes",
+      "$retirement_note": "GPT-4 series and o-series fully retired as of 2026-02-13. Only GPT-5 family is active.",
+      "provider_wide_docs": [
+        {"url": "https://developers.openai.com/api/docs/models/all", "purpose": "models-overview"},
+        {"url": "https://developers.openai.com/api/docs/guides/latest-model", "purpose": "latest-model-guide"},
+        {"url": "https://developers.openai.com/api/docs/guides/reasoning", "purpose": "reasoning-models"},
+        {"url": "https://developers.openai.com/api/docs/guides/reasoning-best-practices", "purpose": "reasoning-best-practices"},
+        {"url": "https://developers.openai.com/api/docs/guides/structured-outputs", "purpose": "structured-outputs"},
+        {"url": "https://developers.openai.com/api/docs/guides/prompt-guidance", "purpose": "prompt-guidance"},
+        {"url": "https://cookbook.openai.com/examples/gpt-5/gpt-5-2_prompting_guide", "purpose": "gpt-5-2-prompting-cookbook"}
+      ],
+      "models": {
+        "gpt-5-5": {
+          "display_name": "GPT-5.5",
+          "api_model_id": "gpt-5.5",
+          "positioning": "newest frontier — complex professional work",
+          "default_reasoning_effort": "medium",
+          "supported_reasoning_efforts": ["none", "low", "medium", "high", "xhigh"]
+        },
+        "gpt-5-5-pro": {
+          "display_name": "GPT-5.5 Pro",
+          "api_model_id": "gpt-5.5-pro",
+          "positioning": "highest-cost, highest-trust for difficult problems"
+        },
+        "gpt-5-4-thinking": {
+          "display_name": "GPT-5.4 Thinking",
+          "api_model_id": "gpt-5.4-thinking",
+          "positioning": "deeper reasoning, paid tiers"
+        },
+        "gpt-5-4-pro": {
+          "display_name": "GPT-5.4 Pro",
+          "api_model_id": "gpt-5.4-pro",
+          "positioning": "highest-capability for Pro/Business/Enterprise/Edu"
+        },
+        "gpt-5-3-instant": {
+          "display_name": "GPT-5.3 Instant",
+          "api_model_id": "gpt-5.3-instant",
+          "positioning": "default for every tier including free"
+        },
+        "gpt-5-2": {
+          "display_name": "GPT-5.2",
+          "api_model_id": "gpt-5.2",
+          "positioning": "prior-gen, still available"
+        }
+      }
+    },
+    "google": {
+      "display_name": "Google",
+      "api_base": "https://generativelanguage.googleapis.com",
+      "auth_header": "x-goog-api-key",
+      "env_var": "GEMINI_API_KEY",
+      "docs_root": "https://ai.google.dev/gemini-api/docs",
+      "release_notes": "https://ai.google.dev/gemini-api/docs/changelog",
+      "$api_note": "Two API surfaces: Gemini API (AI Studio) and Vertex AI. New agentic capabilities ship exclusively to the Interactions API.",
+      "provider_wide_docs": [
+        {"url": "https://ai.google.dev/gemini-api/docs/models", "purpose": "models-overview"},
+        {"url": "https://ai.google.dev/gemini-api/docs/gemini-3", "purpose": "gemini-3-api"},
+        {"url": "https://ai.google.dev/gemini-api/docs/thinking", "purpose": "thinking"},
+        {"url": "https://ai.google.dev/gemini-api/docs/interactions/thinking", "purpose": "interactions-api-thinking"},
+        {"url": "https://ai.google.dev/gemini-api/docs/prompting-strategies", "purpose": "prompt-design"},
+        {"url": "https://ai.google.dev/gemini-api/docs/live-api/best-practices", "purpose": "live-api-best-practices"}
+      ],
+      "models": {
+        "gemini-3-1-pro": {
+          "display_name": "Gemini 3.1 Pro",
+          "api_model_id": "gemini-3.1-pro-preview",
+          "positioning": "complex tasks, broad world knowledge, advanced multimodal reasoning",
+          "thinking_levels": ["off", "default", "max"]
+        },
+        "gemini-3-flash": {
+          "display_name": "Gemini 3 Flash",
+          "api_model_id": "gemini-3-flash",
+          "positioning": "Pro-level intelligence at Flash speed and pricing"
+        },
+        "gemini-3-1-flash-lite": {
+          "display_name": "Gemini 3.1 Flash-Lite",
+          "api_model_id": "gemini-3.1-flash-lite",
+          "positioning": "cost-efficient, high-volume workhorse"
+        },
+        "gemini-3-1-flash-live-preview": {
+          "display_name": "Gemini 3.1 Flash Live (A2A Preview)",
+          "api_model_id": "gemini-3.1-flash-live-preview",
+          "positioning": "audio-to-audio, real-time dialogue, voice-first applications"
+        },
+        "nano-banana-pro": {
+          "display_name": "Nano Banana Pro (Gemini 3 Pro Image)",
+          "api_model_id": "gemini-3-pro-image",
+          "positioning": "image generation, pro tier"
+        },
+        "nano-banana-2": {
+          "display_name": "Nano Banana 2 (Gemini 3.1 Flash Image)",
+          "api_model_id": "gemini-3.1-flash-image",
+          "positioning": "image generation, Flash-tier cost"
+        }
+      }
+    },
+    "xai": {
+      "display_name": "xAI",
+      "api_base": "https://api.x.ai",
+      "auth_header": "Authorization",
+      "env_var": "XAI_API_KEY",
+      "docs_root": "https://docs.x.ai/developers",
+      "release_notes": "https://docs.x.ai/developers/release-notes",
+      "$retirement_note": "Retired 2026-05-15: grok-4, grok-4-fast, grok-4-1-fast, grok-code-fast-1, grok-imagine-image-pro. Mitchell's council-of-models agent default lineup must be updated.",
+      "provider_wide_docs": [
+        {"url": "https://docs.x.ai/developers/models", "purpose": "models-overview"},
+        {"url": "https://x.ai/api", "purpose": "api-overview"},
+        {"url": "https://docs.x.ai/developers/release-notes", "purpose": "release-notes"}
+      ],
+      "models": {
+        "grok-4-3": {
+          "display_name": "Grok 4.3",
+          "api_model_id": "grok-4.3",
+          "release_date": "2026-05-06",
+          "positioning": "most intelligent + fastest, current flagship",
+          "context_window": 1000000,
+          "pricing": {"input_per_1m": 1.25, "output_per_1m": 2.50, "currency": "USD"},
+          "reasoning_intensity_levels": 3
+        },
+        "grok-4-20-reasoning": {
+          "display_name": "Grok 4.20 Reasoning",
+          "api_model_id": "grok-4.20-0309-reasoning",
+          "release_date": "2026-03-09",
+          "positioning": "strong agentic tool calling, claimed lowest hallucination rate",
+          "context_window": 2000000,
+          "pricing": {"input_per_1m": 2.00, "output_per_1m": 6.00, "currency": "USD"}
+        },
+        "grok-4-20-non-reasoning": {
+          "display_name": "Grok 4.20 Non-Reasoning",
+          "api_model_id": "grok-4.20-0309-non-reasoning",
+          "positioning": "latency-sensitive variant of 4.20",
+          "context_window": 2000000
+        },
+        "grok-4-20-multi-agent": {
+          "display_name": "Grok 4.20 Multi-Agent",
+          "api_model_id": "grok-4.20-multi-agent-0309",
+          "positioning": "multi-agent collaboration variant",
+          "context_window": 2000000
+        },
+        "grok-3": {
+          "display_name": "Grok 3",
+          "api_model_id": "grok-3",
+          "positioning": "prior-gen flagship"
+        },
+        "grok-3-mini": {
+          "display_name": "Grok 3 Mini",
+          "api_model_id": "grok-3-mini",
+          "positioning": "lighter, cheaper Grok 3 variant"
+        }
+      }
+    },
+    "perplexity": {
+      "display_name": "Perplexity",
+      "api_base": "https://api.perplexity.ai",
+      "auth_header": "Authorization",
+      "env_var": "PERPLEXITY_API_KEY",
+      "docs_root": "https://docs.perplexity.ai",
+      "release_notes": "https://docs.perplexity.ai/docs/sonar/models",
+      "provider_wide_docs": [
+        {"url": "https://docs.perplexity.ai/docs/sonar/models", "purpose": "models-overview"},
+        {"url": "https://www.perplexity.ai/api-platform", "purpose": "api-platform"}
+      ],
+      "models": {
+        "sonar": {
+          "display_name": "Sonar",
+          "api_model_id": "sonar",
+          "positioning": "lightweight, cost-effective search + summarization",
+          "pricing": {"input_per_1m": 1.00, "output_per_1m": 1.00, "currency": "USD"}
+        },
+        "sonar-pro": {
+          "display_name": "Sonar Pro",
+          "api_model_id": "sonar-pro",
+          "positioning": "deeper context, broader retrieval, 2x more results",
+          "context_window": 200000,
+          "pricing": {"input_per_1m": 3.00, "output_per_1m": 15.00, "currency": "USD"}
+        },
+        "sonar-reasoning-pro": {
+          "display_name": "Sonar Reasoning Pro",
+          "api_model_id": "sonar-reasoning-pro",
+          "positioning": "chain-of-thought + complex analytical tasks",
+          "context_window": 128000,
+          "pricing": {"input_per_1m": 2.00, "output_per_1m": 8.00, "currency": "USD"}
+        },
+        "sonar-deep-research": {
+          "display_name": "Sonar Deep Research",
+          "api_model_id": "sonar-deep-research",
+          "positioning": "in-depth long-form synthesis across hundreds of sources",
+          "context_window": 128000,
+          "pricing": {
+            "input_per_1m": 2.00,
+            "output_per_1m": 8.00,
+            "citation_per_1m": 2.00,
+            "reasoning_per_1m": 3.00,
+            "search_queries_per_1k": 5.00,
+            "currency": "USD"
+          }
+        }
+      }
+    }
+  },
+  "total_models": 25,
+  "providers_count": 5
+}

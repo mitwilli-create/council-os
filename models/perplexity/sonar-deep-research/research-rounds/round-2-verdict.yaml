@@ -1,0 +1,133 @@
+---
+round: 2
+target_report: round-2-self-research.md
+target_model: sonar-deep-research
+target_provider: perplexity
+adjudicator: claude-opus-4-7 (dealbreaker)
+fetched_at: 2026-05-17
+
+converged: false
+strikes_total: 10
+strikes_prior_round: 44
+strikes_delta: -34
+ideal_threshold: 12  # per Mitchell's R2 instructions, <12 strikes ideal given R1 size
+within_ideal_threshold: true
+convergence_threshold: 5  # standard <5 strikes triggers final convergence
+within_convergence_threshold: false
+round_3_required: true
+round_3_scope: complete-truncated-sections-only  # substantive fabrication solved; only structural completion remains
+
+strikes_by_filter:
+  sycophantic: 0
+  egoistic: 0
+  overclaimed: 1
+  omission: 7
+  hedge: 1
+  structural: 1
+  verified_passing: 24  # approximate; +22 vs. R1's 2
+
+r1_strikes_addressed:
+  s1_release_date: addressed         # Nov 2025 → Q1 2025 / Feb 2025, verified, explicit retraction
+  s2_predecessor_lineage: addressed  # Copilot Pro retracted as fabrication; actual Sonar family named
+  s3_mistral_architecture: addressed # marked [UNKNOWN — not publicly disclosed]
+  s4_pricing: addressed              # full table $2/$8/$2/$3/$5 + $0.41 example
+  s5_benchmarks: addressed           # 7 invented scores stripped; SimpleQA 93.9% + HLE 21.1% only
+  s6_mcp_proprietary: addressed      # correctly attributed to Anthropic standard
+  s7_thinking_level_1_5: addressed   # explicitly retracted as fabrication
+  s8_15_source_limit: addressed      # replaced with "dozens of searches, hundreds of sources"
+  s9_vision_ocr: addressed           # 512×512 and 92% OCR stripped; text-only confirmed
+  s10_sibling_differentiation: partial  # siblings named; routing table missing (truncated §5)
+  s11_peer_comparator: partial          # peer numbers added; routing matrix missing (truncated §5)
+
+r1_strikes_addressed_count: 9        # of 11 fully addressed
+r1_strikes_partially_addressed: 2    # both gated on truncated sections
+
+fabrication_status:
+  think_block_removed: true
+  release_date_corrected: true
+  architecture_marked_unknown: true
+  sibling_ids_real: true             # Sonar, Sonar Pro, Sonar Reasoning Pro, Sonar Deep Research
+  benchmarks_grounded: true          # SimpleQA 93.9%, HLE 21.1%, plus independent DRA paper
+  pricing_verified: true             # $2/$8/$2/$3/$5
+  mcp_correctly_attributed: true
+  vision_correctly_stated: true      # text-only
+  function_calling_correctly_stated: true  # not supported per PromptHub
+
+new_r2_strikes:
+  s12_truncated_mid_citation:
+    filter: structural
+    severity: disqualifying
+    description: |
+      Report ends at line 122 with incomplete citation `[14][18`.
+      Sections 3 (Operational), 4 (Integrations), 5 (Differentiation),
+      6 (Known Limitations), 7 (Ideal Tasks), 8 (Lifecycle) entirely missing.
+      Same failure mode as R1 (mid-sentence cutoff at line 232).
+  s13_sibling_routing_table_missing:
+    filter: omission
+    description: Cost-per-task routing among Sonar family not delivered (would live in §5 or §7).
+  s14_live_peer_comparator_matrix_missing:
+    filter: omission
+    description: Routing matrix vs. Gemini 3.1 Pro DR / GPT-5.5 DR / Grok 4.3 / Claude Opus 4.7 not delivered.
+  s15_knowledge_cutoff_not_stated:
+    filter: omission
+    description: Brief requires it; should be [UNKNOWN — not publicly disclosed] if no source.
+  s16_latency_profile_not_stated:
+    filter: omission
+    description: No end-to-end latency window for Deep Research sessions.
+  s17_rate_limit_routing_implications_missing:
+    filter: omission
+    description: 5 RPM mentioned in §1.4 but not integrated into routing discussion.
+  s18_deprecation_lifecycle_missing:
+    filter: omission
+    description: §8 entirely missing; no statement on sonar-deep-research's own lifecycle posture.
+  s19_residual_hedge_citation_accuracy_inheritance:
+    filter: hedge
+    severity: minor
+    description: |
+      §2.3 claim that Sonar Deep Research "inherits" Sonar Pro's 37% citation
+      hallucination behavior is [INFERRED] but not directly measured for SDR.
+  s20_residual_overclaim_stale_peer_comparison:
+    filter: overclaimed
+    severity: minor
+    description: |
+      §2.1 reproduces Perplexity's blog peer comparison (o3-mini, o1, DeepSeek-R1,
+      Gemini Thinking) without flagging that these are Q1 2025 peers, not current frontier.
+
+verified_passing_items_examples:
+  - pricing: $2/$8/$2/$3/$5 with $0.41 example
+  - release: Q1 2025 / Feb 2025 (multiple sources)
+  - sibling_family: Sonar, Sonar Pro, Sonar Reasoning Pro, Sonar Deep Research
+  - rate_limit: 5 RPM default tier
+  - context_window: 128K tokens
+  - simpleqa: 93.9%
+  - humanitys_last_exam: 21.1%
+  - dra_paper: 19.9% avg, Perplexity 32.7% Type II, Grok 46.9% falsification, Gemini 5.0%, Qwen 4.1%
+  - cjr_citation_hallucination: 37% on Sonar Pro
+  - mcp_attribution: Anthropic open standard
+  - vision: text-only confirmed
+  - function_calling: not supported per PromptHub
+  - sonar_reasoning_deprecation: Dec 2025
+  - gpt55_terminal_bench: 82.7%
+  - gpt55_swe_bench_pro: 58.6%
+  - community_truncation_bug: 2230 tokens with finish_reason stop
+  - structured_output: response_format json_schema via Agent API
+
+r3_required_actions:
+  - complete_section_3_operational
+  - complete_section_4_integrations
+  - complete_section_5_differentiation_with_sibling_and_peer_routing
+  - complete_section_6_known_limitations
+  - complete_section_7_ideal_tasks
+  - complete_section_8_lifecycle
+  - fix_residual_hedge_section_2_3_citation_inheritance
+  - flag_staleness_of_perplexity_blog_peer_comparison_section_2_1
+  - tighten_prose_to_fit_output_token_cap
+
+estimated_cost_r2_usd: 1.00          # midpoint of $0.50–$1.50 range
+estimated_cost_r3_usd: 1.00          # similar — may run lower if rewrite is tighter
+cumulative_dealbreaker_cost_r1_r2: ~2.00
+
+next_round: 3
+next_round_blocker: structural_truncation
+substantive_fabrication_resolved: true
+---

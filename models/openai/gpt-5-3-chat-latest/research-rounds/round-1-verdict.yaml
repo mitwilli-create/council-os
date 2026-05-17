@@ -1,0 +1,116 @@
+---
+# Council OS Dealbreaker Verdict — Round 1
+# Model under review: gpt-5.3-chat-latest (orchestrator slot label)
+# Actual responder per orchestrator metadata: gpt-5 (slot fell back)
+# Adjudicator: claude-opus-4-7 (dealbreaker agent)
+# Adjudicated: 2026-05-17
+
+round: 1
+model_slot_label: gpt-5.3-chat-latest
+actual_responder_model_id: gpt-5
+provider: openai
+slot_fallback_chain: ["gpt-5.3-chat-latest", "chat-latest", "gpt-5"]
+report_under_review: round-1-self-research.md
+
+verdict: defer
+convergence_status: not_converged
+round_2_mandatory: true
+
+strikes:
+  sycophantic_phrases: 3
+  egoism_self_puff: 1
+  unsupported_or_fabricated_claims: 4
+  omissions_decision_relevant: 11
+  structural_framing_failures: 4
+  model_slot_mismatch_critical: 1
+  total: 24
+
+# Convergence rule: ≥5 strikes expected. 24 strikes is in same severity
+# band as Opus 4.7 Round 1 (26 strikes) — defer and run Round 2.
+
+severity_band: critical
+severity_band_peer_benchmark: opus-4-7-round-1 (26 strikes)
+severity_driver: refusal_to_use_tools_for_documented_facts
+
+top_3_stripped_claims:
+  - claim: "Predecessor likely a GPT-5.x or GPT-4.x Chat variant"
+    location: section_1_and_8
+    replacement: "GPT-5.3 Chat replaces GPT-5.2 Chat in the ChatGPT Instant snapshot lane (per _official-models-overview.md line 106); deprecated chat-family predecessors are GPT-5.1 Chat and GPT-5 Chat (line 107)."
+  - claim: "Comparison to Claude 3.7 Sonnet/Opus, DeepSeek-R1, GPT-4o-omni/live, Llama 3.1/3.2"
+    location: section_5_and_7
+    replacement: "Current 2026 peer lineup — Opus 4.7, Sonnet 4.6, Haiku 4.5 (Anthropic); GPT-5.5, GPT-5.4-pro, GPT-5.4-mini, GPT-5.4-nano (OpenAI frontier); Gemini 3.1 Pro (Google); gpt-oss-120b / gpt-oss-20b (current OpenAI open-weight)."
+  - claim: "Top 5 tasks where GPT-5.3 Chat should be the primary choice"
+    location: section_7
+    replacement: "Re-ground each item with (a) benchmark vs. GPT-5.5 / GPT-5.4-mini / chat-latest, (b) cost-crossover threshold showing where $1.75/$14 makes GPT-5.3 Chat the right choice despite OpenAI's own production-use disrecommendation, (c) acknowledgment that OpenAI explicitly recommends GPT-5.5 for production API use."
+
+top_3_omissions:
+  - omission: "Model-slot fall-back disclosure (orchestrator requested gpt-5.3-chat-latest; responder was gpt-5; the model did not flag this)"
+    severity: critical
+    routing_impact: "Entire profile may describe the wrong model; Council OS cannot route to gpt-5.3-chat-latest based on this profile without independent verification."
+  - omission: "OpenAI's explicit 'not recommended for API use' classification of all chat-latest family models including gpt-5.3-chat-latest"
+    severity: high
+    routing_impact: "Most material positioning fact; report did not surface it. Routing layer must know to disrecommend production use."
+  - omission: "Pricing: $1.75 input / $14 output / $0.175 cached per 1M tokens (claimed [UNKNOWN] but on docs page)"
+    severity: high
+    routing_impact: "Single most decision-relevant fact for cost routing; was one WebFetch away from being known."
+
+operational_facts_recovered_in_dealbreaker:
+  pricing_input_per_mtok: 1.75
+  pricing_output_per_mtok: 14.00
+  pricing_cached_input_per_mtok: 0.175
+  context_window_tokens: 128000
+  max_output_tokens: 16384
+  knowledge_cutoff: "2025-08-31"
+  vision_input: true
+  vision_output: false
+  audio_input: false
+  audio_output: false
+  reasoning_effort_parameter: false
+  parallel_tool_calls: true
+  structured_outputs: true
+  function_calling: true
+  snapshot_date: "2026-03-03"
+  predecessor: "gpt-5.2-chat-latest"
+  openai_production_use_recommendation: "disrecommended_use_gpt-5.5_instead"
+  source_authority: official_openai_docs
+  source_url: "https://developers.openai.com/api/docs/models/gpt-5.3-chat-latest"
+
+chatgpt_instant_tier_positioning:
+  tier_membership: "ChatGPT Instant snapshot family"
+  api_id: "gpt-5.3-chat-latest"
+  sibling_in_same_family: "chat-latest (auto-upgrading latest Instant snapshot)"
+  pricing_delta_vs_chat_latest:
+    chat_latest_input_per_mtok: 5.00
+    chat_latest_output_per_mtok: 30.00
+    chat_latest_context_window: 400000
+    chat_latest_max_output: 128000
+    gpt_5_3_chat_savings_input_pct: 65
+    gpt_5_3_chat_savings_output_pct: 53
+    gpt_5_3_chat_context_loss_vs_chat_latest_tokens: 272000
+    gpt_5_3_chat_output_loss_vs_chat_latest_tokens: 111616
+  pricing_delta_vs_gpt_5_5_frontier:
+    gpt_5_5_input_per_mtok: 5.00
+    gpt_5_5_output_per_mtok: 30.00
+    gpt_5_3_chat_savings_input_pct: 65
+    gpt_5_3_chat_savings_output_pct: 53
+    gpt_5_5_reasoning_effort_supported: true
+    gpt_5_3_chat_reasoning_effort_supported: false
+    routing_implication: "GPT-5.3 Chat is cost-rational fallback when reasoning effort is not needed. Not primary for production. Not viable for >16k output."
+
+round_2_challenges:
+  - "Re-attempt with explicit model=gpt-5.3-chat-latest parameter OR clearly relabel profile to match actual responder."
+  - "Use WebFetch / WebSearch on the model's own developer docs. Every [UNKNOWN] in Section 3 is publicly documented."
+  - "Open Section 5 with OpenAI's 'not recommended for API use' classification — lead with weaknesses per directive."
+  - "Add sibling differentiation: GPT-5.5 / GPT-5.4-mini / chat-latest / GPT-5 mini-nano. Crossover thresholds with per-task dollar math."
+  - "Replace all 2024-early-2025 peer references with current 2026 lineup (Opus 4.7, Sonnet 4.6, Haiku 4.5, GPT-5.4/5.5, Gemini 3.1 Pro, gpt-oss-*)."
+  - "Add 'audio/video/image-output NOT SUPPORTED' callout with routing target for each modality."
+  - "Surface silent context-loss migration risk from chat-latest (400k) to gpt-5.3-chat-latest (128k)."
+  - "Add 'self-knowledge limits' section acknowledging the model cannot verify its own API ID from inside the call."
+
+estimated_round_2_cost_usd: 0.03
+estimated_round_2_cost_range_usd: [0.02, 0.05]
+cost_basis: "Single chat completion ~3000-5000 output tokens at $1.75 in / $14 out, plus 5-8 WebFetch calls at ~$0.001 each. Cheap; the structural problem is tool-reluctance, not compute cost."
+
+artifacts:
+  dealbreaker_path: /Users/mitchellwilliams/Documents/council-os/models/openai/gpt-5-3-chat-latest/research-rounds/round-1-dealbreaker.md
+  verdict_path: /Users/mitchellwilliams/Documents/council-os/models/openai/gpt-5-3-chat-latest/research-rounds/round-1-verdict.yaml

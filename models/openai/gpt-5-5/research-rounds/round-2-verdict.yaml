@@ -1,0 +1,117 @@
+---
+round: 2
+model: gpt-5.5
+provider: openai
+adjudicator: claude-opus-4-7
+fetched_at: 2026-05-17
+target: /Users/mitchellwilliams/Documents/council-os/models/openai/gpt-5-5/research-rounds/round-2-self-research.md
+challenges_log: /Users/mitchellwilliams/Documents/council-os/models/openai/gpt-5-5/research-rounds/round-2-dealbreaker.md
+verified_against:
+  - /Users/mitchellwilliams/Documents/council-os/api-guides/openai/_official-models-overview.md
+  - /Users/mitchellwilliams/Documents/council-os/api-guides/openai/_official-prompt-guidance.md
+  - WebSearch:openai.com/index/introducing-gpt-5-5
+  - WebSearch:officechai.com/ai/gpt-5-5-tops-arc-agi-2
+  - WebSearch:marktechpost.com (Apr 23 2026 release, GDPval 84.9%)
+  - WebSearch:vellum.ai/blog/everything-you-need-to-know-about-gpt-5-5
+peer_profile_compared:
+  - /Users/mitchellwilliams/Documents/council-os/models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md
+
+# Convergence decision
+converged: true
+convergence_note: >
+  Borderline pass. R2 addresses 21 of 24 R1 strikes (75% reduction in
+  total strikes, from ~24 to 6). Sibling differentiation, peer-losing
+  scores in Section 5, benchmark citations, pricing, context window,
+  deprecation list, phase parameter, personality controls, and audio/
+  realtime sibling lineup are all now present. Residual issue is
+  "laundering" — attaching [UNVERIFIED in this chat] to claims that
+  the Dealbreaker adjudicated and that WebSearch independently confirms.
+  This is a softer echo of R1's abdication mode, not a new substantive
+  error. Profile is usable for Council OS routing.
+
+round_1_challenges_addressed:
+  total_r1_strikes: 24
+  addressed: 21
+  partial: 2
+  unaddressed: 1
+  reduction_pct: 75
+  details:
+    category_a_read_repo_docs:
+      total: 7
+      addressed: 6
+      partial: 1   # knowledge cutoff still [UNKNOWN]
+      unaddressed: 0
+    category_b_hedge_density:
+      r1_count: 92
+      r2_count: 37
+      target: 20
+      result: partial   # 60% reduction, target missed
+    category_c_section_5_opens_with_peer_beating:
+      r1_status: empty
+      r2_status: addressed
+      named_peer_losses_added: 4   # SWE-bench Pro, HLE, MCP-Atlas, GPT-5.3-Codex routing
+    category_d_same_sibling_differentiation:
+      r1_gaps: 4
+      r2_addressed: 4   # GPT-5.4, GPT-5.5 Pro, GPT-5.3-Codex, mini/nano
+    category_e_major_omissions:
+      r1_count: 10
+      r2_addressed: 9
+      r2_partial: 1   # missing-context gating doctrine
+    category_f_inverse_egoism:
+      r1_strikes: 3
+      r2_addressed: 3   # Terminal-Bench, ARC-AGI-2, BrowseComp all surfaced with peer comparators
+
+# Strike counts (R2)
+sycophantic_strikes: 0
+egoistic_strikes_assertive: 0
+egoistic_strikes_inverse: 0
+affirmative_overclaim_strikes: 0
+inverse_overclaim_strikes_laundering: 3   # benchmark, pricing, "file not accessible" framing
+omission_strikes: 1   # missing-context gating doctrine
+hedge_strikes_residual: 0   # counted within laundering above to avoid double-count
+sibling_differentiation_strikes: 0
+release_date_hedge_strike: 1   # Apr 23-24 2026 hedged despite triple confirmation
+knowledge_cutoff_lookup_strike: 1   # minor, defensible per R1 framing
+new_r2_failure_modes: 1   # laundering pattern
+
+total_strikes_r2: 6
+total_strikes_r1: 24
+reduction: 75   # percent
+convergence_floor: 8
+
+# Bias filters applied
+bias_filters_applied:
+  - sycophancy_dictionary
+  - inverse_overclaim_check
+  - laundering_check
+  - peer_comparator_required
+  - same_sibling_differentiation
+  - benchmark_citation_required
+  - hedge_density_quantitative
+
+# Spot-checked benchmark citations
+spot_checks:
+  - claim: "Terminal-Bench 2.0: 82.7%"
+    method: WebSearch
+    verified: true
+    sources:
+      - openai.com/index/introducing-gpt-5-5
+      - marktechpost.com/2026/04/23
+      - venturebeat.com (narrowly beats Mythos Preview 82.0%)
+  - claim: "ARC-AGI-2: 85.0%"
+    method: WebSearch
+    verified: true
+    sources:
+      - officechai.com/ai/gpt-5-5-tops-arc-agi-2
+      - blockchain.news (displaces Gemini 3.1 Pro 77%)
+      - llm-stats.com leaderboard
+  - claim: "Release April 23-24, 2026"
+    method: WebSearch
+    verified: true
+    sources:
+      - marktechpost.com/2026/04/23
+      - openai.com/index/introducing-gpt-5-5
+      - officechai.com
+
+# Cost
+estimated_dealbreaker_cost_usd: 0.40

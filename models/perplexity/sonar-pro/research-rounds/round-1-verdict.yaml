@@ -1,0 +1,153 @@
+---
+round: 1
+adjudicator: claude-opus-4-7
+target_model: perplexity/sonar-pro
+target_report: round-1-self-research.md
+adjudication_date: 2026-05-17
+
+verdict: NOT_CONVERGED
+next_action: REQUIRE_ROUND_2
+
+strike_summary:
+  total: 17
+  by_category:
+    OMISSION: 6
+    OVERCLAIMED: 4    # 3 in OVERCLAIMED + 1 in OVERCLAIMED-peer-vintage
+    HEDGE: 4
+    SYCOPHANTIC: 1
+    EGOISTIC: 2
+  by_severity:
+    HIGH: 8           # 6 OMISSION + 2 EGOISTIC
+    MEDIUM: 8         # 3 OVERCLAIMED + 4 HEDGE + 1 OVERCLAIMED-peer-vintage
+    LOW: 1            # 1 SYCOPHANTIC
+
+  exceeds_convergence_threshold: true
+  threshold: 5
+
+filters_triggered:
+  VERIFIED: true       # 4 strikes resolved against verified facts
+  SPECIFIC: false      # report is hedge-heavy, not over-specific
+  SYCOPHANTIC: true    # 1 banned phrase ("particular strength")
+  EGOISTIC: true       # 2 strikes — sibling test skipped entirely
+  OVERCLAIMED: true    # 3 capability claims without benchmark or peer
+  OMISSION: true       # 6 facts marked [UNKNOWN] that are documented
+  HEDGE: true          # 4 [INFERRED] tags where docs exist
+
+sibling_differentiation:
+  status: FAIL
+  required_comparisons:
+    vs_sonar_base:
+      mentioned: true            # mentioned once as predecessor
+      pricing_stated: false
+      crossover_task_stated: false
+      verdict: SKIP
+    vs_sonar_reasoning_pro:
+      mentioned: false           # zero mentions in report
+      pricing_stated: false
+      crossover_task_stated: false
+      verdict: SKIP
+    vs_sonar_deep_research:
+      mentioned: false           # zero mentions in report
+      pricing_stated: false
+      crossover_task_stated: false
+      verdict: SKIP
+  note: |
+    Sonar Pro Round 1 treats its own siblings as if they do not exist.
+    This is the egoism failure mode the brief flagged as the "killer test"
+    for Sonar — and it failed all three sub-tests.
+
+peer_comparator_vintage:
+  status: FAIL
+  peers_cited_in_round_1:
+    - "OpenAI o3-mini"           # 2024-2025
+    - "Claude 3.7 Sonnet/Opus"   # 2024-2025
+    - "DeepSeek-R1"              # 2024-2025
+    - "GPT-4o"                   # 2024-2025
+    - "GPT-4.1"                  # 2024-2025
+    - "Gemini 2.0"               # 2024-2025
+    - "DeepSeek-Coder-V2"        # 2024-2025
+    - "Mistral Large"            # 2024-2025
+    - "Llama 3.1"                # 2024-2025
+  peers_that_should_be_cited_in_may_2026:
+    - "Claude Opus 4.7"
+    - "Claude Sonnet 4.6"
+    - "Claude Haiku 4.5"
+    - "GPT-5.5"
+    - "GPT-5.5 Pro"
+    - "Gemini 3.1 Pro"
+    - "Gemini 3 Flash"
+    - "Grok 4.3"
+  note: |
+    Sonar Pro is comparing itself to peers that are 1-2 generations old.
+    The "peers stronger than me" section (5.1) and "use these instead"
+    section (7.2) recommend models that have been superseded. Single
+    most consequential strike for downstream routing.
+
+factual_inversions_documented:
+  - claim: "No documented first-party JSON mode or strict schema enforcement"
+    reality: "Sonar models DO support structured outputs via JSON Schema in response_format field"
+    source: "docs.perplexity.ai; Zuplo Perplexity API integration guide"
+  - claim: "Exact token window not clearly published"
+    reality: "200k tokens, documented at docs.perplexity.ai, confirmed by OpenRouter + Artificial Analysis"
+  - claim: "Specific per-token pricing not clearly stated"
+    reality: "$3 / 1M input, $15 / 1M output + $6-$14 per 1k requests"
+    source: "docs.perplexity.ai pricing page; pricepertoken.com; CloudZero 2026 pricing analysis"
+  - claim: "Precise GA date not provided"
+    reality: "Released March 7, 2025"
+    source: "pricepertoken.com 2026 pricing page"
+
+top_3_stripped:
+  - phrase: "particular strength at web research and RAG"
+    reason: "banned-list phrase; no benchmark"
+    strike: 14
+  - phrase: "more reliable citation behavior than ad-hoc RAG"
+    reason: "no benchmark; wrong peer comparator (offline GPT-4.1/Claude 3.7); ignores native-search peers Opus 4.7/GPT-5.5/Gemini 3.1 Pro"
+    strike: 7
+  - phrase: "likely more cost-efficient than gpt-4.1 + custom search indexing"
+    reason: "no workload assumption; no actual numbers"
+    strike: 8
+
+top_3_omissions:
+  - omission: "sibling differentiation entirely absent (all 3 siblings)"
+    reason: "killer test per brief — failed completely"
+    strike: 15
+  - omission: "peer comparators are 1-2 generations old"
+    reason: "May 2026 self-research using 2024-2025 peer set"
+    strike: 17
+  - omission: "2026 citation-token billing change (dropped from Sonar Pro)"
+    reason: "THE pricing change that distinguishes 2026 Sonar Pro cost story from 2025"
+    strike: 6
+
+estimated_cost_of_this_dealbreaker_usd: 0.26
+estimated_cost_notes: |
+  Input: 3 file reads (~13k tokens) + 4 WebSearch responses (~8k tokens) = ~21k input tokens
+  Output: dealbreaker.md (~6k tokens) + verdict.yaml (~1.5k tokens) = ~7.5k output tokens
+  At Opus 4.7 sync pricing ($5/M in, $25/M out): $0.105 in + $0.188 out = $0.29
+  Rounded: ~$0.26 (some inputs were cached against the priming bundle).
+
+round_2_required_changes:
+  - id: R2.1
+    requirement: "Resolve all 6 OMISSION strikes against verified facts in this dealbreaker"
+  - id: R2.2
+    requirement: "Add full sibling-differentiation matrix (Sonar base / Reasoning Pro / Deep Research) with per-task crossover and per-1M-token pricing"
+  - id: R2.3
+    requirement: "Replace peer comparator set with May-2026 peers (Opus 4.7, Sonnet 4.6, Haiku 4.5, GPT-5.5, GPT-5.5 Pro, Gemini 3.1 Pro, Grok 4.3)"
+  - id: R2.4
+    requirement: "Add BrowseComp / SimpleQA / FreshQA / SearchArena benchmark numbers for Sonar Pro vs. those peers — or mark [UNKNOWN — no published benchmark for Sonar Pro on this surface]"
+  - id: R2.5
+    requirement: "Strip the one sycophantic phrase (particular strength) — Section 1"
+  - id: R2.6
+    requirement: "Resolve JSON Schema factual inversion — IS supported via response_format"
+  - id: R2.7
+    requirement: "State the 2026 citation-token billing change in pricing section"
+  - id: R2.8
+    requirement: "Add per-request fee ($6-$14 per 1k requests) to pricing — Sonar Pro is not priced purely per token"
+  - id: R2.9
+    requirement: "Add release date (March 7, 2025) and link to first-party announcement"
+  - id: R2.10
+    requirement: "Add Artificial Analysis third-party latency/throughput numbers — Section 3 latency"
+
+convergence_threshold_next_round:
+  required_strike_count: "<5 to converge"
+  required_sibling_test_pass: "all 3 siblings with crossover task + cost crossover"
+  required_peer_vintage: "all peers in 2026 generation"

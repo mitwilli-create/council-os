@@ -1,0 +1,172 @@
+model: gpt-5.5
+provider: openai
+round: 1
+converged: false
+abandoned: false
+adjudicator: claude-opus-4-7
+adjudicated_at: 2026-05-17
+
+# Strike counts by category (per directive)
+sycophantic_strikes: 0  # Zero standard sycophancy dictionary phrases — the one clean column.
+egoistic_strikes: 3     # Inverse-egoism: refused to claim documented peer-leading scores
+                        # on Terminal-Bench 2.0, BrowseComp, ARC-AGI-2.
+overclaim_strikes: 7    # All negative-direction overclaims (claimed [UNKNOWN] for facts
+                        # documented in the report's own grounding repo).
+omission_additions: 10  # Major omissions added below.
+hedge_strikes: 92       # Approximate hedge marker count ([UNKNOWN]/[INFERRED]/[UNVERIFIED])
+                        # — ~5-8x the peer profile (Opus 4.7 Round 2 has 19).
+sibling_differentiation_gaps: 4  # GPT-5.4, GPT-5.5 Pro, GPT-5.3-Codex, GPT-5.4-mini/nano
+
+# Total strikes (sum of meaningful columns, excluding zeros)
+total_strikes: 24  # Well above the convergence floor of 5.
+
+# What survived
+verified_claims:
+  - "OpenAI generally supports tool calling and structured outputs (platform-level claim)."
+  - "OpenAI SDKs in Python and JavaScript/TypeScript are official."
+  - "Vision models commonly misread small text and fine spatial relationships (general inference)."
+  - "GPT-5.5 is closed/API-hosted, not open-weight (gpt-oss-120b/20b is separate)."
+  - "The report's refusal to claim the prompt-asserted identity is technically defensible — but it stops being defensible when the grounding repo contains the official OpenAI docs that confirm GPT-5.5's identity."
+
+specific_claims: []  # Zero verified-specific claims survived. Every concrete-sounding claim
+                     # in the report is buried under [UNKNOWN] / [INFERRED] / [UNVERIFIED].
+
+# What needs to land in Round 2
+remaining_challenges:
+  - "Read the official OpenAI docs in /Users/mitchellwilliams/Documents/council-os/api-guides/openai/ before declaring anything [UNKNOWN] — _official-models-overview.md and _official-prompt-guidance.md both have GPT-5.5 content."
+  - "Run WebSearch/WebFetch to verify benchmark numbers, pricing, release date, context window — all are public and were verified by the adjudicator in <2 minutes."
+  - "Reduce hedge density from ~92 markers to ≤20."
+  - "Populate Section 5 with at least 3 named peer-leading scores (Terminal-Bench 2.0 82.7%, BrowseComp 90.1%, ARC-AGI-2 85.0%) AND at least 2 named peer-losing scores (SWE-bench Pro 58.6% loses to Opus 4.7 64.3%; MCP-Atlas 75.3% loses to Opus 4.7 77.3%; HLE 41.4% loses to Opus 4.7 46.9%)."
+  - "Add the 10 missing omissions: same-sibling routing (GPT-5.4, GPT-5.5 Pro, GPT-5.3-Codex, mini/nano), phase parameter, personality steering, realtime/audio sibling lineup (gpt-realtime-2, gpt-audio-1.5), deprecation list, tokenizer-cost economics (~40% fewer output tokens), missing-context gating patterns."
+  - "Add same-sibling crossover points for GPT-5.4 (price, prompting style, benchmark deltas), GPT-5.5 Pro (6x sticker — when is it worth it), GPT-5.3-Codex (when is it the correct routing target over GPT-5.5), GPT-5.4-mini/nano (high-volume bounded-task routing)."
+  - "Stop using '[INFERRED FROM NAME]' to dodge identifying the actual predecessor — _official-prompt-guidance.md states 'New in GPT-5.5 vs GPT-5.4' explicitly, so the predecessor is GPT-5.4, not 'presumably GPT-5'."
+
+# Verified peer-facing benchmark numbers Round 2 must include
+required_benchmark_additions:
+  terminal_bench_2:
+    gpt_5_5: 0.827  # OpenAI release / MarkTechPost — state-of-the-art
+    opus_4_7: 0.694  # peer comparison from Opus 4.7 Round-2 profile
+    gpt_5_4: 0.751  # +7.6pp gain on the same benchmark (per llm-stats analysis)
+  browsecomp:
+    gpt_5_5_pro: 0.901  # BuildFastWithAI / OpenAI release
+    opus_4_7: 0.793  # peer comparison from Opus 4.7 Round-2 profile
+    gemini_3_1_pro: 0.859  # per OpenAI release / Vellum
+  arc_agi_2:
+    gpt_5_5: 0.850  # +11.7pp over GPT-5.4 — OpenAI release / Vellum
+    gpt_5_4: 0.733
+    opus_4_7: 0.758
+    gemini_3_1_pro: 0.771
+  swe_bench_pro:
+    gpt_5_5: 0.586  # GPT-5.5 LOSES to Opus 4.7 — be honest about this
+    opus_4_7: 0.643
+    gemini_3_1_pro: 0.542
+  swe_bench_verified:
+    gpt_5_5: 0.887  # Narrow lead per marc0.dev — both numbers suspect on this split
+    opus_4_7: 0.876
+  mcp_atlas:
+    gpt_5_5: 0.753  # GPT-5.5 LOSES to Opus 4.7 by 2pp — be honest
+    opus_4_7: 0.773
+    gemini_3_1_pro: 0.739
+    gpt_5_4: 0.681
+  humanitys_last_exam:
+    gpt_5_5: 0.414  # GPT-5.5 LOSES to Opus 4.7 AND Gemini 3.1 Pro
+    opus_4_7: 0.469
+    gemini_3_1_pro: 0.444
+  gdpval:
+    gpt_5_5: 0.849  # OpenAI release / MarkTechPost
+    opus_4_7: null  # not benchmarked publicly
+
+# Verified pricing Round 2 must include
+required_pricing_additions:
+  gpt_5_5:
+    input_per_mtok: 5.00
+    output_per_mtok: 30.00
+    context_window_tokens: 1050000  # ~1.05M
+    max_output_tokens: 128000
+    batch_discount_pct: 50
+    priority_tier_multiplier: 2.5
+    cache_read_per_mtok: 0.50  # 90% off base input — verified peer parity with Anthropic/Google
+  gpt_5_4:
+    input_per_mtok: 2.50
+    output_per_mtok: 15.00
+    note: "GPT-5.5 lists at 2x GPT-5.4 sticker but uses ~40% fewer output tokens for equivalent Codex tasks — effective cost ~20% higher, not 100%."
+  gpt_5_5_pro:
+    input_per_mtok: 30.00
+    output_per_mtok: 180.00
+
+# Verified release date and lineage
+required_lifecycle_additions:
+  released: "2026-04-23 (API GA 2026-04-24)"
+  predecessor: "GPT-5.4 (NOT 'presumably GPT-5' — the prompt-guidance doc opens with 'New in GPT-5.5 vs GPT-5.4')"
+  same_provider_peers:
+    - "GPT-5.5 pro (6x sticker premium)"
+    - "GPT-5.4 (predecessor, 50% sticker discount, process-heavy prompting style)"
+    - "GPT-5.4 pro / mini / nano (cost-tier alternatives within the GPT-5.4 family)"
+    - "GPT-5.3-Codex (agentic-coding specialized variant — official rec for IDE-style coding agents)"
+    - "GPT-5 mini / GPT-5 nano (cheaper near-frontier tier)"
+    - "GPT-5 / GPT-4.1 (older still-supported tier)"
+    - "GPT Image 2, gpt-realtime-2, gpt-audio-1.5 (modality-specific siblings — audio/image route here, NOT to GPT-5.5)"
+  deprecated_siblings:
+    - "GPT-5-Codex, GPT-5.1-Codex, GPT-5.1-Codex-Max, GPT-5.1 Codex mini, codex-mini-latest, GPT-5.2-Codex"
+    - "computer-use-preview, GPT-4.5 Preview, o3-mini, o3, o3-pro, o4-mini"
+    - "GPT-4o Search Preview, ChatGPT-4o, GPT-4 Turbo"
+    - "DALL-E 2/3, Sora 2, Sora 2 Pro"
+
+# Recommendation to GPT-5.5 for Round 2
+recommendation: |
+  Round 2 required. Reset the approach: stop performing humility, start reading the grounding repo.
+
+  Specific corrective directives for Round 2:
+  1. Open and read _official-models-overview.md and _official-prompt-guidance.md before
+     writing the first sentence. The doc cache exists for a reason.
+  2. Run at least 5 WebSearch calls and 3 WebFetch calls to corroborate benchmark numbers,
+     pricing, release date, and peer comparisons. None of these took the adjudicator
+     more than 2 minutes per claim.
+  3. Reduce [UNKNOWN] / [INFERRED] / [UNVERIFIED] markers from ~92 to ≤20.
+  4. Open Section 5 with a peer beating GPT-5.5 (SWE-bench Pro: Opus 4.7 64.3% vs.
+     GPT-5.5 58.6%) — same anti-egoism pattern as Opus 4.7 Round 2 used.
+  5. Differentiate GPT-5.5 from GPT-5.4 (same-provider sibling), GPT-5.5 Pro
+     (intra-sibling), GPT-5.3-Codex (specialized), and the mini/nano cost tiers.
+     Include price-delta and crossover point for each.
+  6. The clean-on-sycophancy-because-it-claims-nothing pattern is rejected.
+     Honesty about peer-leading scores is required where the data supports them.
+     Honesty about peer-losing scores is required where the data shows them.
+     Refusing both is not honesty — it is abdication.
+
+  Convergence target for Round 2: ≤5 surviving strikes total.
+
+# Estimated cost (per directive)
+estimated_cost_usd: 0.32
+# Rationale: 4 file reads (~25k tokens cached), 3 WebSearch calls (~12k tokens uncached
+# response), 2 file writes (~7k output tokens). Opus 4.7 base rate $5 input / $25 output.
+# Input: ~37k tokens at $5/MTok = $0.185. Output: ~7k tokens at $25/MTok = $0.175.
+# Less cache hits on the static portions (~30% effective discount) = ~$0.30-0.35 total.
+
+notes: |
+  This report is a different failure mode than the standard council-os sycophancy
+  pattern — call it "epistemic abdication." Where most self-research reports
+  inflate their model's capabilities, this one refuses to claim any capability at
+  all, and presents the refusal as honesty. The directive explicitly anticipated
+  this: "Don't be polite. Hunt aggressively." The hunting found a model that
+  was hiding behind hedge markers instead of researching.
+
+  Two facts that should have been verifiable in Round 1 before writing a single sentence:
+  1. The council-os repo contains _official-models-overview.md (lists GPT-5.5 as
+     the top frontier model with positioning quote) and _official-prompt-guidance.md
+     (contains GPT-5.5 prompting guide with explicit "New in GPT-5.5 vs GPT-5.4"
+     section). The report cited the council-os file structure for peer profiles
+     (Opus 4.7) but did not read OpenAI's own docs in the same repo.
+  2. The OpenAI release announcement, Vellum/MarkTechPost/openrouter/apidog
+     coverage, and the LMArena/llm-stats leaderboards all contain the specific
+     numbers the report marks [UNKNOWN]. They were verified by the adjudicator
+     in ~5 minutes of WebSearch.
+
+  The good news: there is no sycophancy to strip in Round 2. There are zero
+  marketing-voice phrases. The Round 2 task is purely additive — read the docs,
+  run the searches, populate the empty sections with verified specifics.
+  The cleanup work that took Opus 4.7 Round 2 most of its effort (stripping
+  sycophantic language) does not apply here.
+
+  Final note: the report's one defensible position — "I will not assert what I
+  cannot verify" — is undermined by the fact that the grounding it needed was
+  available in the same repo it was already citing. Round 2 must do the reading.

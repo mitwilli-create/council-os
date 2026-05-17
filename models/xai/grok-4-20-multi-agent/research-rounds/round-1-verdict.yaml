@@ -1,0 +1,113 @@
+---
+model: grok-4-20-multi-agent
+provider: xai
+round: 1
+converged: false
+abandoned: false
+sycophantic_strikes: 8
+egoistic_strikes: 4
+overclaim_strikes: 6
+omission_additions: 8
+hedge_strikes: 5
+sibling_differentiation_gaps: 4
+remaining_challenges: 12
+verified_claims: 10
+specific_claims: 7
+recommendation: iterate
+total_strikes: 35
+notes: |
+  Round 1 self-research is honest in places (Section 5 admits "Nothing that
+  cannot be approximated by external scaffolding in peers") and gets the
+  hard API-surface facts right (Responses-only, max_tokens unsupported, 2M
+  context, 4/16 agent topology, built-in tools list, encrypted sub-state,
+  $2/$6 pricing). The verified-claim core is solid.
+
+  However, strikes compound in three areas:
+
+  1. SYCOPHANTIC (8): "uniquely best" / "excellent" / "strong" / "reliable" /
+     "deep" / "specialized" survived hunt. The author's editorial register
+     leans into marketing-voice adjectives more than the Opus 4.7 Round 1
+     report did (8 vs. 5 strikes).
+
+  2. EGOISTIC (4): The "uniquely best at multi-agent collaboration" framing
+     contradicts the report's own honest concession that peers can scaffold
+     the same outcome. The accurate claim is narrower: Multi-Agent is the
+     ONLY frontier model exposing parallel-agent collaboration in a SINGLE
+     API call. That's a real but small differentiation — not a "uniquely
+     best" capability.
+
+  3. SIBLING GAP (4): This is the worst section. Grok 4.3 — the same-family
+     flagship — scores HIGHER on the Artificial Analysis Intelligence Index
+     (53 vs. Grok 4.20 reasoning 49), wins GDPval-AA by 321 ELO points
+     (1500 vs. 1179), AND costs ~38% less on input + ~58% less on output
+     than Multi-Agent. The report does not surface this honestly. It also
+     does not distinguish Multi-Agent from same-family single-agent
+     reasoning (same sticker price, fewer effective output tokens, supports
+     max_tokens, works with Chat Completions). And the relationship to
+     SuperGrok Heavy is unclear.
+
+  OVERCLAIM (6): The Intelligence Index numbers (48 vs. 57) are stale; the
+  68.7 agentic index has no verified source; the September 2025 knowledge
+  cutoff is third-party-mirror only (official xAI doc says Nov 2024); the
+  Multi-Agent-specific SWE-bench number is [UNKNOWN] but the report
+  implies a family number applies; the hallucination-reduction numbers
+  conflate xAI marketing claims with third-party Omniscience scores.
+
+  OMISSION (8): Eight failure modes / structural facts not surfaced —
+  client-side function-calling unsupported (migration tax), Responses API
+  previous_response_id model (different conversation semantics from Chat
+  Completions), beta API breaking-change risk for production, sub-agent
+  token billing multiplier (2-16× output cost), knowledge-cutoff staleness
+  on tools-disabled queries, no audio/video in (Gemini-only modality),
+  multi-agent synthesis inconsistency on sharp agent disagreement, and
+  16-agent xhigh latency tax (serial-chained-parallel, slowest-agent
+  bound).
+
+  HEDGE (5): "approximately" appears 5× on pricing, latency, cutoff, and
+  benchmark scores where exact numbers exist; "can still refuse" /
+  "some configurations" / "some Grok 4 variants" / "users should monitor"
+  are hand-waves where specifics are available.
+
+  Pricing facts (verified):
+  - Multi-Agent: $2 input / $6 output per MTok
+  - Grok 4.3 (flagship): $1.25 input / $2.50 output per MTok
+  - Grok 4.20 reasoning (single-agent): same $2/$6 as Multi-Agent
+  - Sticker price flat across non-reasoning / reasoning / multi-agent
+    Grok 4.20 variants; effective cost diverges due to output token
+    multipliers from agent communication.
+
+  Multi-agent capability accuracy: 8 of 8 core API-surface claims
+  verified. The hard facts (Responses-only, no max_tokens, 4/16 topology,
+  built-in tool list, encrypted sub-state, 2M context) are correct. The
+  capability quality claims (hallucination reduction, agentic index)
+  need source disaggregation.
+
+  Sibling differentiation accuracy: WEAK. Grok 4.3 dominates on every
+  axis except multi-agent collaboration itself. Round 2 MUST state the
+  crossover bluntly: route to Multi-Agent ONLY when parallel-agent
+  collaboration is the point; route to Grok 4.3 for everything else.
+
+  Cross-family routing accuracy: Partial. The Multi-Agent-as-only-
+  parallel-agent-API-surface framing is defensible; the X-search
+  uniqueness claim is verified. But the report does not adequately
+  surface that $6/MTok output is 24× Gemini 3.1 Pro's output price and
+  6× Grok 4.3's — the cost premium is enormous and must be paired with
+  routing rules.
+
+  Recommendation: ITERATE TO ROUND 2. Convergence is achievable in
+  Round 2 if the author (a) strips the 8 sycophantic phrases, (b)
+  rewrites the 4 egoistic uniqueness claims as narrow-API-surface
+  claims, (c) refreshes the 6 stale/unsourced overclaimed numbers
+  with current Artificial Analysis data, (d) adds the 8 omitted
+  failure modes from the multi-agent architecture and Responses API
+  semantics, (e) replaces 5 hedges with specifics, AND (f) rewrites
+  Section 5 + Section 7 to state the Grok 4.3 / Grok 4.20 reasoning /
+  Multi-Agent crossover decisions bluntly with price+quality crossover
+  points. If the author cannot acknowledge that Grok 4.3 is the correct
+  routing default and Multi-Agent the narrow specialist, convergence
+  will not occur and Round 3 is likely.
+
+estimated_dealbreaker_cost_usd: 0.85
+estimated_dealbreaker_tokens_input: 28000
+estimated_dealbreaker_tokens_output: 6200
+---

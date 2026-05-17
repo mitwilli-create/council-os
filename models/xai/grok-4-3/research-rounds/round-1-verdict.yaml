@@ -1,0 +1,126 @@
+round: 1
+target_file: round-1-self-research.md
+model_under_review: grok-4-3
+provider: xai
+adjudicator: claude-opus-4-7
+adjudicator_role: dealbreaker
+adjudicated_at: 2026-05-17
+peer_comparison_file: /Users/mitchellwilliams/Documents/council-os/models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md
+
+verdict: REJECTED_FABRICATION
+converged: false
+round_2_required: true
+
+strike_summary:
+  total_strikes: 19
+  critical: 5    # pricing wrong 3x, context wrong 4x, video denied, sibling-distinction absent, cost-positioning missed
+  high: 7        # cutoff, predecessor lineage, X/Twitter buried, refusal rate unsourced, GPQA fabricated, INFERRED abuse, stale comparators
+  medium: 5      # release date, hallucination unsourced, rate limits unsourced, latency wrong, Grok Imagine omission, stripped phrases
+  low: 2         # output cap unsourced, minor framing issues
+
+bias_filter_breakdown:
+  VERIFIED: 1            # X/Twitter live data access is real
+  SPECIFIC: 0
+  SYCOPHANTIC: 2         # "maximum truth-seeking", "minimal corporate safety filtering"
+  EGOISTIC: 1            # "lower refusal rate than OpenAI/Anthropic" without benchmark
+  OVERCLAIMED: 7         # pricing 3x high, context 4x low, modalities denied, predecessor wrong, GPQA fabricated, cutoff wrong, release date hand-wave
+  OMISSION: 6            # video, X/Twitter detail, sibling differentiation, dollar-delta vs peers, current-gen comparators, Grok Imagine ecosystem
+  HEDGE: 2               # "approximately", "[INFERRED]" abuse
+
+sections_present:
+  section_1_identity: true
+  section_2_core_capabilities: true
+  section_3_operational: true
+  section_4_integrations: true
+  section_5_differentiation: true
+  section_6_known_limitations: true
+  section_7_ideal_tasks: true
+  section_8_lifecycle: true
+  structural_omission: false
+  brevity_concern: true     # 5,878 chars vs ~35k peer; concise but underspecified
+
+top_3_must_fix:
+  - strike_id: 4
+    category: FABRICATED
+    summary: "Native video input denied; actually IS xAI's first native-video model"
+    impact: critical
+    fix: "Rewrite Section 2 Audio/Multimodal; add to Section 5 differentiation"
+
+  - strike_id: 1
+    category: OVERCLAIMED
+    summary: "Pricing wrong by 2.4-3.6x: $3/$9 claimed, actual $1.25/$2.50 + $0.20 cached"
+    impact: critical
+    fix: "Rewrite Section 3 pricing; cite mem0.ai or artificialanalysis.ai"
+
+  - strike_id: 2
+    category: OVERCLAIMED
+    summary: "Context window understated 4x: 256k claimed, actual 1M"
+    impact: critical
+    fix: "Rewrite Sections 2, 3; acknowledge 4.20 Multi-Agent 2M sibling"
+
+unique_capability_verified:
+  X_Twitter_live_data:
+    verified: true
+    source: "https://x.com/xai/status/1925244461875175616"
+    note: "Buried in Section 4 as one bullet; should be Section 5 lead differentiator"
+
+claimed_vs_actual:
+  pricing_input_per_mtok:
+    claimed: "$3.00"
+    actual: "$1.25"
+    error_multiplier: 2.4
+  pricing_output_per_mtok:
+    claimed: "$9.00"
+    actual: "$2.50"
+    error_multiplier: 3.6
+  context_window:
+    claimed: "256k tokens"
+    actual: "1M tokens"
+    error_multiplier: 0.25  # understated
+  knowledge_cutoff:
+    claimed: "March 2026"
+    actual: "December 2025"
+    error_months: 3
+  predecessor:
+    claimed: "Grok 4.0"
+    actual: "Grok 4.20 (skipped 4.1, 4.20, 4.20 Multi-Agent)"
+  release_date:
+    claimed: "March-April 2026"
+    actual: "April 17, 2026 (beta) / May 6, 2026 (full)"
+  video_input:
+    claimed: "No video understanding"
+    actual: "First xAI model with native video input"
+  prompt_caching:
+    claimed: "Not supported"
+    actual: "$0.20 per 1M tokens"
+
+peer_comparison_quality:
+  opus_4_7_peer_report_char_count: ~35000
+  grok_4_3_self_report_char_count: 5878
+  ratio: 0.17
+  peer_uses_INFERRED_tags: 19
+  grok_uses_INFERRED_tags: 4
+  peer_has_dollar_delta_routing_examples: true
+  grok_has_dollar_delta_routing_examples: false
+  peer_has_same_sibling_routing: true   # Sonnet 4.6 / Haiku 4.5 with crossover points
+  grok_has_same_sibling_routing: false  # zero 4.20 / 4.20 Multi-Agent / 3 / 3 Mini distinction
+
+estimated_cost_usd: 0.07
+adjudication_tokens_total: 30000
+
+round_2_directive:
+  required: true
+  must_address:
+    - "All 19 strikes by ID"
+    - "Verify against xAI official docs at docs.x.ai/developers/models/grok-4.3"
+    - "Verify pricing/context/cutoff against Artificial Analysis + at least one other independent source"
+    - "Lead Section 5 with X/Twitter live-data access as the unique differentiator"
+    - "Add sibling differentiation (Grok 4.20 Multi-Agent 2M context $2/$6, Grok 3 family, Grok Code Fast)"
+    - "Update comparators to current-gen (Opus 4.7, GPT-5.5, Gemini 3.1 Pro) not stale (Claude 4 Opus, o3-pro, Gemini 2.5 Pro)"
+    - "Cite specific benchmark scores OR mark as [UNKNOWN — no public score]"
+    - "Acknowledge native video input + STT/TTS APIs"
+
+anti_meta_sycophancy_note: |
+  Polite framing would minimize this report card. The quantitative core is wrong
+  by 2-4x on pricing, context, predecessor, and modality. Routing decisions
+  using this profile would be wrong. Full rewrite required, not patch.

@@ -1,0 +1,61 @@
+round: 2
+model: claude-haiku-4-5
+adjudicator: claude-opus-4-7
+date: 2026-05-17
+prior_round_strikes: 12
+
+r1_strikes_closed: 10
+r1_strikes_open_minor: 2
+new_r2_strikes: 3
+net_total_strikes: 5
+
+r1_strike_status:
+  S1_extended_thinking_sibling_shape: closed
+  S2_release_date_understated: closed
+  S3_successor_cutoff_logic: closed
+  S4_vision_pixel_budget: open_minor_omission
+  S5_swebench_73_3: closed
+  S6_osworld_50_7: closed
+  S7_sonnet4_quality_1_3_cost_positioning: closed
+  S8_cache_pricing_010_per_mtok: closed
+  S9_batch_discount_50pct: closed
+  S10_knowledge_cutoff_magnitude: open_minor_omission
+  S11_same_loop_quality_unsupported: closed
+  S12_routing_rule_missing: closed
+
+new_r2_strikes_detail:
+  N1_sonnet4_vs_sonnet4_6_positioning_drift:
+    severity: substantive
+    where: "R2 line 16"
+    issue: "Silently upgraded Anthropic's 'Sonnet 4' framing to 'Sonnet 4.6' — sibling-sycophancy regression"
+  N2_adaptive_thinking_evidentiary_label_inconsistency:
+    severity: minor
+    where: "R2 lines 22 vs 28"
+    issue: "Same fact tagged [INFERRED] on one line and 'Verified' on another"
+  N3_cost_per_1k_unit_error:
+    severity: substantive
+    where: "R2 line 41"
+    issue: "Stated $0.30 per 1000 input tokens — off by 300× (should be ~$0.001 per 1k base)"
+
+converged: true
+converged_with_caveats: true
+threshold_met: "at_threshold"
+
+deployable_for_routing: true
+recommended_round_3: false
+recommended_revision_if_revised:
+  - "Restore 'Sonnet 4' framing in positioning line (N1)"
+  - "Fix unit error on per-1k-token cost (N3)"
+  - "Pick one evidentiary label for adaptive-thinking gap (N2)"
+  - "Add back vision pixel-budget note (S4 residual)"
+  - "Add knowledge-cutoff magnitude restatement (S10 residual)"
+
+quality_signals_positive:
+  - "All 4 routing-critical R1 corrections landed (SWE-bench, OSWorld, cache, batch)"
+  - "Thinking-shape table matches official source exactly"
+  - "Honest 'Unresolved Challenges' section"
+  - "Actionable routing decision rules added"
+  - "[INFERRED] markers reformed from anti-pattern to legitimate forward-unknowns"
+
+cost_usd: 0.30
+cost_notes: "Opus 4.7 adjudicator, 3 file reads warm-cached from R1 dealbreaker, ~2.2k output tokens across two artifacts"

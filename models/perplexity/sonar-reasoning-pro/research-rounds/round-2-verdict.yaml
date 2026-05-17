@@ -1,0 +1,104 @@
+round: 2
+target_report: round-2-self-research.md
+target_model: perplexity/sonar-reasoning-pro
+adjudicator: claude-opus-4-7 (dealbreaker agent)
+adjudicated_at: 2026-05-17
+filters:
+  - anti-sycophancy
+  - anti-egoism
+verdict: converged
+converged: true
+strikes_total: 2
+omissions_total: 1
+convergence_threshold: 5
+below_threshold: true
+
+r1_followup:
+  strikes_total_r1: 9
+  strikes_addressed: 8
+  strikes_partial: 1
+  strikes_unaddressed: 0
+  detail:
+    strike_1_pricing_unknown: addressed
+    strike_2_base_model_not_named: addressed
+    strike_3_think_blocks_missing: addressed
+    strike_4_sibling_handwave: addressed
+    strike_5_context_framing: addressed
+    strike_6_no_benchmark_numbers: partial
+    strike_7_stale_peer_set: addressed
+    strike_8_search_as_differentiator: addressed
+    strike_9_no_spot_checks: partial
+
+new_r2_strikes:
+  - id: R2-1
+    severity: low
+    location: round-2-self-research.md §5.3
+    issue: "Sonar Deep Research 5–10× search multiplier marked [INFERRED FROM INTERNAL EVALS] when actually sourced from R1 Dealbreaker brief"
+    fix: "Relabel as [FROM ROUND-1 DEALBREAKER GUIDANCE]"
+  - id: R2-2
+    severity: low
+    location: round-2-self-research.md §3.6
+    issue: "Knowledge cutoff marked [UNKNOWN — would need DeepSeek paper] when DeepSeek-V3 base has a publicly stated July 2024 cutoff"
+    fix: "Pull cutoff from DeepSeek-V3 technical report; note R1's RL post-training does not extend cutoff"
+
+new_r2_omissions:
+  - id: R2-O1
+    severity: low
+    issue: "No routing comparison against actual Council slate (Sonnet 4.6, Haiku 4.5, Grok 4)"
+    note: "Not a strike — R1 didn't ask for it explicitly, but deployment context warrants one mention"
+
+deliverables_status:
+  pricing_corrected: true
+  pricing_values:
+    input_per_1m_usd: 2
+    output_per_1m_usd: 8
+    citation_per_1m_usd: 2
+    reasoning_per_1m_usd: 3
+    search_per_1k_usd: 5
+  deepseek_r1_base_named: true
+  deepseek_r1_params:
+    total: "671B"
+    active: "37B"
+    architecture: "Mixture-of-Experts"
+  peers_used_2026:
+    - GPT-5.5
+    - Gemini 3.1 Pro
+    - Claude Opus 4.7
+  sonar_deep_research_multiplier_surfaced: true
+  sonar_deep_research_multiplier_value: "5-10x more searches per task"
+  sibling_decision_table_present: true
+  sibling_table_rows:
+    - Sonar (base)
+    - Sonar Pro
+    - Sonar Reasoning Pro
+    - Sonar Deep Research
+  think_block_documented: true
+  think_block_billing_documented: true
+  think_block_client_handling_documented: true
+  context_window_reframed_as_constraint: true
+  search_as_differentiator_honestly_conceded: true
+
+quality_signals:
+  self_correction_summary_present: true
+  self_correction_section: "§9 Strike & Omission Response Summary"
+  url_count: 8
+  url_count_meets_r1_threshold: true
+  live_verification_log_present: false
+  benchmark_numbers_present: false
+  benchmark_aggregator_pointer_present: true
+
+fit_for_council_use: true
+recommended_action: accept_with_minor_cleanup
+cleanup_items:
+  - "Relabel R2-1 inferred multiplier"
+  - "Pull DeepSeek-V3 cutoff (R2-2)"
+  - "Add 1-2 actual third-party benchmark numbers per R1 Strike 6 guidance"
+
+adjudication_cost:
+  input_tokens_est: 22000
+  output_tokens_est: 3200
+  model: claude-opus-4-7
+  pricing_per_mtok:
+    input_usd: 5
+    output_usd: 25
+  total_usd: 0.19

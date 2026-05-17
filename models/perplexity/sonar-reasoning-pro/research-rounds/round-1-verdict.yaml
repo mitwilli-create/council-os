@@ -1,0 +1,104 @@
+round: 1
+target_report: round-1-self-research.md
+adjudicator: claude-opus-4-7
+adjudicated_at: 2026-05-17
+target_model: perplexity/sonar-reasoning-pro
+filters:
+  - anti-sycophancy
+  - anti-egoism
+
+verdict: not_converged
+converged: false
+revision_required: true
+
+strikes: 9
+strikes_breakdown:
+  - id: 1
+    label: pricing_punted_as_unknown
+    severity: high
+    addressed_in_round_1: false
+  - id: 2
+    label: base_model_not_named_deepseek_r1
+    severity: high
+    addressed_in_round_1: false
+  - id: 3
+    label: think_blocks_not_flagged
+    severity: high
+    addressed_in_round_1: false
+  - id: 4
+    label: sibling_differentiation_handwave
+    severity: high
+    addressed_in_round_1: false
+  - id: 5
+    label: context_window_framing_wrong
+    severity: medium
+    addressed_in_round_1: false
+  - id: 6
+    label: no_benchmarks_then_claims_peers_beat_it
+    severity: medium
+    addressed_in_round_1: false
+  - id: 7
+    label: peer_set_two_years_out_of_date
+    severity: high
+    addressed_in_round_1: false
+  - id: 8
+    label: integrated_search_framed_as_diff_when_peers_caught_up
+    severity: medium
+    addressed_in_round_1: false
+  - id: 9
+    label: hedge_density_no_spot_checks
+    severity: medium
+    addressed_in_round_1: false
+
+omissions: 6
+omissions_breakdown:
+  - id: 1
+    label: sonar_deep_research_5_to_10x_search_fee_multiplier
+  - id: 2
+    label: think_block_api_visibility
+  - id: 3
+    label: search_stack_quality_as_actual_differentiator
+  - id: 4
+    label: reasoning_token_surcharge_routing_economics
+  - id: 5
+    label: refusal_safety_profile_vs_peers
+  - id: 6
+    label: reasoning_visibility_as_feature_not_quirk
+
+sibling_differentiation_status: failed
+sibling_check_required_in_round_2:
+  - sonar_pro_vs_reasoning_pro_crossover
+  - sonar_deep_research_vs_reasoning_pro_crossover
+  - sonar_base_vs_reasoning_pro_crossover
+
+cot_plus_web_grounding_differentiation_status: weak
+think_block_status: not_flagged_in_report
+
+top_3_stripped:
+  - "[UNKNOWN — Perplexity pricing] in Section 3"
+  - "Built and operated by Perplexity AI (Perplexity hosts DeepSeek-R1, did not train it)"
+  - "Integrated web-grounded reasoning gives it an edge vs offline peers (peers are no longer offline as of mid-2026)"
+
+top_3_omissions:
+  - "Sonar Deep Research relationship + 5-10x search-fee multiplier"
+  - "Visible <think> block API behavior + reasoning-token economics"
+  - "Search-stack quality as actual differentiator vs peer search tools"
+
+round_2_required_actions:
+  - restate_published_pricing_with_sources
+  - name_deepseek_r1_as_base_model
+  - document_think_block_api_behavior
+  - build_three_sibling_pricing_context_crossover_table
+  - replace_peer_set_with_gpt55_gemini31pro_opus47
+  - spot_check_minimum_5_urls_live
+  - add_reasoning_token_surcharge_cost_shape
+
+estimated_adjudication_cost_usd: 0.32
+estimated_input_tokens: 28500
+estimated_output_tokens: 3500
+
+notes: |
+  Report is structurally complete but research-empty. Polite incuriosity
+  rather than overclaim — the failure mode here is "did not look it up"
+  rather than "made stuff up." Round 2 must do actual web research, not
+  just relabel inferences.

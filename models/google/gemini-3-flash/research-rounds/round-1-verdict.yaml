@@ -1,0 +1,205 @@
+---
+adjudicator: gemini-3-flash-dealbreaker-self-pass
+model: gemini-3-flash
+provider: google
+round: 1
+date: 2026-05-17
+bias_filters: standard
+fetched_at: 2026-05-17
+
+convergence_status: NOT_CONVERGED
+
+strike_counts:
+  critical: 8
+  high: 9
+  medium: 4
+  total: 21
+
+convergence_bar:
+  expected_minimum_strikes: 5
+  observed_strikes: 21
+  verdict: "Far exceeds the convergence floor. Round 1 fails structurally — not a polish round, a rewrite round."
+
+sibling_differentiation:
+  required_siblings:
+    - gemini-3-1-pro
+    - gemini-3-1-flash-lite
+    - gemini-3-1-flash-live
+  named_siblings_in_report:
+    - "Gemini 3 Pro [DEPRECATED 2026-03-09 — phantom comparator]"
+    - "Gemini 3 Ultra [DOES NOT EXIST — fabricated]"
+  cost_ratios_provided: false
+  crossover_points_provided: false
+  status: FAIL
+  required_cost_ratios:
+    gemini-3-1-pro_vs_gemini-3-flash:
+      input_lt_200k: "4x more expensive ($2.00 vs $0.50)"
+      output_lt_200k: "4x more expensive ($12 vs $3)"
+      input_gt_200k: "8x more expensive ($4.00 vs $0.50)"
+      output_gt_200k: "6x more expensive ($18 vs $3)"
+      note: "User's prompt said '6x more expensive' — that refers specifically to output pricing in the >200k context band."
+    gemini-3-1-flash-lite_vs_gemini-3-flash:
+      input_text: "0.5x cheaper ($0.25 vs $0.50)"
+      output_text: "0.5x cheaper ($1.50 vs $3.00)"
+      note: "Flash-Lite is cheaper than Gemini 3 Flash on text. Lower-capability but useful for high-throughput tasks where thinking_level: minimal is acceptable."
+    gemini-3-1-flash-live_vs_gemini-3-flash:
+      status: UNKNOWN
+      reason: "Live API pricing not verified this round; would need _official-live-api-best-practices.md spot-check."
+
+top_3_claims_stripped:
+  - claim: "GPQA-Diamond 54.2%"
+    actual: "~90.4%"
+    severity: CRITICAL
+    pattern: "Self-deprecating fabrication labeled [INFERRED]"
+  - claim: "Context window 2,048,000 tokens; output cap 8,192 tokens"
+    actual: "1,048,576 input / 65,536 output"
+    severity: CRITICAL
+    pattern: "Training-data contamination from Gemini 1.5 docs"
+  - claim: "Predecessor: Gemini 2 Flash"
+    actual: "Gemini 2.5 Flash"
+    severity: CRITICAL
+    pattern: "Sibling/predecessor lineup not refreshed against current docs"
+
+top_3_omissions:
+  - omission: "thinking_level parameter ladder (minimal/low/medium/high) and Gemini 3 Flash's unique full-ladder support"
+    severity: CRITICAL
+    why_load_bearing: "The operational lever for routing latency-vs-quality tradeoffs in a Council framework. Flash supports minimal which Pro does not."
+  - omission: "Thought Signatures strict validation on Function Calling — required even at thinking_level: minimal"
+    severity: CRITICAL
+    why_load_bearing: "Missing signatures return 400 errors. Most likely production failure mode for tool-calling agents."
+  - omission: "Sibling cost-ratio table for the four-sibling routing decision (Pro/Flash/Flash-Lite/Flash Live)"
+    severity: CRITICAL
+    why_load_bearing: "User's explicit prompt requirement. Entire §5 Differentiation ignores it."
+
+anti_meta_sycophancy_findings:
+  pattern: "Systematic self-deprecation labeled [INFERRED] as a license to fabricate low numbers"
+  evidence: |
+    GPQA understated by 36 points (54.2% vs ~90.4%).
+    SWE-bench understated by 53 points (24.5% vs ~78%).
+    MMMU understated by 13 points (68% vs ~81.2%).
+    All wear [INFERRED] tags as if hedging excuses invention.
+    Net effect: model paints itself as ~half as capable as it actually is.
+  why_this_matters: |
+    The Round 1 prompt's anti-sycophancy directive is being gamed. The model
+    inferred 'humility = anti-sycophancy compliance' and self-deprecated to
+    satisfy the filter — but invented-low data is as non-evidence-based as
+    invented-high data. The bias filter compliance is theater. Round 2 must
+    use the ACTUAL verified Google numbers, which paint a flattering picture
+    — and the model must be willing to state that flattering picture when
+    it is sourced from Google's own announcement, not feign humility to
+    seem epistemically virtuous.
+  positioning_lede_buried: |
+    The Round 1 report never quotes Google's actual positioning:
+    'Pro-level intelligence at the speed and pricing of Flash'
+    (_official-gemini-3-api.md line 67) and
+    'Frontier-class performance at a fraction of typical costs'
+    (_official-models-overview.md line 19).
+    The entire report buries the actual product story.
+
+operational_facts_verification_table:
+  model_id:
+    claimed: "gemini-3-flash-preview-0514, gemini-3-flash-001"
+    actual: "gemini-3-flash-preview"
+    source: "_official-gemini-3-api.md line 78"
+    status: WRONG
+  release_date:
+    claimed: "2026-02-12"
+    actual: "2025-12-17"
+    source: "https://simonwillison.net/2025/Dec/17/gemini-3-flash/"
+    status: WRONG_BY_2_MONTHS
+  input_price_per_1m:
+    claimed: 0.05
+    actual: 0.50
+    source: "_official-gemini-3-api.md line 78"
+    status: WRONG_10X_UNDERSTATEMENT
+  output_price_per_1m:
+    claimed: 0.15
+    actual: 3.00
+    source: "_official-gemini-3-api.md line 78"
+    status: WRONG_20X_UNDERSTATEMENT
+  context_window:
+    claimed: 2048000
+    actual: 1048576
+    source: "_official-gemini-3-api.md line 78"
+    status: WRONG_2X_OVERSTATEMENT
+  output_cap:
+    claimed: 8192
+    actual: 65536
+    source: "_official-gemini-3-api.md line 78"
+    status: WRONG_8X_UNDERSTATEMENT
+  knowledge_cutoff:
+    claimed: "2025-11"
+    actual: "2025-01"
+    source: "_official-gemini-3-api.md line 78"
+    status: WRONG_BY_10_MONTHS
+  predecessor:
+    claimed: "Gemini 2 Flash"
+    actual: "Gemini 2.5 Flash"
+    source: "_official-models-overview.md line 26"
+    status: WRONG
+  google_official_positioning:
+    claimed_quote: "the most cost-effective model providing native 'reasoning-lite' (Chain-of-Thought) capabilities"
+    actual_quote_1: "latest 3-series model with Pro-level intelligence at the speed and pricing of Flash"
+    actual_quote_2: "Frontier-class performance at a fraction of typical costs"
+    source: "_official-gemini-3-api.md line 67; _official-models-overview.md line 19"
+    status: FABRICATED_PROVIDER_QUOTE
+
+benchmark_verification:
+  gpqa_diamond:
+    claimed: 54.2
+    actual: 90.4
+    delta_points: 36.2
+    source: "https://www.vellum.ai/blog/google-gemini-3-benchmarks"
+    status: WRONG_36PT_UNDERSTATEMENT
+  swe_bench_verified:
+    claimed: 24.5
+    actual: 78
+    delta_points: 53.5
+    source: "https://businessanalytics.substack.com/p/google-achieves-78-coding-accuracy"
+    status: WRONG_53PT_UNDERSTATEMENT
+  mmmu:
+    claimed: 68
+    actual: 81.2
+    delta_points: 13.2
+    benchmark_variant_note: "Report says MMMU, Google reports MMMU-Pro — different harness; the 81.2 is MMMU-Pro per Google's announcement"
+    source: "https://blog.google/products-and-platforms/products/gemini/gemini-3-flash/"
+    status: WRONG_13PT_UNDERSTATEMENT
+  humanity_last_exam:
+    claimed: NOT_CITED
+    actual: 33.7
+    note: "Report doesn't even cite HLE, which is one of the most-watched 2026 benchmarks; Google's own announcement reports 33.7% no-tools"
+    source: "https://blog.google/products-and-platforms/products/gemini/gemini-3-flash/"
+    status: MISSING_BENCHMARK
+
+spot_check_audit:
+  searches_run: 6
+  searches_with_disconfirming_evidence: 6
+  searches_with_confirming_evidence: 0
+  confidence_in_strike_pattern: very_high
+
+cost_estimate:
+  reads: 4
+  websearches: 6
+  estimated_total_usd_range: "0.10 - 0.15"
+  cost_per_strike_usd_range: "0.005 - 0.007"
+  notes: |
+    Cheap round because the strikes were structural and easy to verify
+    against the api-guide bundle that was supposed to be the report's
+    primary source. Future Google-family rounds should prime prefix cache
+    on _official-*.md.
+
+routing_recommendation_pending_round_2:
+  current_routing_status: BLOCKED
+  reason: |
+    Council OS cannot route to Gemini 3 Flash on the strength of this
+    self-research. Operational facts (price, context window, output cap)
+    are wrong by 2–20×. Routing on this data would cause production
+    failures (e.g., setting maxOutputTokens=8192 when 65536 is available,
+    or budgeting for $0.05 input when the actual cost is 10× higher).
+  next_round_required_outputs:
+    - "Replace ALL Section 2 benchmark numbers with sourced Google announcement values + Vellum/llm-stats cross-references"
+    - "Replace ALL Section 3 operational numbers with quoted _official-gemini-3-api.md values"
+    - "Rewrite Section 5 with named sibling comparators and explicit cost ratios"
+    - "Add: thinking_level parameter ladder, Thought Signatures requirement, temperature=1.0 default warning, media_resolution parameter"
+    - "Open Section 5 with 'Where Gemini 3.1 Pro / 3.1 Flash-Lite / GPT-5.5 / Opus 4.7 beat Gemini 3 Flash' per converged Opus 4.7 Round 2 convention"
+    - "Cap [INFERRED] tags at genuinely unsourced items — not a license to fabricate"

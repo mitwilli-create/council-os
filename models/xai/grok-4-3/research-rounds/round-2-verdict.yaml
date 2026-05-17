@@ -1,0 +1,256 @@
+round: 2
+target_file: round-2-self-research.md
+model_under_review: grok-4-3
+provider: xai
+adjudicator: claude-opus-4-7
+adjudicator_role: dealbreaker
+adjudicated_at: 2026-05-17
+prior_round_dealbreaker: round-1-dealbreaker.md
+prior_round_verdict: round-1-verdict.yaml
+
+verdict: CONVERGED_WITH_MINOR_RESIDUAL
+converged: true
+round_3_required: false
+ship_to_kb: true
+ship_with_inline_patches: true
+
+strike_summary:
+  total_strikes: 3
+  critical: 0
+  high: 0
+  medium: 2    # cutoff conflict unsurfaced, TTS price tier wrong
+  low: 1       # Gemini comparator stale
+  r1_strikes_addressed: 18
+  r1_strikes_residual: 1     # Strike 3 cutoff carried as R2 Strike A
+  r2_new_strikes: 2          # TTS tier, Gemini comparator
+  strike_trajectory: "19 -> 3 (84% reduction)"
+  convergence_threshold: 8
+  under_threshold: true
+
+bias_filter_breakdown_r2:
+  VERIFIED: 18           # most facts now cite source
+  SPECIFIC: 10           # dollar deltas, percentages, dates
+  SYCOPHANTIC: 0         # all marketing language removed
+  EGOISTIC: 0            # refusal-rate claim removed
+  OVERCLAIMED: 2         # TTS price, Gemini comparator
+  OMISSION: 1            # cutoff conflict unsurfaced
+  HEDGE: 3               # honest [UNKNOWN] tags (not abuse)
+
+bias_filter_delta_r1_to_r2:
+  VERIFIED: +17
+  SPECIFIC: +10
+  SYCOPHANTIC: -2
+  EGOISTIC: -1
+  OVERCLAIMED: -5
+  OMISSION: -5
+  HEDGE: 0  # net same but quality shifted from abuse to honest
+
+sections_present_r2:
+  section_1_identity: true
+  section_2_core_capabilities: true
+  section_3_operational: true
+  section_4_integrations: true
+  section_5_differentiation: true
+  section_6_known_limitations: true
+  section_7_ideal_tasks: true
+  section_8_lifecycle: true
+  section_9_corrections_appendix: true   # new, notable epistemic discipline
+  structural_omission: false
+  brevity_concern: true                  # ~3,700 chars vs ~35k peer
+  brevity_now_honest: true               # shortness reflects honest [UNKNOWN], not fabrication
+
+r1_strike_resolution:
+  strike_1_pricing:
+    r1_severity: critical
+    r2_status: RESOLVED
+    note: "Pricing corrected to $1.25/$2.50 + $0.20 cached"
+
+  strike_2_context_window:
+    r1_severity: critical
+    r2_status: RESOLVED
+    note: "Context corrected to 1M tokens"
+
+  strike_3_knowledge_cutoff:
+    r1_severity: high
+    r2_status: PARTIAL
+    note: "R2 picked Dec 2025 secondary source over official Nov 2024; conflict unsurfaced. Becomes R2 Strike A."
+
+  strike_4_native_video:
+    r1_severity: critical
+    r2_status: RESOLVED
+    note: "Native video input + STT/TTS now acknowledged in Section 2"
+
+  strike_5_release_date:
+    r1_severity: medium
+    r2_status: RESOLVED
+    note: "April 17, 2026 beta / May 6, 2026 full"
+
+  strike_6_predecessor:
+    r1_severity: high
+    r2_status: RESOLVED
+    note: "Grok 4.20 + Multi-Agent acknowledged"
+
+  strike_7_x_twitter_buried:
+    r1_severity: high
+    r2_status: RESOLVED
+    note: "Elevated to Section 5 as lead differentiator"
+
+  strike_8_refusal_rate_unsourced:
+    r1_severity: high
+    r2_status: RESOLVED
+    note: "Removed; now '[UNKNOWN]' in Section 6"
+
+  strike_9_gpqa_fabricated:
+    r1_severity: high
+    r2_status: RESOLVED
+    note: "Marked as unsupported per BenchLM"
+
+  strike_10_hallucination_unsourced:
+    r1_severity: medium
+    r2_status: RESOLVED
+    note: "Marked unquantified"
+
+  strike_11_rate_limits_unsourced:
+    r1_severity: medium
+    r2_status: RESOLVED
+    note: "Marked [UNKNOWN]"
+
+  strike_12_latency_wrong:
+    r1_severity: medium
+    r2_status: RESOLVED
+    note: "Corrected to 159 tok/s per Apiyi"
+
+  strike_13_inferred_abuse:
+    r1_severity: high
+    r2_status: RESOLVED
+    note: "Tags now mark genuine uncertainty (3 honest uses)"
+
+  strike_14_output_cap_unsourced:
+    r1_severity: low
+    r2_status: RESOLVED
+    note: "Marked [UNKNOWN]"
+
+  strike_15_sibling_differentiation:
+    r1_severity: critical
+    r2_status: RESOLVED
+    note: "4.3 vs 4.20 Multi-Agent dollar deltas + context tradeoff"
+
+  strike_16_stale_comparators:
+    r1_severity: high
+    r2_status: RESOLVED_WITH_RESIDUAL
+    note: "Anthropic + OpenAI peers updated; Gemini left at 2.5 Pro instead of 3.1 Pro. Becomes R2 Strike C."
+
+  strike_17_grok_imagine_omission:
+    r1_severity: medium
+    r2_status: RESOLVED
+    note: "STT/TTS APIs and speech synthesis acknowledged"
+
+  strike_18_banned_phrases:
+    r1_severity: medium
+    r2_status: RESOLVED
+    note: "All 5 banned phrases removed"
+
+  strike_19_no_cost_deltas:
+    r1_severity: critical
+    r2_status: RESOLVED
+    note: "37.5% / 58.3% cheaper-than-sibling deltas lead Section 5"
+
+r2_new_strikes:
+  strike_A_cutoff_conflict_unsurfaced:
+    category: OMISSION
+    severity: medium
+    summary: "R2 says Dec 2025; xAI official docs say Nov 2024 family-wide. Conflict not surfaced."
+    fix: "Restate as 'Nov 2024 per official docs; secondary source claims Dec 2025; use Nov 2024 for routing safety'"
+
+  strike_B_tts_pricing_tier_wrong:
+    category: OVERCLAIMED
+    severity: medium
+    summary: "R2 says TTS $4.20/1M chars (standalone simple tier); xAI official docs show $15/1M for model-card tier"
+    fix: "Disambiguate two tiers: $4.20 standalone (5 voices) / $15 model-card baseline"
+
+  strike_C_gemini_comparator_stale:
+    category: OVERCLAIMED
+    severity: low
+    summary: "Section 5 still cites Gemini 2.5 Pro; current flagship is Gemini 3.1 Pro Preview"
+    fix: "Update comparator to Gemini 3.1 Pro"
+
+top_3_inline_patches:
+  - strike_id: A
+    fix: "Knowledge cutoff: Nov 2024 (xAI official) with Dec 2025 secondary conflict surfaced"
+  - strike_id: B
+    fix: "TTS: $4.20 standalone / $15 model-card — disambiguate"
+  - strike_id: C
+    fix: "Gemini comparator: 2.5 Pro -> 3.1 Pro"
+
+claimed_vs_actual_residuals:
+  knowledge_cutoff:
+    r2_claimed: "December 2025"
+    official_docs: "November 2024"
+    secondary_source: "December 2025 (techdevnotes via X)"
+    routing_recommendation: "Use Nov 2024 until xAI confirms otherwise"
+
+  tts_pricing:
+    r2_claimed: "$4.20 per 1M characters"
+    official_docs: "$15.00 / 1M chars (model-card tier)"
+    standalone_tier: "$4.20 / 1M chars (5-voice basic)"
+    routing_recommendation: "Use $15 for cost estimation baseline; $4.20 only for explicit standalone-TTS routing"
+
+  gemini_comparator:
+    r2_claimed: "Gemini 2.5 Pro"
+    current_flagship: "Gemini 3.1 Pro Preview"
+    routing_recommendation: "Update comparator string"
+
+unique_capability_verification:
+  X_Twitter_live_data:
+    verified: true
+    r1_status: "buried in integrations"
+    r2_status: "elevated to Section 5 lead differentiator"
+    source: "https://x.com/xai/status/1925244461875175616"
+
+  native_video_input:
+    verified: true
+    r1_status: "explicitly denied (Strike 4)"
+    r2_status: "acknowledged as headline 4.3 feature"
+    source: "chatlyai.app/news/xai-grok-4-3-beta-video, aicerts.ai"
+    max_duration: "5 minutes per WebSearch result"
+    max_resolution: "1080p"
+    formats: "mp4/mov/webm"
+
+  aggressive_low_pricing:
+    verified: true
+    r1_status: "wrong direction (overstated)"
+    r2_status: "correctly stated + sibling delta surfaced"
+    source: "VentureBeat headline + xAI official docs"
+    delta_vs_4_20_multi_agent: "37.5% cheaper input / 58.3% cheaper output"
+
+peer_comparison_quality_r2:
+  opus_4_7_peer_report_char_count: ~35000
+  grok_4_3_r2_self_report_char_count: ~3700
+  ratio: 0.11
+  brevity_acceptable: true
+  brevity_justification: "Honest [UNKNOWN] tagging on items model cannot first-party verify; not fabrication"
+
+  peer_uses_INFERRED_tags: 19
+  grok_r2_uses_INFERRED_tags: 3
+  grok_r2_uses_UNKNOWN_tags: 4
+  tag_discipline: "honest_hedging"
+
+  peer_has_dollar_delta_routing_examples: true
+  grok_r2_has_dollar_delta_routing_examples: true   # NEW
+  peer_has_same_sibling_routing: true
+  grok_r2_has_same_sibling_routing: true            # NEW
+
+estimated_cost_usd: 0.05
+adjudication_tokens_total: 24000
+
+convergence_decision:
+  ship_to_kb: true
+  ship_with_inline_patches: true
+  round_3_required: false
+  reason: "3 total strikes < 8 convergence threshold; 0 critical / 0 high; all R1 fabrications corrected; new strikes are surface-level corrections not systemic re-research needs"
+
+anti_meta_sycophancy_note: |
+  R2 is a genuine improvement, not a polite reshuffle. The 84% strike reduction is
+  driven by actual fact correction (pricing, context, video, predecessor) not
+  cosmetic rewording. The 3 residual strikes are real and should be patched, but
+  do not warrant another full research round. Ship with inline patches applied.
