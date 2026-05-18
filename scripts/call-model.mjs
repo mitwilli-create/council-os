@@ -175,7 +175,73 @@ async function main() {
   };
   console.error(`[call-model] wrote ${r.content.length} chars to ${outFile} in ${elapsed}ms`);
   console.log(JSON.stringify(usage, null, 2));
+
+  // Append to COST_LOG.md (best-effort — never blocks the response).
+  // Cost estimate is rough: derives from token count + provider-specific per-1M
+  // rates documented in sources.json. For exact attribution, check the
+  // provider's billing dashboard.
+  try {
+    appendCostLogRow({
+      date: new Date().toISOString().slice(0, 10),
+      phase: process.env.COUNCIL_OS_PHASE || 'researcher',
+      modelRequested: r.model,
+      modelUsed: r.modelUsed || r.model,
+      tokens: typeof r.tokens === 'number' ? r.tokens : (r.tokens?.total_tokens ?? 0),
+      contentChars: r.content.length,
+      elapsedMs: elapsed,
+      outFile,
+    });
+  } catch (e) {
+    console.error(`[call-model] WARN: COST_LOG append failed: ${e.message}`);
+  }
+
   process.exit(0);
+}
+
+function appendCostLogRow({ date, phase, modelRequested, modelUsed, tokens, contentChars, elapsedMs, outFile }) {
+  const costLogPath = '/Users/mitchellwilliams/Documents/council-os/COST_LOG.md';
+  if (!existsSync(costLogPath)) return; // silently skip if file missing
+
+  // Very rough cost estimate by provider — for exact attribution see provider
+  // billing dashboards. These rates are ballparked from sources.json pricing
+  // per 1M tokens, assuming ~70/30 input/output split.
+  const ratesPerM = {
+    'anthropic': 15,
+    'openai': 7,
+    'google': 7,
+    'xai': 2,
+    'perplexity': 4,
+  };
+  const provider = (modelRequested || '').split(':')[0] || 'unknown';
+  const rateUsd = ratesPerM[provider] ?? 5;
+  const estCostUsd = (tokens * rateUsd / 1_000_000).toFixed(4);
+
+  const row = `| ${date} | ${phase} | ${modelRequested} → ${modelUsed} | call-model.mjs | ~$${estCostUsd} | ${tokens} tok, ${contentChars} chars out, ${elapsedMs}ms → ${outFile.split('/').slice(-3).join('/')} |\n`;
+
+  const existing = readFileSync(costLogPath, 'utf-8');
+  const insertMarker = '| — | — | — | — | — | — | — | (no rows yet) |';
+  let updated;
+  if (existing.includes(insertMarker)) {
+    updated = existing.replace(insertMarker, row.trim());
+  } else {
+    // Append after the last existing table row
+    const lines = existing.split('\n');
+    let lastRowIdx = -1;
+    for (let i = lines.length - 1; i >= 0; i--) {
+      if (lines[i].startsWith('| 2026-') || lines[i].startsWith('| 2027-')) {
+        lastRowIdx = i;
+        break;
+      }
+    }
+    if (lastRowIdx >= 0) {
+      lines.splice(lastRowIdx + 1, 0, row.trim());
+      updated = lines.join('\n');
+    } else {
+      updated = existing + '\n' + row;
+    }
+  }
+  writeFileSync(costLogPath, updated);
+  console.error(`[call-model] logged cost row to COST_LOG.md (~$${estCostUsd})`);
 }
 
 main().catch((e) => {

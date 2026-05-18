@@ -42,6 +42,7 @@ researcher/call-model.mjs hooks.
 | 2026-05-17 | Phase 4 | (Sonnet cross-cut × 9) | 9 cross-cut subagents | ~2.00 | reasoning, tool-use, web-grounding, code-gen, pricing, long-context, vision, unique-strengths, known-limitations |
 | 2026-05-17 | Phase 4 | anthropic/claude-opus-4-7 | routing-rules.md generation | 0.40 | 23 task families × primary/backup/avoid |
 | 2026-05-17 | Phase 4.5 | (Sonnet cross-cut × 3) | added attachments-and-files, external-surfaces, meta-prompting cross-cuts | ~0.50 | post-audit gap-fill |
+| 2026-05-18 | researcher | perplexity:sonar → sonar | call-model.mjs | ~$0.0005 | 137 tok, 4 chars out, 3736ms → /tmp/test-hook-verify.md |
 
 ## Rolling totals
 

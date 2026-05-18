@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.mitchellwilliams.council-os-refresh</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/mitchellwilliams/Documents/council-os/scripts/refresh.sh</string>
+    </array>
+
+    <!--
+      Weekly Sunday 06:00 PT. Council OS staleness check runs as read-only:
+      it lists profiles/api-guides older than 30 days and prints recommended
+      actions. Does NOT spend LLM budget. Safe to run unattended.
+
+      To change frequency, edit StartCalendarInterval below:
+        - Daily 06:00: <key>Hour</key><integer>6</integer> only (no Weekday)
+        - Monthly: replace with <key>Day</key><integer>1</integer>
+        - Every N hours: use <key>StartInterval</key><integer>SECONDS</integer> instead
+    -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>0</integer>
+        <key>Hour</key>
+        <integer>6</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!--
+      Capture stdout + stderr to /tmp logs so Mitchell can spot-check after
+      the fact. Both are overwritten each run (not appended). If you want
+      historical accumulation, change paths to .log.$(date +%Y%m%d) inside
+      a wrapper script.
+    -->
+    <key>StandardOutPath</key>
+    <string>/tmp/council-os-refresh.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/council-os-refresh.err.log</string>
+
+    <!--
+      RunAtLoad: false — don't fire on launchctl load, only on schedule.
+      Set to true if you want to verify by loading the plist.
+    -->
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
