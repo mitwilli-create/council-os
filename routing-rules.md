@@ -48,6 +48,7 @@ winner — pick by cost" so the caller knows the choice is heuristic.
 | Real-time X/Twitter signal | xai/grok-4-3 | xai/grok-4-20-multi-agent | all non-xAI models (no first-party x_search) |
 | Multi-source reasoning + synthesis | perplexity/sonar-reasoning-pro | xai/grok-4-20-multi-agent | perplexity/sonar-pro (no visible CoT) |
 | Hard math/logic reasoning | anthropic/claude-opus-4-7 | google/gemini-3-1-pro | perplexity/sonar-pro (no benchmarks) |
+| Budget-controlled reasoning (explicit token budget required) | anthropic/claude-sonnet-4-6 (budget_tokens + adaptive fallback) | anthropic/claude-haiku-4-5 (extended thinking, explicit budget) | anthropic/claude-opus-4-7 (`budget_tokens` returns **HTTP 400** — use `output_config.effort` instead, see migration note below) |
 | Multi-step tool planning (MCP) | anthropic/claude-opus-4-7 (MCP-Atlas 77.3%) | openai/gpt-5-5 (75.3%) | google/gemini-3-flash (no MCP confirmed) |
 | Long-document / legal / financial analysis | anthropic/claude-sonnet-4-6 (1M / ~750k words) | google/gemini-3-1-pro | perplexity/sonar-reasoning-pro (128k) |
 | High-stakes single-response synthesis | anthropic/claude-opus-4-7 | google/gemini-3-1-pro | openai/gpt-5-3-chat-latest (Instant tier) |
@@ -58,10 +59,11 @@ winner — pick by cost" so the caller knows the choice is heuristic.
 | Vision: photo understanding | google/gemini-3-1-pro | anthropic/claude-opus-4-7 | perplexity/* (text-only API) |
 | Vision: document / screenshot OCR | google/gemini-3-flash (MMMU-Pro 81.2%) | anthropic/claude-opus-4-7 (DocVQA 93.0%) | perplexity/* (no vision API) |
 | Audio: native dialogue (A2A) | google/gemini-3-1-pro (8.4hr audio) | openai/gpt-5-5 (multimodal) | all Anthropic, Perplexity, xAI (no native audio) |
-| Video understanding | google/gemini-3-1-pro (1hr video) | openai/gpt-5-5 | xai/grok-4-3 (video input present but unbenchmarked) |
+| Video ≤5min (meeting summaries, demos, lectures, screencasts) | xai/grok-4-3 (native 5min/1080p mp4/mov/webm; per-frame token billing) | google/gemini-3-1-pro | (none — all others lack video API) |
+| Video >5min (long interviews, lectures, full screencasts) | google/gemini-3-1-pro (1hr native + audio interleaving) | openai/gpt-5-5 | xai/grok-4-3 (5min cap exceeded) |
 | High-volume cheap factual queries | anthropic/claude-haiku-4-5 | google/gemini-3-flash | anthropic/claude-opus-4-7 (5x cost) |
 | Long-context (>200k tokens) | anthropic/claude-sonnet-4-6 (1M) | google/gemini-3-1-pro (1M, audio/video too) | anthropic/claude-haiku-4-5 (200k cap) |
-| Structured output / JSON schema | anthropic/claude-sonnet-4-6 (strict grammar) | openai/gpt-5-4 | perplexity/sonar-reasoning-pro (soft only) |
+| Structured output / JSON schema | anthropic/claude-sonnet-4-6 (strict grammar) | openai/gpt-5-4 | perplexity/sonar-reasoning-pro (native `response_format` IS supported, but recursive schemas are NOT supported; community reports of intermittent instability — monitor) |
 | Cost-sensitive workloads (mini/nano) | anthropic/claude-haiku-4-5 | google/gemini-3-flash | anthropic/claude-opus-4-7 |
 | Browser / computer use | anthropic/claude-opus-4-7 (OSWorld 78.0%) | google/gemini-3-1-pro (browser-first) | perplexity/* (no native) |
 | Multi-agent parallel orchestration | xai/grok-4-20-multi-agent | (no peer offers single-API parallel agents) | xai/grok-4-3 (single-pass) |
@@ -268,7 +270,19 @@ winner — pick by cost" so the caller knows the choice is heuristic.
 
 **Backup:** `openai/gpt-5-5` — Multimodal architecture unifies text/image/audio/video; specifics of video API surface are [UNKNOWN — would need current OpenAI video API docs] per GPT-5.5's own profile.
 
-**Avoid:** `xai/grok-4-3` (video input is documented as present but unbenchmarked and likely thin), and all Anthropic / Perplexity (no video).
+**Avoid:** all Anthropic / Perplexity (no video API).
+
+---
+
+### Task: Video understanding — short-form (≤5 minutes)
+
+**Primary:** `xai/grok-4-3` — Native video input up to 5 minutes / 1080p (mp4, mov, webm). Billed as image tokens after frame extraction; cost scales with length × resolution. Fastest route for meeting summaries, product demo walkthroughs, lecture clips, and screencast analysis. Source: [felloai.com Grok 4.3 review](https://felloai.com/grok-4-3-review/) + xAI docs. Verified 2026-05-18 via verification supplement W4.
+- Evidence: dealbreaker-v2 adjudication, primary-source confirmed
+- Confidence: high
+
+**Backup:** `google/gemini-3-1-pro` — Use when the video exceeds 5min OR when analysis must be interleaved with audio transcript reasoning.
+
+**Avoid:** All Anthropic / Perplexity (no video API). `xai/grok-4-20-multi-agent` (multi-agent endpoint does not accept video input).
 
 ---
 
@@ -306,7 +320,16 @@ winner — pick by cost" so the caller knows the choice is heuristic.
 
 **Backup:** `openai/gpt-5-4` — Structured outputs via `response_format`; OpenAI's prompt guidance warns that mini models can ignore "output nothing else" — scoped instructions are safer. Use when the upstream pipeline is already on the OpenAI Responses API.
 
-**Avoid:** `perplexity/sonar-reasoning-pro` (no server-enforced JSON mode; soft prompting only), and `openai/gpt-5-3-chat-latest` (supports `response_format: json_schema` but the Instant tier strictness is documented to drift on deeply nested schemas).
+**Avoid for STRICT schema enforcement:** `perplexity/sonar-reasoning-pro` for recursive schemas (hard limitation — not supported). For non-recursive schemas, sonar-reasoning-pro DOES support native `response_format` JSON Schema per [Perplexity Structured Outputs Guide](https://docs.perplexity.ai/guides/structured-outputs) — community reports document intermittent stability issues; validate output. Best used for CoT-visible research reports, not mission-critical extraction. Also avoid `openai/gpt-5-3-chat-latest` (supports `response_format: json_schema` but the Instant tier strictness is documented to drift on deeply nested schemas).
+
+> **API constraint — `budget_tokens` routing rule (2026-05-18 dealbreaker-v2):**
+> If a pipeline uses `thinking: { type: "enabled", budget_tokens: N }`, it MUST run on
+> `anthropic/claude-sonnet-4-6` or `anthropic/claude-haiku-4-5`. Routing it to
+> `anthropic/claude-opus-4-7` will return **HTTP 400 (hard break, no deprecation warning)**.
+> To use Opus 4.7 with depth-controlled reasoning, migrate to:
+> `thinking={"type": "adaptive"}` + `output_config={"effort": "low|medium|high|xhigh|max"}`.
+> Note: Opus 4.7 tokenizer uses 1.0–1.35× more tokens per input than 4.6 — budget for this.
+> Sources: [dev.to migration guide](https://dev.to/ji_ai/opus-47-killed-budgettokens-what-changed-and-how-to-migrate-3ian), [OpenRouter migration guide](https://openrouter.ai/docs/cookbook/evaluate-and-optimize/model-migrations/claude-4-7), [Caylent deep-dive](https://caylent.com/blog/claude-opus-4-7-deep-dive-capabilities-migration-and-the-new-economics-of-long-running-agents).
 
 ---
 

@@ -42,6 +42,12 @@ peer_comparisons:
 - Architecture is a complete black box; routing must treat SDR as a behavioral unit, not an architectural one.
 - No formal versioning published by Perplexity — behavior changes are not announced or tagged.
 
+**Benchmark disambiguation (added 2026-05-18, dealbreaker-v2 verification W6):**
+The widely-cited **21.1% score is HLE (Humanity's Last Exam)** for the `sonar-deep-research` API endpoint — not DRACO. The two are distinct measurements:
+- **HLE** (Humanity's Last Exam) — Scale AI / Center for AI Safety, released early 2025; 3,000-question multi-domain (math, science, humanities, professional knowledge) at the outer edge of expert ability. Sonar Deep Research reported 21.1% on Feb 14, 2025.
+- **DRACO** (Deep Research Accuracy, Completeness, and Objectivity) — Perplexity's OWN benchmark for deep research agents; 100 curated tasks across Academic/Finance/Law/Medicine/Tech/General/UX/Personalized/Shopping/Needle-in-a-Haystack with expert rubrics averaging ~40 evaluation criteria.
+Do not conflate the two — citing "21.1% on DRACO" is incorrect; it's HLE. Sources: [Perplexity DRACO article](https://research.perplexity.ai/articles/evaluating-deep-research-performance-in-the-wild-with-the-draco-benchmark).
+
 **Sources:**
 - R3 self-research §§1.1–1.6 (round-3-self-research.md)
 - R2 dealbreaker verdict (round-2-verdict.yaml)

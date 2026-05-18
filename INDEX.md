@@ -76,6 +76,18 @@
 
 **Total: 16 profiled model versions across 5 providers (14 Tier-1 + 3 Tier-2 added in audit; 1 Tier-2 audit-abandoned). Plus 7 deferred + 1 retired = 24 known.**
 
+### Newly identified (added 2026-05-18, meta-audit dispatch)
+
+These models were surfaced during the adversarial self-review's meta-audit pass (Gemini 3.1 Pro with grounded search) as Tier-1-capable but were NOT in the original 16-profile lineup. They should be added to the KB in subsequent rounds.
+
+| Version | Slug | Status | Why missing from original review | Action |
+|---|---|---|---|---|
+| Claude Mythos Preview | `claude-mythos-preview` | **deferred — restricted access** | Invitation-only via [Project Glasswing](https://anthropic.com/glasswing). Defensive cybersecurity workflows. Released April 2026. Not callable from `lib/council.mjs` (no public API). | Document existence + capability in `models/anthropic/claude-mythos-preview/chunks/00-overview.md` so router knows WHY it can't route public requests there. |
+| Grok 4.1 Fast Reasoning | `grok-4-1-fast-reasoning` | **active — used by `xai:grok-4-x-search` substrate** | Council OS treated `grok-4-x-search` slot as opaque; the underlying model is grok-4-1-fast-reasoning (2M context, $0.20/$0.50/MTok per [xAI](https://x.ai/news/grok-4-1-fast)). | Documented at `models/xai/grok-4-x-search/chunks/01-substrate.md` (new file 2026-05-18). |
+| Perplexity Sonar Pro (200K) | `sonar-pro` | **active — already in lineup** | Profile exists in `models/perplexity/sonar-pro/`; the 200K context window was under-emphasized in routing-rules. | Confirmed via routing-rules.md L91 ("$3/$15 with built-in web search + JSON Schema output + 200k context in a single API call"). |
+
+Future rounds should add full per-model chunks for Claude Mythos Preview (overview, restrictions, capability profile) once Mitchell either obtains Glasswing access or determines the model should remain documented-only.
+
 ## API Guides (per provider)
 
 - [`api-guides/anthropic/`](api-guides/anthropic/) — prompt caching, extended thinking, tool use, batch, computer use

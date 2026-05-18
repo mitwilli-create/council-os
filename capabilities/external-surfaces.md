@@ -17,7 +17,7 @@ purpose: routing axis Mitchell explicitly requested — browser extensions, nati
 |---|---|---|---|---|---|---|
 | **Anthropic Claude** | **Claude in Chrome** (MCP, official) — DOM read + click + form-fill + tab management + JS exec. Tier-gated per-app (read/click/full) | Claude Desktop (macOS/Windows) | Claude mobile (iOS/Android) | **Claude Code** (CLI), Claude code extensions for VS Code / JetBrains | computer-use tool (OS control with permission) | Authenticated web sessions across any site the user is logged into; full computer use via OS-level tool |
 | **OpenAI GPT-5** | ChatGPT browser extension (Chrome/Safari/Edge) — page summarize + chat in tab | ChatGPT Desktop (macOS/Windows) | ChatGPT mobile (iOS/Android) — voice mode, screen sharing | OpenAI Codex CLI, OpenAI Apps SDK | Custom GPTs / Assistants (server-side persistent context) | Persistent assistants with file libraries; ChatGPT mobile screen-share for live agent assistance |
-| **Google Gemini** | Gemini in Chrome (built-in via @gemini) | Gemini app (limited; primarily web at gemini.google.com) | Gemini mobile (Android — replaces Google Assistant; iOS app) | Gemini CLI, Android Studio Gemini, Firebase Studio | **Gemini in Google Workspace** (Docs, Sheets, Slides, Gmail, Meet) | Native integration into the entire Google productivity suite; Android OS assistant replacement |
+| **Google Gemini** | Gemini in Chrome (built-in via @gemini) | Gemini app (limited; primarily web at gemini.google.com) | Gemini mobile (Android — replaces Google Assistant; iOS app) | Gemini CLI, Android Studio Gemini, Firebase Studio, **Google Antigravity Agentic IDE** (uses `~/.gemini/antigravity/skills/` global + `<workspace>/.agents/skills/` local YAML skill files — added 2026-05-18 per meta-audit) | **Gemini in Google Workspace** (Docs, Sheets, Slides, Gmail, Meet) | Native integration into the entire Google productivity suite; Android OS assistant replacement |
 | **xAI Grok** | Grok web (grok.com) | Grok Desktop (limited release) | **Grok inside the X app** (native social integration — sees timeline + can post) | xAI API only (no first-party CLI as of 2026-05) | None | **Live X/Twitter timeline access** — only model with first-party social-graph context |
 | **Perplexity Sonar** | **Perplexity Comet browser** (native browser product) + Perplexity browser extension (Chrome/Safari/Firefox) | Perplexity Desktop (limited) | Perplexity mobile (iOS/Android) | Perplexity API only | None | Comet is a full Perplexity-native browser — search is the first-class UX, not a feature bolted onto generic browsing |
 
@@ -33,6 +33,20 @@ purpose: routing axis Mitchell explicitly requested — browser extensions, nati
 
 **Narrow tier — surface is mainly its native social platform:**
 - **xAI Grok** — primary surface is Grok-inside-X. No CLI, no MCP, but uniquely has live X-graph context as a native built-in (not bolted on).
+
+## Antigravity IDE skill mirroring (added 2026-05-18, meta-audit P2)
+
+Google's Antigravity Agentic IDE uses YAML-format skill files in:
+- **Global:** `~/.gemini/antigravity/skills/`
+- **Workspace-scoped:** `<workspace-root>/.agents/skills/`
+
+When Mitchell installs Antigravity, mirror these Council OS skills there for full interoperability:
+- `~/.claude/skills/sonar-structured-research.md` → `~/.gemini/antigravity/skills/sonar-structured-research.yaml` (convert frontmatter to YAML body)
+- `~/.claude/skills/openai-terminal-agent.md` → `~/.gemini/antigravity/skills/openai-terminal-agent.yaml`
+- `~/.claude/agents/researcher.md` → `~/.gemini/antigravity/skills/researcher.yaml`
+- `~/.claude/agents/dealbreaker.md` → `~/.gemini/antigravity/skills/dealbreaker.yaml`
+
+A mirror script (`scripts/mirror-skills-to-antigravity.mjs`) should be written when Antigravity is installed. As of 2026-05-18, `~/.gemini/` does not exist on Mitchell's system; this is documented for future deployment.
 
 ## Routing recommendations
 

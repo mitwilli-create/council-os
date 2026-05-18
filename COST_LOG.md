@@ -43,6 +43,45 @@ researcher/call-model.mjs hooks.
 | 2026-05-17 | Phase 4 | anthropic/claude-opus-4-7 | routing-rules.md generation | 0.40 | 23 task families × primary/backup/avoid |
 | 2026-05-17 | Phase 4.5 | (Sonnet cross-cut × 3) | added attachments-and-files, external-surfaces, meta-prompting cross-cuts | ~0.50 | post-audit gap-fill |
 | 2026-05-18 | researcher | perplexity:sonar → sonar | call-model.mjs | ~$0.0005 | 137 tok, 4 chars out, 3736ms → /tmp/test-hook-verify.md |
+| 2026-05-18 | researcher | xai:grok-4 → grok-4.3 | call-model.mjs | ~$0.0286 | 14286 tok, 6607 chars out, 19878ms → adversarial-20260517-202452/round-1/grok-4-response.md |
+| 2026-05-18 | researcher | xai:grok-4-x-search → grok-4-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0296 | 14784 tok, 6574 chars out, 22923ms → adversarial-20260517-202452/round-1/grok-4-x-search-response.md |
+| 2026-05-18 | researcher | google:gemini-3-flash → gemini-3-flash-preview | call-model.mjs | ~$0.1142 | 16308 tok, 11889 chars out, 31997ms → adversarial-20260517-202452/round-1/gemini-3-flash-response.md |
+| 2026-05-18 | researcher | openai:gpt-5-3-chat-latest → gpt-5.3-chat-latest | call-model.mjs | ~$0.0985 | 14074 tok, 10863 chars out, 35928ms → adversarial-20260517-202452/round-1/gpt-5-3-chat-latest-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-pro → perplexity:sonar-pro | call-model.mjs | ~$0.0652 | 16308 tok, 19514 chars out, 42927ms → adversarial-20260517-202452/round-1/sonar-pro-response.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.1402 | 20029 tok, 7495 chars out, 51387ms → adversarial-20260517-202452/round-1/gemini-2.5-pro-response.md |
+| 2026-05-18 | researcher | openai:gpt-5-4 → gpt-5.4 | call-model.mjs | ~$0.1028 | 14690 tok, 16259 chars out, 61422ms → adversarial-20260517-202452/round-1/gpt-5-4-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0511 | 12781 tok, 3137 chars out, 61893ms → adversarial-20260517-202452/round-1/sonar-reasoning-pro-response.md |
+| 2026-05-18 | researcher | xai:grok-4-20-multi-agent → grok-4.20-multi-agent | call-model.mjs | ~$0.4526 | 226297 tok, 12569 chars out, 88562ms → adversarial-20260517-202452/round-1/grok-4-20-multi-agent-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0634 | 15846 tok, 22539 chars out, 123874ms → adversarial-20260517-202452/round-1/sonar-deep-research-response.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.1537 | 21956 tok, 14132 chars out, 68818ms → adversarial-20260517-202452/round-1/gemini-2.5-pro-response.md |
+| 2026-05-18 | researcher | openai:gpt-5 → gpt-5.5 | call-model.mjs | ~$0.1477 | 21104 tok, 20276 chars out, 106326ms → adversarial-20260517-202452/round-1/gpt-5-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0716 | 17909 tok, 23746 chars out, 117040ms → adversarial-20260517-202452/round-1/sonar-reasoning-pro-response.md |
+| 2026-05-18 | researcher | xai:grok-4-x-search → grok-4-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.1200 | 60010 tok, 12314 chars out, 31410ms → adversarial-20260517-202452/round-2/grok-4-x-search-response.md |
+| 2026-05-18 | researcher | google:gemini-3-flash → gemini-3-flash-preview | call-model.mjs | ~$0.4700 | 67143 tok, 18593 chars out, 31508ms → adversarial-20260517-202452/round-2/gemini-3-flash-response.md |
+| 2026-05-18 | researcher | openai:gpt-5-3-chat-latest → gpt-5.3-chat-latest | call-model.mjs | ~$0.4235 | 60500 tok, 15133 chars out, 44845ms → adversarial-20260517-202452/round-2/gpt-5-3-chat-latest-response.md |
+| 2026-05-18 | researcher | xai:grok-4 → grok-4.3 | call-model.mjs | ~$0.1182 | 59082 tok, 15410 chars out, 54630ms → adversarial-20260517-202452/round-2/grok-4-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-pro → perplexity:sonar-pro | call-model.mjs | ~$0.2532 | 63298 tok, 26692 chars out, 55479ms → adversarial-20260517-202452/round-2/sonar-pro-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.2429 | 60718 tok, 15990 chars out, 73353ms → adversarial-20260517-202452/round-2/sonar-reasoning-pro-response.md |
+| 2026-05-18 | researcher | openai:gpt-5-4 → gpt-5.4 | call-model.mjs | ~$0.4382 | 62606 tok, 24944 chars out, 85795ms → adversarial-20260517-202452/round-2/gpt-5-4-response.md |
+| 2026-05-18 | researcher | xai:grok-4-20-multi-agent → grok-4.20-multi-agent | call-model.mjs | ~$2.6559 | 1327952 tok, 14546 chars out, 99574ms → adversarial-20260517-202452/round-2/grok-4-20-multi-agent-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.2364 | 59092 tok, 10366 chars out, 109233ms → adversarial-20260517-202452/round-2/sonar-deep-research-response.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.5229 | 74697 tok, 19819 chars out, 125966ms → adversarial-20260517-202452/round-2/gemini-2.5-pro-response.md |
+| 2026-05-18 | researcher | openai:gpt-5 → gpt-5.5 | call-model.mjs | ~$0.4432 | 63312 tok, 26473 chars out, 91225ms → adversarial-20260517-202452/round-2/gpt-5-response.md |
+| 2026-05-18 | researcher | xai:grok-4-x-search → grok-4-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0203 | 10155 tok, 9759 chars out, 25900ms → adversarial-20260517-202452/round-3/grok-4-x-search-response.md |
+| 2026-05-18 | researcher | google:gemini-3-flash → gemini-3-flash-preview | call-model.mjs | ~$0.0844 | 12063 tok, 9805 chars out, 28316ms → adversarial-20260517-202452/round-3/gemini-3-flash-response.md |
+| 2026-05-18 | researcher | xai:grok-4 → grok-4.3 | call-model.mjs | ~$0.0190 | 9483 tok, 10963 chars out, 34816ms → adversarial-20260517-202452/round-3/grok-4-response.md |
+| 2026-05-18 | researcher | openai:gpt-5-3-chat-latest → gpt-5.3-chat-latest | call-model.mjs | ~$0.0756 | 10802 tok, 13950 chars out, 37090ms → adversarial-20260517-202452/round-3/gpt-5-3-chat-latest-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-pro → perplexity:sonar-pro | call-model.mjs | ~$0.0596 | 14900 tok, 22237 chars out, 50702ms → adversarial-20260517-202452/round-3/sonar-pro-response.md |
+| 2026-05-18 | researcher | openai:gpt-5-4 → gpt-5.4 | call-model.mjs | ~$0.0897 | 12809 tok, 18401 chars out, 65520ms → adversarial-20260517-202452/round-3/gpt-5-4-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0610 | 15245 tok, 21685 chars out, 66040ms → adversarial-20260517-202452/round-3/sonar-reasoning-pro-response.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.1189 | 16989 tok, 16926 chars out, 71026ms → adversarial-20260517-202452/round-3/gemini-2.5-pro-response.md |
+| 2026-05-18 | researcher | openai:gpt-5 → gpt-5.5 | call-model.mjs | ~$0.1217 | 17387 tok, 23309 chars out, 87969ms → adversarial-20260517-202452/round-3/gpt-5-response.md |
+| 2026-05-18 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0646 | 16143 tok, 27769 chars out, 101513ms → adversarial-20260517-202452/round-3/sonar-deep-research-response.md |
+| 2026-05-18 | researcher | xai:grok-4-20-multi-agent → grok-4.20-multi-agent | call-model.mjs | ~$0.2885 | 144229 tok, 19519 chars out, 103930ms → adversarial-20260517-202452/round-3/grok-4-20-multi-agent-response.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$1.5743 | 224905 tok, 13837 chars out, 69099ms → runs/adversarial-20260517-202452/dealbreaker-final-20260517-202452.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0617 | 8810 tok, 8125 chars out, 45202ms → runs/adversarial-20260517-202452/META-AUDIT-FINAL.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview | call-model.mjs | ~$0.0024 | 345 tok, 17 chars out, 3455ms → /tmp/test-gemini-out.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.4258 | 60831 tok, 11839 chars out, 54337ms → runs/researcher-20260517-203500/round-1-gemini-3-1-pro.md |
 
 ## Rolling totals
 
@@ -81,3 +120,7 @@ researcher/call-model.mjs hooks.
 - Heavy researcher run (4 models, Round 2 dialogue + dealbreaker): $5–$15
 - Default daily budget for researcher: $30 (overridable via `--budget=N`)
 - Default monthly Council OS rebuild (when new models ship): $50–$100
+| 2026-05-18 | researcher | google:gemini-2.5-pro | 1 | 0.00 | 0-failed-429 | 0 |
+| 2026-05-18 | researcher | google:gemini-3-flash | 1 | 0.00 | 0-failed-429 | 0 |
+| 2026-05-18 | researcher | self-extraction-fallback | 1 | 0.00 | 0-jq | 0 |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0662 | 9453 tok, 6920 chars out, 53517ms → runs/adversarial-20260517-202452/META-AUDIT-V2-FINAL.md |

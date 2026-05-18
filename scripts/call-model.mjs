@@ -202,18 +202,46 @@ function appendCostLogRow({ date, phase, modelRequested, modelUsed, tokens, cont
   const costLogPath = '/Users/mitchellwilliams/Documents/council-os/COST_LOG.md';
   if (!existsSync(costLogPath)) return; // silently skip if file missing
 
-  // Very rough cost estimate by provider — for exact attribution see provider
-  // billing dashboards. These rates are ballparked from sources.json pricing
-  // per 1M tokens, assuming ~70/30 input/output split.
+  // Per-model rate estimate. Updated 2026-05-18 (meta-audit v2 P0 #2) — the
+  // prior flat per-provider rates ($15 for all Anthropic) were misleading once
+  // Mythos Preview ($25/$125, 5× Opus) was confirmed and Opus 4.7's 1.0-1.35×
+  // tokenizer inflation was verified. Rates below are ~70/30 input/output
+  // blended, in $/1M tokens. Exact attribution: provider billing dashboards.
   const ratesPerM = {
-    'anthropic': 15,
-    'openai': 7,
-    'google': 7,
-    'xai': 2,
+    // Anthropic per-model (source: platform.claude.com/docs/en/docs/about-claude/models + Project Glasswing pricing via llm-stats.com)
+    'anthropic:claude-mythos-preview': 55,    // $25/$125 → ~55 blended; Glasswing partners only
+    'anthropic:claude-opus-4-7':       15,    // $5/$25 → ~11 blended, +tokenizer inflation 1.0-1.35× → 15
+    'anthropic:claude-sonnet-4-6':      6.6,  // $3/$15 → ~6.6 blended
+    'anthropic:claude-haiku-4-5':       2.2,  // $1/$5  → ~2.2 blended
+    // OpenAI per-model (source: openai.com/pricing)
+    'openai:gpt-5':              7,           // gpt-5.5 ~$5/$15 blended
+    'openai:gpt-5-4':            5,
+    'openai:gpt-5-3-chat-latest': 3,          // Instant tier
+    // Google per-model (source: ai.google.dev/pricing)
+    'google:gemini-2.5-pro':     5,           // gemini-3.1-pro-preview ~$2/$10 blended
+    'google:gemini-3-flash':     1.5,         // ~$0.50/$3.00 blended
+    'google:gemini-3-1-flash-lite': 0.6,      // $0.25/$1.50 blended
+    // xAI per-model
+    'xai:grok-4':                3,           // grok-4.3 ~$1.25/$2.50 blended
+    'xai:grok-4-x-search':       2,
+    'xai:grok-4-20-multi-agent': 4,           // multi-agent sub-agent multiplier
+    'xai:grok-3-mini':           0.4,
+    // Perplexity per-model
+    'perplexity:sonar-pro':              7,   // $3/$15 blended
+    'perplexity:sonar-reasoning-pro':    3,   // $1/$5 + $3/M reasoning tokens
+    'perplexity:sonar-deep-research':    5,   // $2/$8 + citation tokens
+    'perplexity:sonar':                  1,
+    // Provider-fallback rates (used if slot not in table above)
+    'anthropic': 6.6,   // default to Sonnet-equivalent
+    'openai':    5,
+    'google':    3,
+    'xai':       2,
     'perplexity': 4,
   };
+  // Try exact slot first, then provider fallback, then unknown-rate sentinel.
+  const exactRate = ratesPerM[modelRequested];
   const provider = (modelRequested || '').split(':')[0] || 'unknown';
-  const rateUsd = ratesPerM[provider] ?? 5;
+  const rateUsd = exactRate ?? ratesPerM[provider] ?? 5;
   const estCostUsd = (tokens * rateUsd / 1_000_000).toFixed(4);
 
   const row = `| ${date} | ${phase} | ${modelRequested} → ${modelUsed} | call-model.mjs | ~$${estCostUsd} | ${tokens} tok, ${contentChars} chars out, ${elapsedMs}ms → ${outFile.split('/').slice(-3).join('/')} |\n`;

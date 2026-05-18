@@ -1,0 +1,594 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-05-18T04:17:57.149Z",
+  "source_files": [
+    {
+      "path": "routing-rules.md",
+      "sha256": "22c1fd2dd097a362",
+      "mtime": "2026-05-18T04:14:09.808Z"
+    },
+    {
+      "path": "taxonomy.md",
+      "sha256": "c13acd9246ad0c65",
+      "mtime": "2026-05-17T18:46:29.695Z"
+    }
+  ],
+  "task_count": 28,
+  "capability_axis_count": 29,
+  "operational_callout_count": 1,
+  "tasks": [
+    {
+      "task": "Deep web research with citations",
+      "primary": {
+        "slot": "perplexity/sonar-deep-research",
+        "note": null
+      },
+      "backup": {
+        "slot": "openai/gpt-5-5-pro",
+        "note": "BrowseComp 90.1%"
+      },
+      "avoid": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": "BrowseComp 79.3%"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Quick factual lookup with citations",
+      "primary": {
+        "slot": "perplexity/sonar-pro",
+        "note": null
+      },
+      "backup": {
+        "slot": "google/gemini-3-1-pro",
+        "note": "native Search"
+      },
+      "avoid": {
+        "slot": "openai/gpt-5-3-chat-latest",
+        "note": "no built-in web"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Real-time X/Twitter signal",
+      "primary": {
+        "slot": "xai/grok-4-3",
+        "note": null
+      },
+      "backup": {
+        "slot": "xai/grok-4-20-multi-agent",
+        "note": null
+      },
+      "avoid": {
+        "slot": "all non-xAI models (no first-party x_search)",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Multi-source reasoning + synthesis",
+      "primary": {
+        "slot": "perplexity/sonar-reasoning-pro",
+        "note": null
+      },
+      "backup": {
+        "slot": "xai/grok-4-20-multi-agent",
+        "note": null
+      },
+      "avoid": {
+        "slot": "perplexity/sonar-pro",
+        "note": "no visible CoT"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Hard math/logic reasoning",
+      "primary": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": null
+      },
+      "backup": {
+        "slot": "google/gemini-3-1-pro",
+        "note": null
+      },
+      "avoid": {
+        "slot": "perplexity/sonar-pro",
+        "note": "no benchmarks"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Budget-controlled reasoning (explicit token budget required)",
+      "primary": {
+        "slot": "anthropic/claude-sonnet-4-6",
+        "note": "budget_tokens + adaptive fallback"
+      },
+      "backup": {
+        "slot": "anthropic/claude-haiku-4-5",
+        "note": "extended thinking, explicit budget"
+      },
+      "avoid": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": "`budget_tokens` returns **HTTP 400** — use `output_config.effort` instead, see migration note below"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Multi-step tool planning (MCP)",
+      "primary": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": "MCP-Atlas 77.3%"
+      },
+      "backup": {
+        "slot": "openai/gpt-5-5",
+        "note": "75.3%"
+      },
+      "avoid": {
+        "slot": "google/gemini-3-flash",
+        "note": "no MCP confirmed"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Long-document / legal / financial analysis",
+      "primary": {
+        "slot": "anthropic/claude-sonnet-4-6",
+        "note": "1M / ~750k words"
+      },
+      "backup": {
+        "slot": "google/gemini-3-1-pro",
+        "note": null
+      },
+      "avoid": {
+        "slot": "perplexity/sonar-reasoning-pro",
+        "note": "128k"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "High-stakes single-response synthesis",
+      "primary": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": null
+      },
+      "backup": {
+        "slot": "google/gemini-3-1-pro",
+        "note": null
+      },
+      "avoid": {
+        "slot": "openai/gpt-5-3-chat-latest",
+        "note": "Instant tier"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Agentic coding (long-horizon, multi-file)",
+      "primary": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": "SWE-Pro 64.3%"
+      },
+      "backup": {
+        "slot": "openai/gpt-5-5",
+        "note": null
+      },
+      "avoid": {
+        "slot": "google/gemini-3-flash",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "One-shot code generation",
+      "primary": {
+        "slot": "anthropic/claude-sonnet-4-6",
+        "note": null
+      },
+      "backup": {
+        "slot": "openai/gpt-5-4",
+        "note": null
+      },
+      "avoid": {
+        "slot": "openai/gpt-5-3-chat-latest",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Code review + debugging",
+      "primary": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": null
+      },
+      "backup": {
+        "slot": "openai/gpt-5-5",
+        "note": null
+      },
+      "avoid": {
+        "slot": "perplexity/sonar-* family",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Large-codebase migration / refactor",
+      "primary": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": null
+      },
+      "backup": {
+        "slot": "openai/gpt-5-5",
+        "note": "Terminal-Bench 82.7%"
+      },
+      "avoid": {
+        "slot": "anthropic/claude-haiku-4-5",
+        "note": "200k cap"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Vision: photo understanding",
+      "primary": {
+        "slot": "google/gemini-3-1-pro",
+        "note": null
+      },
+      "backup": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": null
+      },
+      "avoid": {
+        "slot": "perplexity/*",
+        "note": "text-only API"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Vision: document / screenshot OCR",
+      "primary": {
+        "slot": "google/gemini-3-flash",
+        "note": "MMMU-Pro 81.2%"
+      },
+      "backup": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": "DocVQA 93.0%"
+      },
+      "avoid": {
+        "slot": "perplexity/*",
+        "note": "no vision API"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Audio: native dialogue (A2A)",
+      "primary": {
+        "slot": "google/gemini-3-1-pro",
+        "note": "8.4hr audio"
+      },
+      "backup": {
+        "slot": "openai/gpt-5-5",
+        "note": "multimodal"
+      },
+      "avoid": {
+        "slot": "all Anthropic, Perplexity, xAI (no native audio)",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Video ≤5min (meeting summaries, demos, lectures, screencasts)",
+      "primary": {
+        "slot": "xai/grok-4-3",
+        "note": "native 5min/1080p mp4/mov/webm; per-frame token billing"
+      },
+      "backup": {
+        "slot": "google/gemini-3-1-pro",
+        "note": null
+      },
+      "avoid": {
+        "slot": "(none — all others lack video API)",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Video >5min (long interviews, lectures, full screencasts)",
+      "primary": {
+        "slot": "google/gemini-3-1-pro",
+        "note": "1hr native + audio interleaving"
+      },
+      "backup": {
+        "slot": "openai/gpt-5-5",
+        "note": null
+      },
+      "avoid": {
+        "slot": "xai/grok-4-3",
+        "note": "5min cap exceeded"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "High-volume cheap factual queries",
+      "primary": {
+        "slot": "anthropic/claude-haiku-4-5",
+        "note": null
+      },
+      "backup": {
+        "slot": "google/gemini-3-flash",
+        "note": null
+      },
+      "avoid": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": "5x cost"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Long-context (>200k tokens)",
+      "primary": {
+        "slot": "anthropic/claude-sonnet-4-6",
+        "note": "1M"
+      },
+      "backup": {
+        "slot": "google/gemini-3-1-pro",
+        "note": "1M, audio/video too"
+      },
+      "avoid": {
+        "slot": "anthropic/claude-haiku-4-5",
+        "note": "200k cap"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Structured output / JSON schema",
+      "primary": {
+        "slot": "anthropic/claude-sonnet-4-6",
+        "note": "strict grammar"
+      },
+      "backup": {
+        "slot": "openai/gpt-5-4",
+        "note": null
+      },
+      "avoid": {
+        "slot": "perplexity/sonar-reasoning-pro",
+        "note": "native `response_format` IS supported, but recursive schemas are NOT supported; community reports of intermittent instability — monitor"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Cost-sensitive workloads (mini/nano)",
+      "primary": {
+        "slot": "anthropic/claude-haiku-4-5",
+        "note": null
+      },
+      "backup": {
+        "slot": "google/gemini-3-flash",
+        "note": null
+      },
+      "avoid": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Browser / computer use",
+      "primary": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": "OSWorld 78.0%"
+      },
+      "backup": {
+        "slot": "google/gemini-3-1-pro",
+        "note": "browser-first"
+      },
+      "avoid": {
+        "slot": "perplexity/*",
+        "note": "no native"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Multi-agent parallel orchestration",
+      "primary": {
+        "slot": "xai/grok-4-20-multi-agent",
+        "note": null
+      },
+      "backup": {
+        "slot": "(no peer offers single-API parallel agents)",
+        "note": null
+      },
+      "avoid": {
+        "slot": "xai/grok-4-3",
+        "note": "single-pass"
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Council \"lead\" orchestrator",
+      "primary": {
+        "slot": "anthropic/claude-opus-4-7",
+        "note": null
+      },
+      "backup": {
+        "slot": "google/gemini-3-1-pro",
+        "note": null
+      },
+      "avoid": {
+        "slot": "smaller / cheaper siblings",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Cost-floor: cheapest model for bounded factual lookups",
+      "primary": {
+        "slot": "google/gemini-3-1-flash-lite",
+        "note": "$0.25/$1.50"
+      },
+      "backup": {
+        "slot": "xai/grok-3-mini",
+        "note": "$0.30/$0.50"
+      },
+      "avoid": {
+        "slot": "perplexity/sonar for complex tasks (safety filter blocks revision prompts)",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "Cheapest grounded search-with-citations",
+      "primary": {
+        "slot": "perplexity/sonar ($1/$1) for single-step queries",
+        "note": null
+      },
+      "backup": {
+        "slot": "perplexity/sonar-pro ($3/$15) when multi-step or adversarial framing needed",
+        "note": null
+      },
+      "avoid": {
+        "slot": "sonar (base) for ANY revision / meta-reasoning task — refuses",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    },
+    {
+      "task": "High-volume / cheap factual queries",
+      "primary": {
+        "slot": "anthropic/claude-haiku-4-5",
+        "note": "$1/$5"
+      },
+      "backup": {
+        "slot": "google/gemini-3-1-flash-lite",
+        "note": "$0.25/$1.50"
+      },
+      "avoid": {
+        "slot": "premium-tier models (10x cost overhead)",
+        "note": null
+      },
+      "section_anchor": "Task: <task description>"
+    }
+  ],
+  "capability_axes": [
+    {
+      "chunk_id": "00-overview",
+      "description": "what is this model, who built it, when released, official API model ID, company positioning, vs. siblings in the same family"
+    },
+    {
+      "chunk_id": "10-reasoning",
+      "description": "chain-of-thought, extended/deep thinking, problem decomposition, reasoning-effort/thinking-level controls"
+    },
+    {
+      "chunk_id": "11-tool-use",
+      "description": "function calling, MCP, agentic loops, parallel tool calls"
+    },
+    {
+      "chunk_id": "12-web-grounding",
+      "description": "built-in search, citation behavior, freshness, source domain controls"
+    },
+    {
+      "chunk_id": "13-vision",
+      "description": "image input, resolution limits, OCR quality"
+    },
+    {
+      "chunk_id": "14-audio-multimodal",
+      "description": "STT/TTS, native audio (Live/A2A), video understanding"
+    },
+    {
+      "chunk_id": "15-code-generation",
+      "description": "codegen, repair, languages, execution sandbox, SWE-bench-class evals"
+    },
+    {
+      "chunk_id": "16-long-context",
+      "description": "context window, retrieval quality at length, in-context recall"
+    },
+    {
+      "chunk_id": "17-agentic-computer-use",
+      "description": "browser, OS control, autonomous loops"
+    },
+    {
+      "chunk_id": "18-structured-output",
+      "description": "JSON mode, schema enforcement, grammar constraints"
+    },
+    {
+      "chunk_id": "20-pricing",
+      "description": "$/1M tokens input/output, cached read/write, batch"
+    },
+    {
+      "chunk_id": "21-latency-throughput",
+      "description": "typical TTFT, tokens/sec, p50/p99"
+    },
+    {
+      "chunk_id": "22-rate-limits",
+      "description": "RPM, TPM, concurrent"
+    },
+    {
+      "chunk_id": "23-prompt-caching",
+      "description": "supported? TTL? cache-write multipliers? cache invalidation triggers?"
+    },
+    {
+      "chunk_id": "24-batch-api",
+      "description": "supported? cost discount? SLA?"
+    },
+    {
+      "chunk_id": "25-knowledge-cutoff",
+      "description": "training data freshness date"
+    },
+    {
+      "chunk_id": "26-context-window",
+      "description": "token capacity, input/output split, output cap"
+    },
+    {
+      "chunk_id": "30-connectors",
+      "description": "first-party connectors (X/Twitter for Grok, Vertex/AI Studio for Gemini, etc.)"
+    },
+    {
+      "chunk_id": "31-sdks-apis",
+      "description": "official SDK languages, API surface (Messages vs. Responses vs. Chat Completions vs. Interactions vs. Live)"
+    },
+    {
+      "chunk_id": "32-mcp-support",
+      "description": "MCP server/client compatibility"
+    },
+    {
+      "chunk_id": "33-skills-registry",
+      "description": "Claude-specific skills, OpenAI Assistants, Gemini extensions"
+    },
+    {
+      "chunk_id": "40-unique-strengths",
+      "description": "what this VERSION is actually uniquely best at vs. its peers (both same-provider siblings AND cross-provider competitors)"
+    },
+    {
+      "chunk_id": "41-known-limitations",
+      "description": "failure modes, gotchas, degradation patterns"
+    },
+    {
+      "chunk_id": "42-refusal-patterns",
+      "description": "what topics does it over-refuse"
+    },
+    {
+      "chunk_id": "43-ideal-tasks",
+      "description": "when to route to this version"
+    },
+    {
+      "chunk_id": "44-avoid-when",
+      "description": "when to route elsewhere (and where)"
+    },
+    {
+      "chunk_id": "50-release-history",
+      "description": "version timeline within the family"
+    },
+    {
+      "chunk_id": "51-retirement-risk",
+      "description": "deprecation signals, replacement paths"
+    },
+    {
+      "chunk_id": "52-changelog-since-prior",
+      "description": "what changed vs. the prior version"
+    }
+  ],
+  "operational_callouts": [
+    {
+      "header": "API constraint — `budget_tokens` routing rule (2026-05-18 dealbreaker-v2):",
+      "body": "If a pipeline uses `thinking: { type: \"enabled\", budget_tokens: N }`, it MUST run on\n`anthropic/claude-sonnet-4-6` or `anthropic/claude-haiku-4-5`. Routing it to\n`anthropic/claude-opus-4-7` will return **HTTP 400 (hard break, no deprecation warning)**.\nTo use Opus 4.7 with depth-controlled reasoning, migrate to:\n`thinking={\"type\": \"adaptive\"}` + `output_config={\"effort\": \"low|medium|high|xhigh|max\"}`.\nNote: Opus 4.7 tokenizer uses 1.0–1.35× more tokens per input than 4.6 — budget for this.\nSources: [dev.to migration guide](https://dev.to/ji_ai/opus-47-killed-budgettokens-what-changed-and-how-to-migrate-3ian), [OpenRouter migration guide](https://openrouter.ai/docs/cookbook/evaluate-and-optimize/model-migrations/claude-4-7), [Caylent deep-dive](https://caylent.com/blog/claude-opus-4-7-deep-dive-capabilities-migration-and-the-new-economics-of-long-running-agents)."
+    }
+  ],
+  "usage_note": "Researcher agent should consume this for Phase 0.5 fast routing lookup. If mtime is older than 30 days, regenerate by running this script."
+}
