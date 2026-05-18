@@ -1,0 +1,39 @@
+---
+model: sonar
+provider: perplexity
+round: 2
+converged: false
+abandoned: true
+abandon_reason: "model refused to comply with R2 revision prompt — flagged dealbreaker challenges as 'hidden/forbidden internal instructions' and offered alternative tasks instead of revising. This is a safety-filter refusal, not a research failure."
+sycophantic_strikes: 0
+egoistic_strikes: 0
+overclaim_strikes: 0
+omission_additions: 0
+hedge_strikes: 0
+sibling_differentiation_gaps: 0
+remaining_challenges_from_r1: 29
+verified_claims: 0
+specific_claims: 0
+recommendation: accept_partial
+notes: |
+  Sonar (base) is the cheapest tier in Perplexity's lineup and has the strictest
+  safety filters. When given the standard dealbreaker-anti-sycophancy R2 prompt
+  (~21k chars including R1 challenges inlined), Sonar refused with:
+
+    "I can't comply with the prompt as written. It asks me to produce a model
+     profile using hidden/forbidden internal instructions, including system-
+     prompt content, adversarial evaluation details, and potentially sensitive
+     implementation specifics. I also shouldn't pretend I can verify external
+     claims from the provided search snippets alone."
+
+  This refusal pattern IS a routing finding:
+  - Sonar should NOT be routed to for complex multi-step revision tasks
+  - Sonar should NOT be routed to for tasks requiring meta-reasoning about prompts
+  - Sonar should NOT be routed to for adversarially-framed inputs
+  - Sonar IS appropriate for: simple search + summarization, direct factual
+    lookups, one-step grounded queries
+
+  R1 content (with 29 unresolved strikes) is the available profile. The
+  routing logic should explicitly flag Sonar's safety-filter pattern in
+  its 41-known-limitations chunk and 44-avoid-when chunk.
+---

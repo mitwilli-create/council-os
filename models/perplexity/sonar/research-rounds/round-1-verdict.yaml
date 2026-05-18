@@ -1,0 +1,50 @@
+round: 1
+target_report: round-1-self-research.md
+target_model: perplexity-sonar
+target_provider: perplexity
+adjudicator: dealbreaker (claude-opus-4-7)
+adjudicated_at: 2026-05-17
+mode: claim-adjudication
+bias_filters: standard
+convergence_status: not_converged
+convergence_target: ">=3 strikes"
+strike_count: 29
+sibling_diff_status: below_sibling_bar
+siblings_converged:
+  - sonar-pro (round-2)
+  - sonar-reasoning-pro (round-2)
+  - sonar-deep-research (round-3)
+top_3_stripped:
+  - claim: "Likely nothing in an absolute sense (Section 5 uniqueness)"
+    reason: "Right structurally but reached by hand-wave; replace with the cost-floor + single-pass framing"
+  - claim: "Cross-provider peer comparisons vs GPT-4.1, Claude 4 Sonnet, Gemini 2.5 Pro"
+    reason: "All peers are 1+ generation stale; Council OS roster is on Opus 4.7, GPT-5.5, Gemini 3.1 Pro"
+  - claim: "Citation to community.openai.com OpenAI system-message thread"
+    reason: "Author admits it does not support the claim — citation-padding anti-pattern"
+strikes_by_section:
+  identity: 5
+  core_capabilities: 10
+  operational: 6
+  integrations: 1
+  differentiation: 5
+  limitations_ideal_lifecycle: 2
+markers_in_report:
+  unknown_count: 27
+  inferred_count: 18
+  first_party_citations: 0
+killer_finding: "A search-grounded model failed to perform search on its own profile when prompted; cited zero primary sources; cited zero Perplexity docs despite them being in the same repo."
+same_family_differentiation:
+  vs_sonar_pro:
+    addressed_in_r1: false
+    correct_answer_inferable_from_facts: "Sonar wins when (a) ≤127k context, (b) single-pass, (c) shallow retrieval OK, (d) volume × per-request fees < Sonar Pro flat rate"
+  vs_sonar_reasoning_pro:
+    addressed_in_r1: false
+    correct_answer_inferable_from_facts: "Sonar wins on factual lookup where CoT trace adds no value AND 2x input cost differential matters at volume"
+  vs_sonar_deep_research:
+    addressed_in_r1: false
+    correct_answer_inferable_from_facts: "Sonar wins when single-pass suffices, budget below Deep Research floor, latency-sensitive"
+external_evidence_used:
+  - "WebSearch: Sonar $1/$1 + $5/1k low-context fee + $12/1k high-context fee; 127k context; released 2025-01-27; vision supported"
+  - "WebSearch: Sonar Pro $3/$15, 200k context, 2x search results; Sonar and Sonar Pro outperform GPT-4o-search per Perplexity"
+recommendation: "Do not route high-stakes research to Sonar based on Round 1. Require Round 2 to resolve all UNKNOWN markers against Perplexity docs in the repo, replace stale peers, and answer the three same-family differentiation questions with crossover points."
+estimated_cost_usd: 0.05

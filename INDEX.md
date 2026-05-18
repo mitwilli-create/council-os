@@ -25,40 +25,56 @@
 
 | Version | Slug | Profile | Status | Round | Converged |
 |---------|------|---------|--------|-------|-----------|
-| Gemini 3.1 Pro | `gemini-3-1-pro` | [profile](models/google/gemini-3-1-pro/profile.md) | pending | — | — |
-| Gemini 3 Flash | `gemini-3-flash` | [profile](models/google/gemini-3-flash/profile.md) | pending | — | — |
-| Gemini 3.1 Flash-Lite | `gemini-3-1-flash-lite` | [profile](models/google/gemini-3-1-flash-lite/profile.md) | pending | — | — |
-| Gemini 3.1 Flash Live (A2A) | `gemini-3-1-flash-live-preview` | [profile](models/google/gemini-3-1-flash-live-preview/profile.md) | pending | — | — |
-| Nano Banana Pro (image) | `nano-banana-pro` | [profile](models/google/nano-banana-pro/profile.md) | pending | — | — |
-| Nano Banana 2 (image) | `nano-banana-2` | [profile](models/google/nano-banana-2/profile.md) | pending | — | — |
+| Gemini 3.1 Pro | `gemini-3-1-pro` | [profile](models/google/gemini-3-1-pro/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+| Gemini 3 Flash | `gemini-3-flash` | [profile](models/google/gemini-3-flash/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+| Gemini 3.1 Flash-Lite | `gemini-3-1-flash-lite` | [profile](models/google/gemini-3-1-flash-lite/research-rounds/round-2-self-research.md) | converged (audit round) | R2 | ✅ |
+| Gemini 3.1 Flash Live (A2A) | `gemini-3-1-flash-live-preview` | (deferred — Live API specialized surface) | deferred | — | — |
+| Nano Banana Pro (image) | `nano-banana-pro` | (deferred — image-gen, out of text routing scope) | deferred | — | — |
+| Nano Banana 2 (image) | `nano-banana-2` | (deferred — image-gen, out of text routing scope) | deferred | — | — |
 
 ### xAI Grok (post-May-15 retirements)
 
 > **NOTE:** `grok-4`, `grok-4-fast`, `grok-4-1-fast`, `grok-code-fast-1`,
-> `grok-imagine-image-pro` were retired May 15, 2026. Mitchell's
-> `council-of-models` agent still lists `grok-4` + `grok-4-fast-reasoning`
-> in its default lineup — needs updating to `grok-4-3` or the `grok-4-20`
-> family.
+> `grok-imagine-image-pro`, **AND `grok-3`** were retired May 15, 2026. Council
+> agent default lineup uses `xai:grok-4` which auto-escalates to `grok-4.3`
+> (working as designed). `grok-3-mini` was NOT in the retirement list and
+> remains active as the cheapest Grok tier.
 
 | Version | Slug | Profile | Status | Round | Converged |
 |---------|------|---------|--------|-------|-----------|
-| Grok 4.3 (flagship) | `grok-4-3` | [profile](models/xai/grok-4-3/profile.md) | pending | — | — |
-| Grok 4.20 Reasoning | `grok-4-20-reasoning` | [profile](models/xai/grok-4-20-reasoning/profile.md) | pending | — | — |
-| Grok 4.20 Non-Reasoning | `grok-4-20-non-reasoning` | [profile](models/xai/grok-4-20-non-reasoning/profile.md) | pending | — | — |
-| Grok 4.20 Multi-Agent | `grok-4-20-multi-agent` | [profile](models/xai/grok-4-20-multi-agent/profile.md) | pending | — | — |
-| Grok 3 | `grok-3` | [profile](models/xai/grok-3/profile.md) | pending | — | — |
-| Grok 3 Mini | `grok-3-mini` | [profile](models/xai/grok-3-mini/profile.md) | pending | — | — |
+| Grok 4.3 (flagship) | `grok-4-3` | [profile](models/xai/grok-4-3/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+| Grok 4.20 Reasoning | `grok-4-20-reasoning` | (deferred — covered by grok-4-3 + multi-agent) | deferred | — | — |
+| Grok 4.20 Non-Reasoning | `grok-4-20-non-reasoning` | (deferred — covered by multi-agent) | deferred | — | — |
+| Grok 4.20 Multi-Agent | `grok-4-20-multi-agent` | [profile](models/xai/grok-4-20-multi-agent/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+| Grok 3 | `grok-3` | **RETIRED 2026-05-15** | retired | — | — |
+| Grok 3 Mini | `grok-3-mini` | [profile](models/xai/grok-3-mini/research-rounds/round-2-self-research.md) | converged (audit round) | R2 | ✅ |
 
 ### Perplexity Sonar
 
 | Version | Slug | Profile | Status | Round | Converged |
 |---------|------|---------|--------|-------|-----------|
-| Sonar | `sonar` | [profile](models/perplexity/sonar/profile.md) | pending | — | — |
-| Sonar Pro | `sonar-pro` | [profile](models/perplexity/sonar-pro/profile.md) | pending | — | — |
-| Sonar Reasoning Pro | `sonar-reasoning-pro` | [profile](models/perplexity/sonar-reasoning-pro/profile.md) | pending | — | — |
-| Sonar Deep Research | `sonar-deep-research` | [profile](models/perplexity/sonar-deep-research/profile.md) | pending | — | — |
+| Sonar (base) | `sonar` | [profile](models/perplexity/sonar/research-rounds/round-1-self-research.md) | abandoned at R2 (safety refusal — R1 kept with caveats) | R2 abandoned | ⚠️ |
+| Sonar Pro | `sonar-pro` | [profile](models/perplexity/sonar-pro/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+| Sonar Reasoning Pro | `sonar-reasoning-pro` | [profile](models/perplexity/sonar-reasoning-pro/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+| Sonar Deep Research | `sonar-deep-research` | [profile](models/perplexity/sonar-deep-research/research-rounds/round-3-self-research.md) | converged | R3 | ✅ |
 
-**Total: 25 active model versions across 5 providers.**
+### Anthropic Claude
+
+| Version | Slug | Profile | Status | Round | Converged |
+|---------|------|---------|--------|-------|-----------|
+| Claude Opus 4.7 | `claude-opus-4-7` | [profile](models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+| Claude Sonnet 4.6 | `claude-sonnet-4-6` | [profile](models/anthropic/claude-sonnet-4-6/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+| Claude Haiku 4.5 | `claude-haiku-4-5` | [profile](models/anthropic/claude-haiku-4-5/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+
+### OpenAI
+
+| Version | Slug | Profile | Status | Round | Converged |
+|---------|------|---------|--------|-------|-----------|
+| GPT-5.5 | `gpt-5-5` | [profile](models/openai/gpt-5-5/research-rounds/round-2-self-research.md) | converged (borderline) | R2 | ✅ |
+| GPT-5.4 | `gpt-5-4` | [profile](models/openai/gpt-5-4/research-rounds/round-2-self-research.md) | converged | R2 | ✅ |
+| GPT-5.3 Chat | `gpt-5-3-chat-latest` | [profile](models/openai/gpt-5-3-chat-latest/research-rounds/round-2-self-research.md) | converged (slot fallback documented) | R2 | ✅ |
+
+**Total: 16 profiled model versions across 5 providers (14 Tier-1 + 3 Tier-2 added in audit; 1 Tier-2 audit-abandoned). Plus 7 deferred + 1 retired = 24 known.**
 
 ## API Guides (per provider)
 

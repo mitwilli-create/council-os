@@ -1,0 +1,171 @@
+---
+round: 1
+mode: round-1-dealbreaker
+target_model: grok-3-mini
+target_provider: xai
+adjudicator: claude-opus-4-7
+date: 2026-05-17
+target_report: round-1-self-research.md
+dealbreaker_report: round-1-dealbreaker.md
+inputs_consulted:
+  - models/xai/grok-3-mini/research-rounds/round-1-self-research.md
+  - api-guides/xai/_official-models-overview.md
+  - api-guides/xai/_official-release-notes.md
+  - models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md
+  - models/xai/grok-4-3/research-rounds/round-2-self-research.md
+  - models/xai/grok-4-20-multi-agent/research-rounds/round-2-self-research.md
+  - WebSearch (~2 calls): grok-3-mini pricing + benchmarks
+
+strikes_total: 5
+strikes:
+  - id: strike-1
+    severity: high
+    type: research-incomplete
+    title: "[UNKNOWN] saturation where docs exist"
+    sections: [2, 3, 6, 7, 8]
+    verifiable_items_missed:
+      - context_window: "131072 tokens (mem0, pricepertoken, Azure AI Foundry)"
+      - pricing_input_per_mtok: 0.30
+      - pricing_output_per_mtok: 0.50
+      - latency_tok_per_sec: 163
+      - knowledge_cutoff: "November 2024 (xAI family doc)"
+      - aime_2024_score: "95.8% (artificialanalysis)"
+      - livecodebench_score: "80.4% (artificialanalysis)"
+      - reasoning_effort_parameter: "exposed (low / high)"
+      - release_date: "February 19, 2025 (xAI Grok 3 launch event)"
+
+  - id: strike-2
+    severity: medium
+    type: dated-context-omission
+    title: "Retirement context missing for own lineage"
+    section: 1
+    fix: |
+      Add lead paragraph: grok-3-mini is one of two surviving text-only
+      pre-Grok-4 models after 2026-05-15 retirement event (grok-3 base
+      retired; grok-3-mini explicitly preserved).
+
+  - id: strike-3
+    severity: medium-high
+    type: outdated-claim-with-routing-harm
+    title: "Routing recommendation cites retired model (grok-3 full)"
+    section: 7
+    stale_comparators_to_remove:
+      - "Grok 3 (full)"
+      - "Claude 3.5 Sonnet"
+      - "GPT-4o"
+    current_peers_to_use:
+      - "Grok 4.3"
+      - "Claude Opus 4.7"
+      - "GPT-5.5"
+      - "Gemini 3.1 Pro"
+
+  - id: strike-4
+    severity: high
+    type: missing-sibling-differentiation
+    title: "No grok-4.3 or grok-4.20-multi-agent comparison"
+    section: 5
+    cost_crossover_required: true
+    sibling_table_required: true
+    headline_value_claim_missed: |
+      grok-3-mini is 76% cheaper input / 80% cheaper output than grok-4.3
+      and is the cheapest survivor in the post-retirement xAI lineup.
+
+  - id: strike-5
+    severity: medium
+    type: capability-under-report
+    title: "Negative-egoism: under-claims documented capabilities"
+    section: 2
+    examples:
+      - claim: "grade-school math word problems"
+        reality: "AIME 2024 95.8% (competition math)"
+      - claim: "reasoning-effort parameter not mentioned"
+        reality: "low / high effort settings exposed via API"
+      - claim: "expected to trail on multi-hop reasoning [INFERRED]"
+        reality: "AA Intelligence Index near grok-3 base on reasoning-high"
+
+retirement_adjacent_audit:
+  grok_3_base_correctly_distinguished: true
+  grok_3_mini_correctly_identified_as_active: true
+  routing_to_retired_grok_3_full_in_report: true
+  retirement_event_acknowledged_in_section_1: false
+  date_of_retirement_event_known_to_report: false
+
+same_xai_sibling_diff_status:
+  grok_4_3_compared: false
+  grok_4_20_multi_agent_compared: false
+  cost_crossover_calculated: false
+  cheapest_in_xai_lineup_framing: false
+  status: MISSING_REQUIRED
+
+cross_family_peer_freshness:
+  uses_current_may_2026_peers: false
+  uses_stale_18_month_old_peers: true
+  fix_required: true
+
+anti_sycophancy_filter:
+  inflated_phrases_found: 0
+  best_in_class_framing: false
+  result: PASS
+
+anti_egoism_filter:
+  overclaim_present: false
+  under_claim_present: true
+  net_judgment: MIXED
+  notes: |
+    Under-claiming is a distinct failure mode from over-claiming.
+    Both violate the Council OS profile contract which requires
+    affirmative substantive claims paired with citations.
+
+fabrication_audit:
+  invented_benchmarks: 0
+  invented_identifiers: 0
+  invented_dates: 0
+  invented_urls: 0
+  result: CLEAN
+
+websearch_spot_checks_performed: 2
+spot_check_results:
+  - query: "grok-3-mini xAI API pricing context window 2026"
+    confirmed:
+      - pricing: "$0.30 input / $0.50 output per MTok"
+      - context: "131072 tokens"
+      - cost_vs_grok_3: "90% cheaper than grok-3"
+  - query: "grok-3-mini benchmark capabilities reasoning"
+    confirmed:
+      - aime_2024: "95.8%"
+      - livecodebench: "80.4%"
+      - throughput: "163 tokens per second"
+      - reasoning_effort_parameter: "low / high exposed"
+
+verdict:
+  converged: true
+  strike_count_meets_convergence_ceiling: true
+  round_2_required: true
+  round_3_likely_unnecessary_if_round_2_executes_checklist: true
+  council_routing_eligible: false_until_round_2
+  rationale: |
+    Round 1 report is research-incomplete rather than research-wrong. No
+    fabrication, no sycophancy, no retirement-confusion. The cardinal
+    failure is bulk [UNKNOWN] saturation on items with freely available
+    public answers — and the absence of any sibling differentiation
+    against grok-4.3 (the more important comparison surface than any
+    cross-family peer). Round 2 must perform the actual spot-checks
+    listed in Strike 1 and build the sibling table specified in Strike 4
+    before grok-3-mini is includable in the Council OS routing KB.
+
+round_2_must_fix_checklist:
+  - replace_all_unknown_markers_with_public_answers
+  - add_retirement_context_paragraph_section_1
+  - replace_stale_comparators_with_current_peers
+  - build_sibling_differentiation_table_section_5
+  - document_reasoning_effort_parameter_section_2
+  - cite_aime_and_livecodebench_explicitly
+  - add_cost_crossover_routing_language
+
+cost_estimate:
+  websearch_calls: 2
+  file_reads: 6
+  tokens_spent_approximate: 22000
+  cost_usd_approximate: 0.15
+
+---

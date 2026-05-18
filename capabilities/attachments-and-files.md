@@ -23,11 +23,14 @@ This is the dimension that decides: "Can this model directly ingest my attachmen
 | `openai/gpt-5-3-chat-latest` | ✅ same | ✅ via Files API | ❌ | ❌ | ✅ | same |
 | `google/gemini-3-1-pro` | ✅ image input + `media_resolution` knob | ✅ native PDF (recommended `media_resolution_medium`) | ✅ **native audio in, up to ~8.4 hours per prompt** | ✅ **native video in, up to ~1 hour per prompt** | ✅ Files API | 2 GB per file (Files API) |
 | `google/gemini-3-flash` | ✅ image input + `media_resolution`; MMMU-Pro 81.2% (beats 3.1 Pro on vision) | ✅ native PDF | ✅ native audio | ✅ native video (lower fidelity than Pro) | ✅ Files API | same |
+| `google/gemini-3-1-flash-lite` | ✅ image input (`thinking_level: minimal` default) | ✅ native PDF | ⚠️ audio in scope per docs but unverified for Lite | ⚠️ video in scope per docs but unverified | ✅ Files API | same |
 | `xai/grok-4-3` | ✅ 20 MiB max, jpg/png | ⚠️ inline only (no PDF-native flag in docs; treat as preprocess-to-image) | ⚠️ separate Voice API tier ($0.10/hr STT) | ✅ **native video input claimed in xAI launch** | ❌ no Files API equivalent | 20 MiB per image |
 | `xai/grok-4-20-multi-agent` | ⚠️ same image constraints; multi-agent has limited attachment surface | ⚠️ preprocess | ❌ | ❌ | ❌ | 20 MiB per image |
+| `xai/grok-3-mini` | ⚠️ image input via Grok 3 family (lower fidelity than Grok 4.3) | ⚠️ preprocess | ❌ | ❌ | ❌ | 20 MiB per image |
 | `perplexity/sonar-pro` | ❌ **text-only API; no attachment support of any kind** | ❌ | ❌ | ❌ | ❌ | N/A |
 | `perplexity/sonar-deep-research` | ❌ text-only | ❌ | ❌ | ❌ | ❌ | N/A |
 | `perplexity/sonar-reasoning-pro` | ❌ text-only | ❌ | ❌ | ❌ | ❌ | N/A |
+| `perplexity/sonar` (base) | ❌ text-only | ❌ | ❌ | ❌ | ❌ | N/A |
 
 ## Tiered ranking by attachment surface
 

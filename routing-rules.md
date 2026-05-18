@@ -66,6 +66,9 @@ winner — pick by cost" so the caller knows the choice is heuristic.
 | Browser / computer use | anthropic/claude-opus-4-7 (OSWorld 78.0%) | google/gemini-3-1-pro (browser-first) | perplexity/* (no native) |
 | Multi-agent parallel orchestration | xai/grok-4-20-multi-agent | (no peer offers single-API parallel agents) | xai/grok-4-3 (single-pass) |
 | Council "lead" orchestrator | anthropic/claude-opus-4-7 | google/gemini-3-1-pro | smaller / cheaper siblings |
+| **Cost-floor: cheapest model for bounded factual lookups** | google/gemini-3-1-flash-lite ($0.25/$1.50) | xai/grok-3-mini ($0.30/$0.50) | perplexity/sonar for complex tasks (safety filter blocks revision prompts) |
+| **Cheapest grounded search-with-citations** | perplexity/sonar ($1/$1) for single-step queries | perplexity/sonar-pro ($3/$15) when multi-step or adversarial framing needed | sonar (base) for ANY revision / meta-reasoning task — refuses |
+| **High-volume / cheap factual queries** | anthropic/claude-haiku-4-5 ($1/$5) | google/gemini-3-1-flash-lite ($0.25/$1.50) | premium-tier models (10x cost overhead) |
 
 ---
 

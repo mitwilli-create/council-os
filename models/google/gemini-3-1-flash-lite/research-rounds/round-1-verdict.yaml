@@ -1,0 +1,98 @@
+---
+round: 1
+model: gemini-3.1-flash-lite
+provider: google
+adjudicator: claude-opus-4-7
+adjudicated_at: 2026-05-17
+verdict: NOT_CONVERGED
+r2_required: true
+
+strikes:
+  total: 28
+  by_severity:
+    fabricated: 12
+    omission: 7
+    overclaimed: 4
+    hedge_unsourced: 4
+    egoistic_falsely_modest: 1
+  by_section:
+    section_1_identity: 3
+    section_2_capabilities: 7
+    section_3_operational: 5
+    section_4_integrations: 1
+    section_5_differentiation: 5
+    section_6_limitations: 3
+    section_7_tasks: 2
+    section_8_lifecycle: 2
+
+sibling_differentiation:
+  required: true
+  status: FAIL
+  pairings_addressed: 0
+  pairings_missing: 3
+  notes: |
+    Zero coverage of Flash-Lite vs Gemini 3 Flash (2× cost premium) crossover.
+    Zero coverage of Flash-Lite vs Gemini 3.1 Pro (8× cost premium <200k, 16× >200k) crossover.
+    Zero coverage of Flash-Lite vs Nano Banana 2 modality routing.
+    Peer same-family reports (Pro R2, Flash R2) both addressed sibling
+    crossover explicitly — Flash-Lite report did not. This is the report's
+    single biggest failure relative to the skill prompt's "killer test."
+
+top_3_stripped_claims:
+  - claim: "Pricing $0.02 / 1M input tokens; $0.08 / 1M output tokens"
+    reality: "$0.25 input / $1.50 output (audio input $0.50) per official Google docs"
+    error_type: FABRICATED
+    magnitude: 10× off
+  - claim: "GPQA-Diamond ~32%"
+    reality: "86.9% per Google blog announcement (verified Geeky Gadgets, LayerLens, Verdent)"
+    error_type: FABRICATED
+    magnitude: ~55 points off
+  - claim: "Released May 2026; predecessor Gemini 2.0 Flash-Lite"
+    reality: "Released March 3, 2026 in preview; predecessor is Gemini 2.5 Flash-Lite"
+    error_type: FABRICATED
+    magnitude: 2 months off release, wrong predecessor line
+
+verified_against_official_docs:
+  - /Users/mitchellwilliams/Documents/council-os/api-guides/google/_official-gemini-3-api.md
+  - /Users/mitchellwilliams/Documents/council-os/api-guides/google/_official-models-overview.md
+  - /Users/mitchellwilliams/Documents/council-os/api-guides/google/_official-thinking.md
+
+web_search_spot_checks:
+  - query: "Gemini 3.1 Flash-Lite pricing per million tokens input output 2026"
+    result: "Confirmed $0.25/$1.50 across Google blog + 4 third-party sources"
+  - query: "Gemini 3.1 Flash-Lite release date stable preview 2026"
+    result: "Confirmed March 3, 2026 preview release; still in preview as of May 2026"
+  - query: "Gemini 3.1 Flash-Lite GPQA benchmark score reasoning"
+    result: "Confirmed 86.9% GPQA Diamond per Google blog + Geeky Gadgets + LayerLens"
+
+r2_required_actions:
+  - "Re-read all 3 official Google API guides before drafting"
+  - "Add Sibling Crossover Map naming Flash + Pro with cost ratios + task crossover points"
+  - "Add thinking_level subsection (4-tier ladder, Flash-Lite defaults to minimal)"
+  - "Fix pricing to $0.25/$1.50 (audio $0.50)"
+  - "Fix GPQA Diamond to 86.9%"
+  - "Fix release date to March 3, 2026 (preview)"
+  - "Fix predecessor to Gemini 2.5 Flash-Lite"
+  - "Replace retired peer models (GPT-4o, GPT-4o-mini, Claude 3 Haiku) with current (GPT-5.5-mini/nano, Claude Haiku 4.5)"
+  - "Add Gemini 3 operational 400-error gotchas (thought signatures, thinkingLevel+thinkingBudget mutex, temperature looping)"
+  - "Source TTFT/throughput from Artificial Analysis or hedge as UNKNOWN"
+  - "Replace 'Uniqueness: Nothing' with real differentiators (cheapest in lineup, 4-level thinking ladder default-minimal, implicit caching, Search/Maps grounding)"
+
+cost_estimate_usd: 0.45
+cost_breakdown:
+  input_tokens: 24000
+  input_cost_usd: 0.12
+  output_tokens: 6500
+  output_cost_usd: 0.16
+  websearch_calls: 3
+  websearch_cost_usd: 0.03
+  context_overhead_usd: 0.14
+  notes: "Opus 4.7 base rates: $5/MTok input, $25/MTok output, ~$0.01 per WebSearch"
+
+convergence_note: |
+  This is the worst R1 of any model adjudicated in the Council OS to date.
+  Three load-bearing facts (pricing, GPQA, release date) are fabricated despite
+  the official Google docs being available in the same directory. R2 is not a
+  patch — it requires a fundamental re-research with full official-doc grounding.
+  Expect R2 to still need an R3 if sibling differentiation is not handled well,
+  given how far R1 was from the skill-prompt requirements.

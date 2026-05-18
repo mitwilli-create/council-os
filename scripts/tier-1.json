@@ -17,22 +17,25 @@
     {"provider": "perplexity", "version": "sonar-pro", "rationale": "200k context, 2x retrieval — bread-and-butter Sonar tier"},
     {"provider": "perplexity", "version": "sonar-deep-research", "rationale": "uniquely positioned long-form synthesis across hundreds of sources"}
   ],
-  "tier_2_deferred": [
-    {"provider": "openai", "version": "gpt-5-4-pro", "reason": "redundant with gpt-5-5-pro for our routing purposes"},
-    {"provider": "openai", "version": "gpt-5-2", "reason": "prior-gen — low marginal routing value"},
-    {"provider": "google", "version": "gemini-3-1-flash-lite", "reason": "marginal vs. gemini-3-flash"},
+  "tier_2_added_in_audit_round": [
+    {"provider": "google", "version": "gemini-3-1-flash-lite", "rationale": "cheapest Gemini tier ($0.25/$1.50); cost-floor routing", "status": "converged_r2"},
+    {"provider": "xai", "version": "grok-3-mini", "rationale": "cheapest xAI tier ($0.30/$0.50); cost-floor routing", "status": "converged_r2"},
+    {"provider": "perplexity", "version": "sonar", "rationale": "cheapest Perplexity tier ($1/$1); cost-floor for simple search", "status": "abandoned_r2_safety_refusal_r1_kept"}
+  ],
+  "tier_2_remaining_deferred": [
+    {"provider": "openai", "version": "gpt-5-4-pro", "reason": "Pro tier not accessible on this account — falls back to gpt-5.4 (already profiled). No genuinely-distinct profile to capture."},
+    {"provider": "openai", "version": "gpt-5-2", "reason": "prior-gen — low marginal routing value; gpt-5 family already covered"},
     {"provider": "google", "version": "nano-banana-pro", "reason": "image-gen — out of scope for council-style text routing"},
     {"provider": "google", "version": "nano-banana-2", "reason": "image-gen — out of scope"},
-    {"provider": "xai", "version": "grok-4-20-reasoning", "reason": "covered by multi-agent variant + grok-4-3"},
+    {"provider": "xai", "version": "grok-4-20-reasoning", "reason": "covered by multi-agent variant + grok-4-3 (which auto-escalates from grok-4)"},
     {"provider": "xai", "version": "grok-4-20-non-reasoning", "reason": "latency variant — covered by multi-agent"},
-    {"provider": "xai", "version": "grok-3", "reason": "prior-gen"},
-    {"provider": "xai", "version": "grok-3-mini", "reason": "prior-gen"},
-    {"provider": "perplexity", "version": "sonar", "reason": "covered by sonar-pro"},
-    {"provider": "perplexity", "version": "sonar-reasoning-pro", "reason": "covered by sonar-deep-research + sonar-pro"}
+    {"provider": "xai", "version": "grok-3", "reason": "RETIRED 2026-05-15 per xAI migration notice. Do not add."}
   ],
   "totals": {
     "tier_1_count": 14,
-    "tier_2_count": 11,
-    "total_known": 25
+    "tier_2_audit_added_count": 3,
+    "tier_2_remaining_deferred_count": 7,
+    "total_profiled_post_audit": 17,
+    "total_known_excluding_retired": 24
   }
 }

@@ -1,0 +1,38 @@
+---
+round: 2
+target_model: grok-3-mini
+target_provider: xai
+adjudicator: claude-opus-4-7
+date: 2026-05-17
+verdict: converged
+r1_strike_resolution:
+  strike_1_unknown_saturation: resolved
+  strike_2_retirement_context: resolved
+  strike_3_outdated_routing: resolved
+  strike_4_missing_sibling_diff: resolved
+  strike_5_capability_under_reporting: resolved
+new_strikes:
+  count: 2
+  highest_severity: low
+  list:
+    - id: A
+      severity: low
+      type: framing-drift
+      summary: Sibling cost framing uses "~4x more expensive" instead of R1-prescribed "76% / 80% cheaper" value-prop framing. Mathematically equivalent. Stylistic miss only.
+      blocker: false
+    - id: B
+      severity: low
+      type: citation-tightness
+      summary: AIME 95.8% and ~163 tok/s citations could pin primary sources / snapshot dates more tightly. Not material to routing.
+      blocker: false
+anti_sycophancy: pass
+anti_egoism: pass
+round_3_required: false
+council_kb_ready: true
+council_routing_summary: |
+  grok-3-mini = cheapest surviving text-only Grok after 2026-05-15 retirement.
+  $0.30/$0.50 per MTok, 131k context, AIME 2024 95.8%, LCB 80.4%, ~163 tok/s.
+  Route here for cost-sensitive reasoning <=131k tokens.
+  Escalate to grok-4.3 above 131k or for native video (~4x cost).
+  Escalate to grok-4.20-multi-agent for parallel agent orchestration.
+  Cross-family escalation: Opus 4.7 / GPT-5.5 / Gemini 3.1 Pro for frontier multi-hop.
