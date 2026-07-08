@@ -12,16 +12,16 @@ A knowledge base, not an app: converged capability profiles of frontier LLMs (An
 - **Research rounds spend real API money.** Never run `scripts/call-model.mjs` or `scripts/refresh.sh` on your own initiative; Mitchell triggers paid research rounds. Your default work here is editing knowledge files and scripts, not calling models.
 - **Every API call gets a `COST_LOG.md` row** (model, round, cost). `scripts/call-model.mjs` does this; don't add call paths that skip it.
 - **Dealbreaker ceiling is 4 rounds per model;** past that, mark the profile `abandoned: true` rather than looping.
-- **Staleness is the failure mode.** Model retirements, pricing changes, and API-surface changes (documented in INDEX.md and routing-rules.md) must flow through to routing. Any claim you add carries a date.
+- **Staleness is the failure mode.** Model retirements, pricing changes, and API-surface changes (documented in INDEX.md and routing-rules.md) must flow through to routing. Any claim you add to the knowledge files carries a date. (This doc's own repo-state notes are as of 2026-07-08.)
 - **API keys live in `.env` / `.env.local`** (gitignored). No credentials anywhere in tracked files.
 
 ## Commands
 
 No `package.json`; scripts run directly:
 
-- Call a model + log cost: `node scripts/call-model.mjs`
+- Call a model + log cost: `node scripts/call-model.mjs` (Mitchell-triggered only; see Hard constraints)
 - Regenerate routing tree from chunks: `node scripts/build-routing-tree.mjs`
-- Orchestrated refresh: `scripts/refresh.sh` (runbook: `scripts/orchestrate.md`)
+- Orchestrated refresh: `scripts/refresh.sh` (Mitchell-triggered only; runbook: `scripts/orchestrate.md`)
 - No test suite; verify by regenerating `routing-tree.json` and checking it parses and reflects the chunk edits.
 
 ## Conventions
