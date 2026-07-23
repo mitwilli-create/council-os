@@ -90,6 +90,7 @@ async function main() {
     'max-tokens': maxTokens,
     'reasoning-effort': reasoningEffort,
     'thinking-level': thinkingLevel,
+    'timeout-ms': timeoutMs,
     grounded,
   } = args;
 
@@ -114,6 +115,7 @@ async function main() {
   if (maxTokens !== undefined) opts.maxTokens = Number(maxTokens);
   if (reasoningEffort !== undefined) opts.reasoningEffort = reasoningEffort;
   if (thinkingLevel !== undefined) opts.thinkingLevel = thinkingLevel;
+  if (timeoutMs !== undefined) opts.timeoutMs = Number(timeoutMs);
   if (grounded !== undefined) opts.grounded = grounded !== 'false';
 
   console.error(`[call-model] calling ${model}...`);

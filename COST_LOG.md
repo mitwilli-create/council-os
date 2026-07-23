@@ -124,3 +124,130 @@ researcher/call-model.mjs hooks.
 | 2026-05-18 | researcher | google:gemini-3-flash | 1 | 0.00 | 0-failed-429 | 0 |
 | 2026-05-18 | researcher | self-extraction-fallback | 1 | 0.00 | 0-jq | 0 |
 | 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0662 | 9453 tok, 6920 chars out, 53517ms → runs/adversarial-20260517-202452/META-AUDIT-V2-FINAL.md |
+| 2026-05-18 | researcher | xai:grok-4 → grok-4.3 | call-model.mjs | ~$0.0097 | 3220 tok, 5924 chars out, 30515ms → runs/researcher-20260518-070912/round-1-xai-grok-4.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview | call-model.mjs | ~$0.0241 | 4826 tok, 488 chars out, 57065ms → runs/researcher-20260518-070912/round-1-google-gemini.md |
+| 2026-05-18 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0205 | 4098 tok, 14538 chars out, 148260ms → runs/researcher-20260518-070912/round-1-perplexity-sonar-deep-research.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0384 | 7677 tok, 8783 chars out, 67300ms → runs/researcher-20260518-070912/round-1-google-gemini.md |
+| 2026-05-18 | researcher | xai:grok-4 → grok-4.3 | call-model.mjs | ~$0.0073 | 2425 tok, 2731 chars out, 15422ms → runs/researcher-20260518-070912/round-2-xai-grok-4.md |
+| 2026-05-18 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0303 | 6069 tok, 3814 chars out, 56996ms → runs/researcher-20260518-070912/round-2-google-gemini.md |
+| 2026-05-18 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0451 | 9029 tok, 35461 chars out, 200822ms → runs/researcher-20260518-070912/round-2-perplexity-sonar-deep-research.md |
+| 2026-05-19 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.1772 | 11811 tok, 14516 chars out, 85559ms → runs/researcher-2026-05-18-companies-filter/round-1-claude-opus-4-7.md |
+| 2026-05-19 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0599 | 9080 tok, 16644 chars out, 89225ms → runs/researcher-2026-05-18-companies-filter/round-1-claude-sonnet-4-6.md |
+| 2026-05-19 | researcher | openai:gpt-5 → gpt-5.5 | call-model.mjs | ~$0.0571 | 8161 tok, 19003 chars out, 73870ms → runs/researcher-2026-05-18-companies-filter/round-1-gpt-5-5.md |
+| 2026-05-19 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.1024 | 51191 tok, 1071 chars out, 27074ms → tmp/researcher-preipo/round1-grok-xsearch.md |
+| 2026-05-19 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0486 | 9713 tok, 30395 chars out, 219439ms → tmp/researcher-preipo/round1-sonar-deep.md |
+| 2026-05-19 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0399 | 19973 tok, 3816 chars out, 23847ms → runs/researcher-20260518-234733/round-1-grok-4-x-search.md |
+| 2026-05-19 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0610 | 30512 tok, 3393 chars out, 15905ms → runs/researcher-20260518-234733/round-1-grok-4-x-search-v2.md |
+| 2026-05-19 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0441 | 8819 tok, 33981 chars out, 234366ms → runs/researcher-20260518-234733/round-1-perplexity-sonar-deep.md |
+| 2026-05-20 | researcher | openai:gpt-5 → gpt-5.5 | call-model.mjs | ~$0.0230 | 3291 tok, 6206 chars out, 46317ms → runs/researcher-2026-05-20-popout-ux/round-1-openai-gpt-5-5.md |
+| 2026-05-20 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0172 | 2611 tok, 5498 chars out, 30709ms → runs/researcher-2026-05-20-toolbar/round-1-sonnet-4-6.md |
+| 2026-05-20 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.0543 | 3622 tok, 4966 chars out, 36000ms → runs/researcher-2026-05-20-toolbar/round-1-opus-4-7.md |
+| 2026-05-20 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0299 | 5988 tok, 6853 chars out, 33727ms → runs/researcher-2026-05-20-batch-actions-ux/round-1-gemini-3-1-pro.md |
+| 2026-05-20 | researcher | openai:gpt-5 → gpt-5.5 | call-model.mjs | ~$0.0313 | 4467 tok, 9447 chars out, 40277ms → runs/researcher-2026-05-20-batch-actions-ux/round-1-gpt-5-5.md |
+| 2026-05-20 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0309 | 4678 tok, 7750 chars out, 47046ms → runs/researcher-2026-05-20-batch-actions-ux/round-1-sonnet-4-6.md |
+| 2026-05-20 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0094 | 1427 tok, 2381 chars out, 16055ms → runs/researcher-2026-05-20-toolbar/round-2-sonnet-4-6.md |
+| 2026-05-20 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.0314 | 2095 tok, 2539 chars out, 19559ms → runs/researcher-2026-05-20-toolbar/round-2-opus-4-7.md |
+| 2026-05-20 | researcher | anthropic:opus + sonnet + openai:gpt-5-5 | 1 | 2.10 (est) | ~12k | 480000 |
+| 2026-05-20 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0231 | 4628 tok, 291 chars out, 20364ms → runs/researcher-2026-05-20-batch-actions-ux/round-2-gemini-3-1-pro.md |
+| 2026-05-20 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0275 | 4172 tok, 3298 chars out, 24893ms → runs/researcher-2026-05-20-batch-actions-ux/round-2-sonnet-4-6.md |
+| 2026-05-20 | researcher | openai:gpt-5 → gpt-5.5 | call-model.mjs | ~$0.0344 | 4918 tok, 3176 chars out, 40035ms → runs/researcher-2026-05-20-batch-actions-ux/round-2-gpt-5-5.md |
+| 2026-05-20 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0283 | 5660 tok, 2786 chars out, 30147ms → runs/researcher-2026-05-20-batch-actions-ux/round-2-gemini-3-1-pro.md |
+| 2026-05-20 | dealbreaker | claude-opus-4-7 | impasse-break | ~$2.50 (est) | ~15k | 405000 |
+| 2026-05-21 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0634 | 9599 tok, 18847 chars out, 104298ms → runs/researcher-typography-roles-2026-05-20/round-1-sonnet-4-6.md |
+| 2026-05-21 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.3619 | 24127 tok, 35038 chars out, 173508ms → runs/researcher-2026-05-20-finding-007/round-1-opus-4-7.md |
+| 2026-05-21 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview | call-model.mjs | ~$0.0532 | 10632 tok, 14345 chars out, 69626ms → runs/researcher-typography-roles-2026-05-20/round-1-gemini.md |
+| 2026-05-21 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0697 | 10567 tok, 22223 chars out, 123710ms → runs/researcher-typography-roles-2026-05-20/round-1-sonnet-4-6-retry.md |
+| 2026-05-21 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.1163 | 17616 tok, 33926 chars out, 175151ms → runs/researcher-2026-05-20-finding-007/round-1-sonnet-4-6.md |
+| 2026-05-21 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0214 | 3244 tok, 4550 chars out, 28186ms → runs/researcher-typography-roles-2026-05-20/round-2-sonnet-4-6.md |
+| 2026-05-21 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview | call-model.mjs | ~$0.0281 | 5623 tok, 3631 chars out, 39472ms → runs/researcher-typography-roles-2026-05-20/round-2-gemini.md |
+| 2026-05-21 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0640 | 9696 tok, 24076 chars out, 117550ms → runs/researcher-2026-05-20-finding-007/round-1b-sonnet-4-6-continuation.md |
+| 2026-05-21 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.1533 | 10221 tok, 20198 chars out, 126087ms → runs/researcher-2026-05-20-finding-007/round-1b-opus-4-7-continuation.md |
+| 2026-05-21 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.1471 | 9808 tok, 14930 chars out, 95372ms → runs/researcher-2026-05-20-finding-007/round-2-opus-4-7.md |
+| 2026-05-21 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0628 | 9518 tok, 23321 chars out, 135047ms → runs/researcher-2026-05-20-finding-007/round-2-sonnet-4-6.md |
+| 2026-05-23 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0316 | 6320 tok, 26377 chars out, 65245ms → runs/researcher-2026-05-23-audit-agent-arch/round-1-perplexity-sonar-deep.md |
+| 2026-05-23 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0351 | 7028 tok, 6667 chars out, 66257ms → runs/researcher-2026-05-23-audit-agent-arch/round-1-gemini.md |
+| 2026-05-23 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.1753 | 11688 tok, 22176 chars out, 154389ms → runs/researcher-2026-05-23-audit-agent-arch/round-1-opus.md |
+| 2026-05-23 | researcher | openai:gpt-5 → gpt-5.5 | call-model.mjs | ~$0.0575 | 8209 tok, 12788 chars out, 125159ms → runs/researcher-2026-05-23-audit-agent-arch/round-1-gpt5.md |
+| 2026-05-23 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.0958 | 6389 tok, 7943 chars out, 52761ms → runs/researcher-2026-05-23-regression-agent/round-1-opus.md |
+| 2026-05-23 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0415 | 6285 tok, 10302 chars out, 59908ms → runs/researcher-2026-05-23-regression-agent/round-1-sonnet.md |
+| 2026-05-23 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0338 | 6754 tok, 27191 chars out, 93428ms → runs/researcher-2026-05-23-regression-agent/round-1-perplexity.md |
+| 2026-05-23 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | call-model.mjs | ~$0.0690 | 10447 tok, 24325 chars out, 142755ms → runs/researcher-2026-05-23-regression-agent/round-1b-sonnet.md |
+| 2026-05-23 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.1806 | 12042 tok, 22738 chars out, 147093ms → runs/researcher-2026-05-23-regression-agent/round-1b-opus.md |
+| 2026-05-23 | researcher | inline-dealbreaker-mode-B | (no API call — researcher synthesized + dealbreaker inline) | ~$0.00 | 3 WebSearch calls, ~360s wall | researcher-report + dealbreaker-final |
+| 2026-05-23 | researcher | anthropic:claude-haiku-4-5 → claude-haiku-4-5 | call-model.mjs | ~$0.0004 | 162 tok, 9 chars out, 2148ms → runs/researcher-20260523-143513/round-1-anthropic-claude-haiku-4-5.md |
+| 2026-05-24 | researcher | perplexity:sonar-pro → perplexity:sonar-pro | call-model.mjs | ~$0.0242 | 3455 tok, 9456 chars out, 11396ms → runs/researcher-20260523-175829/round-1-perplexity-sonar-pro.md |
+| 2026-05-24 | researcher | perplexity:sonar-pro → perplexity:sonar-pro | call-model.mjs | ~$0.0499 | 7129 tok, 21423 chars out, 43946ms → runs/researcher-20260523-175818-openclaw-migration/round-1-sonar-pro.md |
+| 2026-05-24 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0718 | 35889 tok, 5697 chars out, 21321ms → runs/researcher-20260523-175829/round-1-grok-4-3.md |
+| 2026-05-24 | researcher | perplexity:sonar-pro → perplexity:sonar-pro | call-model.mjs | ~$0.0666 | 9520 tok, 32841 chars out, 80837ms → runs/researcher-20260523-cherry-picks-explainer/round-1-sonar-pro.md |
+| 2026-05-24 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.1115 | 7435 tok, 11516 chars out, 79226ms → runs/researcher-20260523-175818-openclaw-migration/round-1-opus-4-7.md |
+| 2026-05-24 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview+google_search | call-model.mjs | ~$0.0393 | 7858 tok, 574 chars out, 62201ms → runs/researcher-20260523-175829/round-1-gemini-3-1-pro.md |
+| 2026-05-24 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview+google_search | call-model.mjs | ~$0.0374 | 7475 tok, 655 chars out, 53646ms → runs/researcher-20260523-175856/round-1-gemini-3-1-pro.md |
+| 2026-05-24 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.1932 | 12877 tok, 26495 chars out, 171988ms → runs/researcher-20260523-cherry-picks-explainer/round-1-opus.md |
+| 2026-05-24 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0218 | 4362 tok, 16334 chars out, 112076ms → runs/researcher-20260524-005938-notion-agents/round-1-sonar-deep-research.md |
+| 2026-05-23 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.27 | ~14k in + ~7k out | 188000ms → runs/researcher-20260523-cherry-picks-explainer/round-1-opus.md |
+| 2026-05-23 | researcher | anthropic:claude-sonnet-4-6 → claude-sonnet-4-6 | wrap-timeout | ~$0.18 | ~14k in + ~10.7k out | 253704ms → runs/researcher-20260523-cherry-picks-explainer/round-1-sonnet.md |
+| 2026-05-23 | researcher | perplexity:sonar-pro → sonar-pro | call-model.mjs --grounded | ~$0.13 | ~7k in + ~8k out (truncated max-tokens) | 102000ms → runs/researcher-20260523-cherry-picks-explainer/round-1-sonar-pro.md |
+| 2026-05-23 | researcher | openai:gpt-5 → gpt-5.5 (reasoning-effort low) | wrap-timeout | ~$0.47 | ~14k in + ~15k out | 138786ms → runs/researcher-20260523-cherry-picks-explainer/round-1-gpt5.md |
+| 2026-05-23 | researcher | (3 WebSearch verifications) | freshness-first + dispute-resolution | ~$0.00 | n/a | n/a → cherry-pick + empty-flag-version + 2.46-changelog |
+| 2026-05-24 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0216 | 7199 tok, 23829 chars out, 42720ms → runs/researcher-instance-d-pangram-20260524-155154/response-perplexity-vendor-news.md |
+| 2026-05-24 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0576 | 28816 tok, 4070 chars out, 11033ms → runs/researcher-instance-d-pangram-20260524-155154/response-grok-live-chatter.md |
+| 2026-05-25 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0204 | 6806 tok, 15917 chars out, 47156ms → runs/researcher-20260524-pre-apply-deepen/round-1-sonar-reasoning-pro.md |
+| 2026-05-25 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0577 | 11537 tok, 9805 chars out, 81547ms → runs/researcher-20260524-pre-apply-deepen/round-1-gemini.md |
+| 2026-05-25 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0317 | 10555 tok, 30293 chars out, 84331ms → runs/researcher-20260524-pre-apply-deepen/round-1b-sonar-extended.md |
+| 2026-05-25 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0801 | 16011 tok, 19413 chars out, 127658ms → runs/researcher-20260524-pre-apply-deepen/round-1b-gemini-extended.md |
+| 2026-05-25 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0428 | 14260 tok, 21722 chars out, 65306ms → runs/researcher-apply-now-ux-20260525-161408/round-1-sonar-reasoning-pro.md |
+| 2026-05-25 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview | call-model.mjs | ~$0.1004 | 20081 tok, 22235 chars out, 91830ms → runs/researcher-apply-now-ux-20260525-161408/round-1-gemini-3-1-pro.md |
+| 2026-05-26 | researcher | xai:grok-4 → grok-4.3 | call-model.mjs | ~$0.0051 | 1694 tok, 2414 chars out, 6357ms → runs/researcher-20260526-204718/round-1-grok.md |
+| 2026-05-26 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview+google_search | call-model.mjs | ~$0.0379 | 7587 tok, 8450 chars out, 67230ms → runs/researcher-20260526-204718/round-1-gemini.md |
+| 2026-05-26 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0554 | 11090 tok, 57424 chars out, 228673ms → runs/researcher-20260526-204718/round-1-perplexity.md |
+| 2026-05-26 | researcher | xai:grok-4.3 | 1 | 0.0051 | 1694 | 6357 |
+| 2026-05-26 | researcher | perplexity:sonar-deep-research | 1 | ~0.30 | ~25000 | ~180000 |
+| 2026-05-26 | researcher | google:gemini-2.5-pro | 1 | ~0.20 | ~5000 | ~120000 |
+| 2026-05-26 | researcher | hunter.io (API calls) | n/a | 0 | n/a | n/a |
+| 2026-06-19 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0551 | 11028 tok, 9544 chars out, 95564ms → runs/researcher-bayarea-rent-20260618-185422/round-1-gemini.md |
+| 2026-06-19 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0621 | 12417 tok, 53102 chars out, 209013ms → runs/researcher-bayarea-rent-20260618-185422/round-1-perplexity.md |
+| 2026-06-19 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0863 | 43138 tok, 4563 chars out, 33549ms → runs/researcher-bayarea-rent-20260618-185422/round-1-grok.md |
+| 2026-06-18 | researcher | google:gemini-3.1-pro-preview (grounded,Maps) | 1 | 0.0551 | 11028 | 95564 → runs/researcher-bayarea-rent-20260618-185422/round-1-gemini.md |
+| 2026-06-18 | researcher | perplexity:sonar-deep-research | 1 | 0.0621 | 12417 | 209013 → runs/researcher-bayarea-rent-20260618-185422/round-1-perplexity.md |
+| 2026-06-18 | researcher | xai:grok-4-x-search | 1 | 0.0863 | 43138 | 33549 → runs/researcher-bayarea-rent-20260618-185422/round-1-grok.md |
+| 2026-06-18 | researcher | (4 WebSearch verifications) | freshness+dispute | 0.00 | n/a | n/a → bay-bridge-toll + pacific-place + oakland-rent + alameda-buildings |
+| 2026-06-25 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0226 | 4528 tok, 17663 chars out, 170664ms → runs/researcher-20260625-191253/round-1-sonar.md |
+| 2026-06-25 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0489 | 24466 tok, 6388 chars out, 25851ms → runs/researcher-20260625-191253/round-1-grok.md |
+| 2026-06-25 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0295 | 5905 tok, 27599 chars out, 185369ms → runs/researcher-20260625-191253/round-1-sonar-part2.md |
+| 2026-06-25 | researcher | perplexity:sonar-deep-research | round-1 | 0.0226 | 4528 | 170664 |
+| 2026-06-25 | researcher | xai:grok-4-x-search | round-1 | 0.0489 | 24466 | 25851 |
+| 2026-06-25 | researcher | perplexity:sonar-deep-research | round-1-part2 | 0.0295 | 5905 | 185369 |
+| 2026-06-25 | researcher | anthropic:claude-opus-4-7 | synthesis | ~0.40 | 168663 | 49324 |
+| 2026-06-25 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0663 | 33131 tok, 5320 chars out, 12457ms → runs/researcher-aie-wf-cards-20260625-125820/round-1-grok.md |
+| 2026-06-25 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0369 | 7372 tok, 34543 chars out, 192262ms → runs/researcher-aie-wf-cards-20260625-125820/round-1-sonar.md |
+| 2026-06-25 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview+google_search | call-model.mjs | ~$0.0314 | 6276 tok, 5921 chars out, 58604ms → runs/researcher-aie-wf-cards-20260625-125820/round-1-gemini.md |
+| 2026-06-25 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0068 | 2256 tok, 7409 chars out, 62531ms → runs/researcher-aie-wf-cards-20260625-125820/round-2-sonar.md |
+| 2026-06-25 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview | call-model.mjs | ~$0.0145 | 2902 tok, 2452 chars out, 21143ms → runs/researcher-aie-wf-cards-20260625-125820/round-2-gemini.md |
+| 2026-06-25 | researcher | xai:grok-4-x-search | aie-wf-cards-r1 | 0.0663 | 33131 | 12457 |
+| 2026-06-25 | researcher | perplexity:sonar-deep-research | aie-wf-cards-r1 | 0.0369 | 7372 | 192262 |
+| 2026-06-25 | researcher | google:gemini-3.1-pro-preview (grounded) | aie-wf-cards-r1 | 0.0314 | 6276 | 58604 |
+| 2026-06-25 | researcher | perplexity:sonar-reasoning-pro | aie-wf-cards-r2 | 0.0068 | 2256 | 62531 |
+| 2026-06-25 | researcher | google:gemini-3.1-pro-preview | aie-wf-cards-r2 | 0.0145 | 2902 | 21143 |
+| 2026-06-25 | researcher | (2 WebSearch freshness: AIE-app + Blinq-multiprofile) | aie-wf-cards-verify | 0.00 | n/a | n/a |
+| 2026-07-14 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0322 | 6448 tok, 2449 chars out, 52246ms → runs/researcher-20260714-025421/round-1-gemini-3-1-pro.md |
+| 2026-07-14 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.0802 | 5349 tok, 7699 chars out, 58549ms → runs/researcher-20260714-025421/round-1-claude-opus-4-7.md |
+| 2026-07-14 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0349 | 6986 tok, 13965 chars out, 41535ms → runs/researcher-20260714-025421/round-1-gemini-3-1-pro.md |
+| 2026-07-14 | researcher | anthropic:claude-opus-4-7 → claude-opus-4-7 | call-model.mjs | ~$0.1910 | 12735 tok, 26178 chars out, 177333ms → runs/researcher-20260714-025421/round-1-claude-opus-4-7.md |
+| 2026-07-14 | researcher | openai:gpt-5 → gpt-5.5 | call-model.mjs | ~$0.0918 | 13113 tok, 37785 chars out, 186023ms → runs/researcher-20260714-025421/round-1-gpt-5-5.md |
+| 2026-07-15 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0683 | 34137 tok, 5786 chars out, 29497ms → runs/researcher-20260715-130000/round-1-grok-4-x-search.md |
+| 2026-07-15 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0500 | 10004 tok, 8960 chars out, 57353ms → runs/researcher-20260715-130000/round-1-gemini-3-1-pro.md |
+| 2026-07-15 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0173 | 5773 tok, 17955 chars out, 115382ms → runs/researcher-20260715-130000/round-1-sonar-reasoning-pro.md |
+| 2026-07-15 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0372 | 7441 tok, 29361 chars out, 169352ms → runs/researcher-20260715-130000/round-1-sonar-deep-research.md |
+| 2026-07-15 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0197 | 6579 tok, 23342 chars out, 99308ms → runs/researcher-20260715-130000/round-1b-sonar-reasoning-pro-gapfill.md |
+| 2026-07-15 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0629 | 31469 tok, 2838 chars out, 19651ms → runs/researcher-20260715-130000/round-2-grok-4-x-search.md |
+| 2026-07-15 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0479 | 9576 tok, 3236 chars out, 61991ms → runs/researcher-20260715-130000/round-2-gemini-3-1-pro.md |
+| 2026-07-15 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0137 | 4555 tok, 14763 chars out, 68101ms → runs/researcher-20260715-130000/round-2-sonar-reasoning-pro.md |
+| 2026-07-15 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0162 | 8118 tok, 1149 chars out, 10789ms → 65a9ceaa-db5a-41d6-a42e-5334638fa06c/scratchpad/grok-verify-out.md |
+| 2026-07-15 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0248 | 12390 tok, 1776 chars out, 14283ms → 65a9ceaa-db5a-41d6-a42e-5334638fa06c/scratchpad/grok-sentiment-out.md |
+| 2026-07-20 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0399 | 7981 tok, 33180 chars out, 225483ms → runs/researcher-20260720-mcp-vs-cli/round-1-sonar-deep-research.md |
+| 2026-07-20 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0461 | 9211 tok, 39632 chars out, 157645ms → runs/researcher-20260720-mcp-vs-cli/round-2-sonar-deep-research.md |
+| 2026-07-21 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.1109 | 55464 tok, 9236 chars out, 50072ms → runs/researcher-20260721-165245/round-1-grok-x-search.md |
+| 2026-07-21 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0204 | 4086 tok, 15348 chars out, 274763ms → runs/researcher-20260721-165245/round-1-sonar-deep-research.md |
+| 2026-07-21 | researcher | google:gemini-3-flash → gemini-3.5-flash+google_search | call-model.mjs | ~$0.0140 | 9310 tok, 1155 chars out, 79115ms → runs/researcher-20260721-165245/round-1-gemini-3-flash.md |
+| 2026-07-21 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0483 | 24137 tok, 3455 chars out, 23006ms → runs/researcher-20260721-165245/round-2-grok-x-search.md |
+| 2026-07-21 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0229 | 4583 tok, 23088 chars out, 113859ms → runs/researcher-20260721-165245/round-2-sonar-deep-research.md |

@@ -87,6 +87,8 @@ models_covered: 13
 
 **Terminal-Bench is GPT-5.5's clearest win.** The +13.3pp margin over Opus 4.7 on Terminal-Bench 2.0 is the largest verified gap between any two Tier 1 models on a published benchmark. For terminal-native agent workflows, GPT-5.5 is not a lateral choice — it is meaningfully better.
 
+**Empirical: GPT-5.5 returned empty content on a 12k-char design-spec codegen prompt** via `call-model.mjs` (career-ops ARCH.42, 2026-05-20). Possible interaction with prompt length or wrapper. Re-test before routing long-form design-spec codegen here. Surfaced by ARCH.42 dealbreaker; logged as `data/council-eval-2026-05-23-dispatch.log` entry showing `completion_tokens: 0, latency_ms: 120000, quality: "empty"`. Not a known failure mode for GPT-5.5 at the published benchmarks — investigate before routing similar shapes.
+
 **GPT-5.4's frontend slop problem.** OpenAI ships a dedicated frontend anti-slop prompt block because generic "build a UI" prompts produce over-decorated, low-signal output. This is an unusually documented, concrete failure mode for a frontier model.
 
 **The only built-in execution sandbox.** Grok 4.20 Multi-Agent is the only model in this tier with a built-in `code_execution` server-side tool. All other models requiring code execution must integrate external sandboxes.
