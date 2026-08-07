@@ -401,3 +401,4 @@ researcher/call-model.mjs hooks.
 | 2026-08-07 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.1037 | 51844 tok, 12225 chars out, 33664ms → runs/researcher-20260807-115400/r1-grok-x-search.md |
 | 2026-08-07 | researcher | google:gemini-2.5-pro → gemini-3.1-pro-preview-no-thinking | call-model.mjs | ~$0.0423 | 8465 tok, 9971 chars out, 63379ms → runs/researcher-20260807-115400/r1-gemini-pro.md |
 | 2026-08-07 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0739 | 36931 tok, 11638 chars out, 33968ms → career-ops/reports/reddit-memory-sprawl-grok-2026-08-07.md |
+| 2026-08-07 | researcher | perplexity:sonar-pro → perplexity:sonar-pro | call-model.mjs | ~$0.0080 | 1141 tok, 1573 chars out, 6823ms → career-ops/reports/reddit-memory-sprawl-perplexity-2026-08-07.md |
