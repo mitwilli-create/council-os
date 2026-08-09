@@ -1,16 +1,16 @@
 {
   "version": "1.0",
-  "generated_at": "2026-08-08T23:35:55.161Z",
+  "generated_at": "2026-08-09T16:49:14.677Z",
   "source_files": [
     {
       "path": "routing-rules.md",
-      "sha256": "39e4dd690c7bb903",
-      "mtime": "2026-08-08T23:35:50.154Z"
+      "sha256": "b1952621af81bbb9",
+      "mtime": "2026-08-09T16:46:29.424Z"
     },
     {
       "path": "taxonomy.md",
-      "sha256": "c13acd9246ad0c65",
-      "mtime": "2026-05-17T18:46:29.695Z"
+      "sha256": "384095b821f8e8eb",
+      "mtime": "2026-08-09T16:48:42.960Z"
     }
   ],
   "task_count": 29,
@@ -93,7 +93,7 @@
       },
       "avoid": {
         "slot": "perplexity/sonar-pro",
-        "note": "no visible CoT"
+        "note": "no visible chain of thought"
       },
       "section_anchor": "Task: <task description>"
     },
@@ -130,7 +130,7 @@
       "section_anchor": "Task: <task description>"
     },
     {
-      "task": "Multi-step tool planning (MCP)",
+      "task": "Multi-step tool planning (Model Context Protocol; MCP)",
       "primary": {
         "slot": "anthropic/claude-opus-4-7",
         "note": "MCP-Atlas 77.3%"
@@ -258,7 +258,7 @@
       "section_anchor": "Task: <task description>"
     },
     {
-      "task": "Vision: document / screenshot OCR",
+      "task": "Vision: document / screenshot optical character recognition (OCR)",
       "primary": {
         "slot": "google/gemini-3.6-flash",
         "note": "MMMU-Pro 81.2%"
@@ -274,7 +274,7 @@
       "section_anchor": "Task: <task description>"
     },
     {
-      "task": "Audio: native dialogue (A2A)",
+      "task": "Audio: native audio-to-audio dialogue (A2A)",
       "primary": {
         "slot": "google/gemini-3.1-pro",
         "note": "8.4hr audio"
@@ -300,7 +300,7 @@
         "note": null
       },
       "avoid": {
-        "slot": "(none — all others lack video API)",
+        "slot": "(none; all others lack video API)",
         "note": null
       },
       "section_anchor": "Task: <task description>"
@@ -354,7 +354,7 @@
       "section_anchor": "Task: <task description>"
     },
     {
-      "task": "Structured output / JSON schema",
+      "task": "Structured output / JavaScript Object Notation (JSON) schema",
       "primary": {
         "slot": "anthropic/claude-sonnet-4-6",
         "note": "strict grammar"
@@ -365,7 +365,7 @@
       },
       "avoid": {
         "slot": "perplexity/sonar-reasoning-pro",
-        "note": "native `response_format` IS supported, but recursive schemas are NOT supported; community reports of intermittent instability — monitor"
+        "note": "native `response_format` is supported, but recursive schemas are not supported; community reports of intermittent instability, so monitor it"
       },
       "section_anchor": "Task: <task description>"
     },

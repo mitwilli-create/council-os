@@ -59,6 +59,8 @@ Every chunk file MUST begin with this YAML frontmatter:
 ---
 provider: anthropic                        # provider directory
 model: claude-opus-4-7                     # version slug
+canonical_slot: null                       # optional provider:slot routing name when it differs from the stable profile ID
+resolved_api_model: null                   # optional current API model returned for that canonical slot
 capability: tool-use                       # axis from above
 chunk_id: 11-tool-use                      # NN-capability
 last_research_round: 0                     # integer 0..4

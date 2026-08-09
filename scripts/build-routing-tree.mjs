@@ -34,7 +34,7 @@
  * }
  *
  * Usage:
- *   node ~/Documents/council-os/scripts/build-routing-tree.mjs
+ *   node scripts/build-routing-tree.mjs
  *
  * The researcher agent should call this BEFORE attempting any routing decision.
  * If routing-tree.json is older than 30 days OR routing-rules.md mtime is
@@ -43,8 +43,10 @@
 
 import { readFileSync, writeFileSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const KB_DIR = '/Users/mitchellwilliams/Documents/council-os';
+const KB_DIR = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ROUTING_RULES = `${KB_DIR}/routing-rules.md`;
 const TAXONOMY = `${KB_DIR}/taxonomy.md`;
 const OUT = `${KB_DIR}/routing-tree.json`;

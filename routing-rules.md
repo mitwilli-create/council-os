@@ -14,8 +14,8 @@ need to pick the right model for a specific job.
 
 Provider choice is task-specific, but a frontier task must not stop merely
 because its first seat is unavailable. Advance automatically through Claude
-subscription models, ChatGPT/OpenAI subscription models through Codex CLI,
-Antigravity/Gemini subscription, Grok subscription, then API compatibility
+subscription models, ChatGPT/OpenAI subscription models through Codex command-line interface (CLI),
+Antigravity/Gemini subscription, Grok subscription, then application programming interface (API) compatibility
 fallbacks. Quota, plan-limit, credential, timeout,
 circuit, unavailable-provider, and malformed-response failures advance.
 Policy, privacy, input, authorization, and uncertain mid-edit failures
@@ -50,15 +50,16 @@ When two models are within noise on the headline metric, route on cost. When
 named benchmarks are absent, that is called out explicitly with "no clear
 winner — pick by cost" so the caller knows the choice is heuristic.
 
-### Current Gemini slots (verified 2026-08-08)
+### Current Gemini profiles and provider slots (verified 2026-08-08)
 
-Use `google/gemini-3.1-pro` for strategic, hiring-manager, and other
-high-intelligence work. It resolves to the official API model
-`gemini-3.1-pro-preview`. Use `google/gemini-3.6-flash` for stable Flash work;
-it resolves to `gemini-3.6-flash`. The older `google/gemini-3.1-pro`,
-`google/gemini-3.6-flash`, and `google/gemini-2.5-pro` names are compatibility
-labels, not current model identities. Every preflight, receipt, and log must
-record both `requested_slot` and `resolved_model`.
+Council profile IDs remain `google/gemini-3-1-pro` and
+`google/gemini-3-flash` so the converged research history and evidence links
+remain stable. Provider calls use the canonical slots
+`google:gemini-3.1-pro` and `google:gemini-3.6-flash`; they currently resolve
+to `gemini-3.1-pro-preview` and `gemini-3.6-flash`, respectively. Only older
+provider slots such as `google:gemini-2.5-pro` and `google:gemini-3-flash`
+are compatibility routes. Every preflight, receipt, and log must record both
+`requested_slot` and `resolved_model`.
 
 ---
 
@@ -70,10 +71,10 @@ record both `requested_slot` and `resolved_model`.
 | Quick factual lookup with citations | perplexity/sonar-pro | google/gemini-3.1-pro (native Search) | openai/gpt-5-3-chat-latest (no built-in web) |
 | Real-time X/Twitter signal | xai/grok-4-3 | xai/grok-4-20-multi-agent | all non-xAI models (no first-party x_search) |
 | Reddit scrape plus cited synthesis | Apify acquisition + perplexity/sonar-deep-research | xai/grok-4-20-multi-agent | model-only Reddit claims without a source receipt |
-| Multi-source reasoning + synthesis | perplexity/sonar-reasoning-pro | xai/grok-4-20-multi-agent | perplexity/sonar-pro (no visible CoT) |
+| Multi-source reasoning + synthesis | perplexity/sonar-reasoning-pro | xai/grok-4-20-multi-agent | perplexity/sonar-pro (no visible chain of thought) |
 | Hard math/logic reasoning | anthropic/claude-opus-4-7 | google/gemini-3.1-pro | perplexity/sonar-pro (no benchmarks) |
 | Budget-controlled reasoning (explicit token budget required) | anthropic/claude-sonnet-4-6 (budget_tokens + adaptive fallback) | anthropic/claude-haiku-4-5 (extended thinking, explicit budget) | anthropic/claude-opus-4-7 (`budget_tokens` returns **HTTP 400** — use `output_config.effort` instead, see migration note below) |
-| Multi-step tool planning (MCP) | anthropic/claude-opus-4-7 (MCP-Atlas 77.3%) | openai/gpt-5-5 (75.3%) | google/gemini-3.6-flash (no MCP confirmed) |
+| Multi-step tool planning (Model Context Protocol; MCP) | anthropic/claude-opus-4-7 (MCP-Atlas 77.3%) | openai/gpt-5-5 (75.3%) | google/gemini-3.6-flash (no MCP confirmed) |
 | Long-document / legal / financial analysis | anthropic/claude-sonnet-4-6 (1M / ~750k words) | google/gemini-3.1-pro | perplexity/sonar-reasoning-pro (128k) |
 | High-stakes single-response synthesis | anthropic/claude-opus-4-7 | google/gemini-3.1-pro | openai/gpt-5-3-chat-latest (Instant tier) |
 | Agentic coding (long-horizon, multi-file) | anthropic/claude-opus-4-7 (SWE-Pro 64.3%) | openai/gpt-5-5 | google/gemini-3.6-flash |
@@ -81,13 +82,13 @@ record both `requested_slot` and `resolved_model`.
 | Code review + debugging | anthropic/claude-opus-4-7 | openai/gpt-5-5 | perplexity/sonar-* family |
 | Large-codebase migration / refactor | anthropic/claude-opus-4-7 | openai/gpt-5-5 (Terminal-Bench 82.7%) | anthropic/claude-haiku-4-5 (200k cap) |
 | Vision: photo understanding | google/gemini-3.1-pro | anthropic/claude-opus-4-7 | perplexity/* (text-only API) |
-| Vision: document / screenshot OCR | google/gemini-3.6-flash (MMMU-Pro 81.2%) | anthropic/claude-opus-4-7 (DocVQA 93.0%) | perplexity/* (no vision API) |
-| Audio: native dialogue (A2A) | google/gemini-3.1-pro (8.4hr audio) | openai/gpt-5-5 (multimodal) | all Anthropic, Perplexity, xAI (no native audio) |
-| Video ≤5min (meeting summaries, demos, lectures, screencasts) | xai/grok-4-3 (native 5min/1080p mp4/mov/webm; per-frame token billing) | google/gemini-3.1-pro | (none — all others lack video API) |
+| Vision: document / screenshot optical character recognition (OCR) | google/gemini-3.6-flash (MMMU-Pro 81.2%) | anthropic/claude-opus-4-7 (DocVQA 93.0%) | perplexity/* (no vision API) |
+| Audio: native audio-to-audio dialogue (A2A) | google/gemini-3.1-pro (8.4hr audio) | openai/gpt-5-5 (multimodal) | all Anthropic, Perplexity, xAI (no native audio) |
+| Video ≤5min (meeting summaries, demos, lectures, screencasts) | xai/grok-4-3 (native 5min/1080p mp4/mov/webm; per-frame token billing) | google/gemini-3.1-pro | (none; all others lack video API) |
 | Video >5min (long interviews, lectures, full screencasts) | google/gemini-3.1-pro (1hr native + audio interleaving) | openai/gpt-5-5 | xai/grok-4-3 (5min cap exceeded) |
 | High-volume cheap factual queries | anthropic/claude-haiku-4-5 | google/gemini-3.6-flash | anthropic/claude-opus-4-7 (5x cost) |
 | Long-context (>200k tokens) | anthropic/claude-sonnet-4-6 (1M) | google/gemini-3.1-pro (1M, audio/video too) | anthropic/claude-haiku-4-5 (200k cap) |
-| Structured output / JSON schema | anthropic/claude-sonnet-4-6 (strict grammar) | openai/gpt-5-4 | perplexity/sonar-reasoning-pro (native `response_format` IS supported, but recursive schemas are NOT supported; community reports of intermittent instability — monitor) |
+| Structured output / JavaScript Object Notation (JSON) schema | anthropic/claude-sonnet-4-6 (strict grammar) | openai/gpt-5-4 | perplexity/sonar-reasoning-pro (native `response_format` is supported, but recursive schemas are not supported; community reports of intermittent instability, so monitor it) |
 | Cost-sensitive workloads (mini/nano) | anthropic/claude-haiku-4-5 | google/gemini-3.6-flash | anthropic/claude-opus-4-7 |
 | Browser / computer use | anthropic/claude-opus-4-7 (OSWorld 78.0%) | google/gemini-3.1-pro (browser-first) | perplexity/* (no native) |
 | Multi-agent parallel orchestration | xai/grok-4-20-multi-agent | (no peer offers single-API parallel agents) | xai/grok-4-3 (single-pass) |
@@ -118,7 +119,7 @@ record both `requested_slot` and `resolved_model`.
 - Evidence: [`models/perplexity/sonar-pro/research-rounds/round-2-self-research.md`](models/perplexity/sonar-pro/research-rounds/round-2-self-research.md) §§2.3, 3.1
 - Confidence: high
 
-**Backup:** `google/gemini-3.1-pro` — Native Google Search grounding integrated at model surface (no separate orchestration); $2/$12 ≤200k. Use when the lookup also needs Maps grounding or when the corpus is already on Vertex AI.
+**Backup:** `google/gemini-3.1-pro`. Native Google Search grounding is integrated at the model surface with no separate orchestration; $2/$12 ≤200k. Use when the lookup also needs Maps grounding or when the corpus is already on Vertex AI.
 
 **Avoid:** `openai/gpt-5-3-chat-latest` (no built-in web; would need an external fetch tool), and `anthropic/claude-*` (web_search exists but toggling it invalidates the system + messages cache, which makes ad-hoc lookups expensive in long sessions).
 
@@ -142,7 +143,7 @@ record both `requested_slot` and `resolved_model`.
 comment limits, retain the run receipt and direct Reddit URLs, and pass normalized public rows to
 the synthesis stage. The acquisition is not a model call and must never be represented as one.
 
-**Primary:** `perplexity/sonar-deep-research` — exhaustive, cited synthesis over the acquired Reddit
+**Primary:** `perplexity/sonar-deep-research` for exhaustive, cited synthesis over the acquired Reddit
 rows plus current web context. This is the preferred Perplexity deep-research path, not the older
 `sonar-reasoning-pro` Reddit shortcut.
 
@@ -186,7 +187,7 @@ coverage.
 - Evidence: [`models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md`](models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md) §§2 Reasoning, 5
 - Confidence: high (multiple cross-citations: Opus, Sonnet, GPT-5.5, Gemini profiles all corroborate the HLE ordering)
 
-**Backup:** `google/gemini-3.1-pro` — Wins GPQA Diamond at 94.3% vs. Opus 4.7's 94.2% (statistical tie). Route here when the task is science-heavy and you want a different family's bias. Gemini also leads ARC-AGI-2 at 77.1% among publicly available models.
+**Backup:** `google/gemini-3.1-pro`. It wins GPQA Diamond at 94.3% vs. Opus 4.7's 94.2% (statistical tie). Route here when the task is science-heavy and you want a different family's bias. Gemini also leads ARC-AGI-2 at 77.1% among publicly available models.
 
 **Avoid:** `perplexity/sonar-pro` and `sonar-reasoning-pro` (no published GPQA / AIME / MATH scores; benchable.ai puts the family below frontier peers). `anthropic/claude-sonnet-4-6` at no-thinking baseline drops to 74.1% GPQA — 1-in-4 wrong on graduate science is too high a floor for math/logic.
 
@@ -200,7 +201,7 @@ coverage.
 
 **Backup:** `openai/gpt-5-5` — 2-point gap is narrow; if the task has fewer than ~5 tools or is single-turn, Opus's MCP-Atlas lead shrinks and GPT-5.5's `phase` parameter + Responses API + Terminal-Bench strength (82.7%) makes it competitive.
 
-**Avoid:** `google/gemini-3.6-flash` (MCP support [UNKNOWN — would need verification]), `perplexity/sonar-*` (no first-party function calling / MCP), and `xai/grok-4-20-multi-agent` (no client-side function calling — only remote MCP, which means existing tool inventories require a migration tax).
+**Avoid:** `google/gemini-3.6-flash` (Model Context Protocol support is unknown and needs verification), `perplexity/sonar-*` (no first-party function calling or Model Context Protocol support), and `xai/grok-4-20-multi-agent` (no client-side function calling; only remote Model Context Protocol support, which means existing tool inventories require a migration tax).
 
 ---
 
@@ -210,7 +211,7 @@ coverage.
 - Evidence: [`models/anthropic/claude-sonnet-4-6/research-rounds/round-2-self-research.md`](models/anthropic/claude-sonnet-4-6/research-rounds/round-2-self-research.md) §2 Long context
 - Confidence: high (effective-context-per-token is a structural advantage)
 
-**Backup:** `google/gemini-3.1-pro` — Same 1M context plus native Google Search grounding for fact-checking citations in the document against current law/filings. Watch the >200k pricing tier doubling ($4/$18).
+**Backup:** `google/gemini-3.1-pro`. It has the same 1M context plus native Google Search grounding for fact-checking citations in the document against current law/filings. Watch the >200k pricing tier doubling ($4/$18).
 
 **Avoid:** `perplexity/sonar-reasoning-pro` (128k cap — smallest in Perplexity's paid Sonar lineup), and `anthropic/claude-haiku-4-5` (200k context cap rules out anything >50 pages).
 
@@ -222,7 +223,7 @@ coverage.
 - Evidence: [`models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md`](models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md) §§5, 7
 - Confidence: high
 
-**Backup:** `google/gemini-3.1-pro` — When the task benefits from Search grounding inside the synthesis. GPQA Diamond 94.3% vs. Opus 94.2% is a tie at the top.
+**Backup:** `google/gemini-3.1-pro` when the task benefits from Search grounding inside the synthesis. GPQA Diamond 94.3% vs. Opus 94.2% is a tie at the top.
 
 **Avoid:** `openai/gpt-5-3-chat-latest` (OpenAI's own docs say *do not use Instant family for production* — use GPT-5.5 instead), and any "mini/nano/haiku" tier on a single-shot high-stakes task.
 
@@ -238,7 +239,7 @@ coverage.
 
 **Backup:** `openai/gpt-5-5` — Terminal-Bench 2.0 82.7% vs. Opus 4.7 69.4% (13.3 pt gap). When the agent is unattended and runs as a long shell loop rather than an IDE-integrated session, GPT-5.5 wins. If the project is a Codex-style IDE agent specifically, `openai/gpt-5-3-codex` is the OpenAI-recommended sibling (per GPT-5.5's own profile §5).
 
-**Avoid:** `google/gemini-3.6-flash` (SWE-bench Verified 78% — meaningfully behind both leaders), and `perplexity/sonar-*` (no execution sandbox; not benchmarked on SWE-bench-class).
+**Avoid:** `google/gemini-3.6-flash` (SWE-bench Verified 78%, meaningfully behind both leaders), and `perplexity/sonar-*` (no execution sandbox; not benchmarked on SWE-bench-class).
 
 ---
 
@@ -282,8 +283,8 @@ coverage.
 
 ### Task: Vision — photo understanding
 
-**Primary:** `google/gemini-3.1-pro` — Native multimodal across text + images + audio + video in one model. Interleaves images and text natively; performs spatial mapping and OCR across multiple images simultaneously. The widest-coverage option for general photo understanding.
-- Evidence: [`models/google/gemini-3.1-pro/research-rounds/round-2-self-research.md`](models/google/gemini-3.1-pro/research-rounds/round-2-self-research.md) §2 Vision
+**Primary:** `google/gemini-3.1-pro`. It is natively multimodal across text, images, audio, and video in one model. It interleaves images and text natively and performs spatial mapping and optical character recognition across multiple images simultaneously. It has the widest coverage for general photo understanding.
+- Evidence: [`models/google/gemini-3-1-pro/research-rounds/round-2-self-research.md`](models/google/gemini-3-1-pro/research-rounds/round-2-self-research.md) §2 Vision
 - Confidence: high
 
 **Backup:** `anthropic/claude-opus-4-7` — DocVQA 93.0%; image input up to 2,576 px on the long edge (~3.75 MP per image, ~3× prior Claude models). Coordinates map 1:1 to pixels — important for any vision task that combines with computer use.
@@ -294,8 +295,8 @@ coverage.
 
 ### Task: Vision — document / screenshot OCR
 
-**Primary:** `google/gemini-3.6-flash` — MMMU-Pro 81.2% (Google's top vision score, edges out Gemini 3.1 Pro on this specific modality), with `media_resolution` parameter to balance cost and OCR accuracy at $0.50/$3.00.
-- Evidence: [`models/google/gemini-3.6-flash/research-rounds/round-2-self-research.md`](models/google/gemini-3.6-flash/research-rounds/round-2-self-research.md) §§2 Vision, 7
+**Primary:** `google/gemini-3.6-flash`. MMMU-Pro is 81.2% (Google's top vision score, edging out Gemini 3.1 Pro on this specific modality), with a `media_resolution` parameter to balance cost and optical character recognition accuracy at $0.50/$3.00.
+- Evidence: [`models/google/gemini-3-flash/research-rounds/round-2-self-research.md`](models/google/gemini-3-flash/research-rounds/round-2-self-research.md) §§2 Vision, 7
 - Confidence: high
 
 **Backup:** `anthropic/claude-opus-4-7` — DocVQA 93.0% on standard document images; MindStudio claims a 5–8 pt lead on 50+ page PDF split (single-source — treat as preliminary until Anthropic publishes first-party long-doc numbers). Use when the document is long-form (forensic PDF review) and OCR + reasoning need to happen in the same call.
@@ -306,8 +307,8 @@ coverage.
 
 ### Task: Audio — native dialogue (A2A)
 
-**Primary:** `google/gemini-3.1-pro` — Natively ingests up to 8.4 hours of audio in a single prompt; the audio is *inside* the 1M-token context window rather than transcribed-then-reasoned-over.
-- Evidence: [`models/google/gemini-3.1-pro/research-rounds/round-2-self-research.md`](models/google/gemini-3.1-pro/research-rounds/round-2-self-research.md) §2 Audio
+**Primary:** `google/gemini-3.1-pro`. It natively ingests up to 8.4 hours of audio in a single prompt; the audio is *inside* the 1M-token context window rather than transcribed and then reasoned over.
+- Evidence: [`models/google/gemini-3-1-pro/research-rounds/round-2-self-research.md`](models/google/gemini-3-1-pro/research-rounds/round-2-self-research.md) §2 Audio
 - Confidence: high (structural — peer audio is bolt-on)
 
 **Backup:** `openai/gpt-5-5` (paired with realtime siblings) — Per GPT-5.5's own profile, route native audio to `gpt-realtime-2`, `gpt-audio-1.5`, `gpt-realtime-translate`, or `gpt-realtime-whisper` rather than to base GPT-5.5. For sub-400ms bidirectional voice, `google/gemini-3-1-flash-live` is the named target.
@@ -318,8 +319,8 @@ coverage.
 
 ### Task: Video understanding
 
-**Primary:** `google/gemini-3.1-pro` — Up to 1 hour of video natively in the 1M context window. Video frames extracted at a fixed fps — does not interpret 60fps high-motion nuance cleanly.
-- Evidence: [`models/google/gemini-3.1-pro/research-rounds/round-2-self-research.md`](models/google/gemini-3.1-pro/research-rounds/round-2-self-research.md) §2 Audio
+**Primary:** `google/gemini-3.1-pro`. It handles up to 1 hour of video natively in the 1M context window. Video frames are extracted at a fixed frame rate, so it does not interpret 60-frames-per-second high-motion nuance cleanly.
+- Evidence: [`models/google/gemini-3-1-pro/research-rounds/round-2-self-research.md`](models/google/gemini-3-1-pro/research-rounds/round-2-self-research.md) §2 Audio
 - Confidence: high (only model in the lineup that explicitly takes video in)
 
 **Backup:** `openai/gpt-5-5` — Multimodal architecture unifies text/image/audio/video; specifics of video API surface are [UNKNOWN — would need current OpenAI video API docs] per GPT-5.5's own profile.
@@ -334,7 +335,7 @@ coverage.
 - Evidence: dealbreaker-v2 adjudication, primary-source confirmed
 - Confidence: high
 
-**Backup:** `google/gemini-3.1-pro` — Use when the video exceeds 5min OR when analysis must be interleaved with audio transcript reasoning.
+**Backup:** `google/gemini-3.1-pro`. Use it when the video exceeds 5 minutes or when analysis must be interleaved with audio transcript reasoning.
 
 **Avoid:** All Anthropic / Perplexity (no video API). `xai/grok-4-20-multi-agent` (multi-agent endpoint does not accept video input).
 
@@ -348,7 +349,7 @@ coverage.
 - Evidence: [`models/anthropic/claude-haiku-4-5/research-rounds/round-2-self-research.md`](models/anthropic/claude-haiku-4-5/research-rounds/round-2-self-research.md); [`models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md`](models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md) §5 (Haiku crossover)
 - Confidence: high
 
-**Backup:** `google/gemini-3.6-flash` — $0.50/$3.00 (cheaper input than Haiku, more expensive output). Use when the task is vision-heavy (Flash has the better MMMU-Pro score) or when the workload is already on Vertex.
+**Backup:** `google/gemini-3.6-flash` at $0.50/$3.00 (cheaper input than Haiku, more expensive output). Use it when the task is vision-heavy (Flash has the better MMMU-Pro score) or when the workload is already on Vertex.
 
 **Avoid:** `anthropic/claude-opus-4-7` (5× cost for marginal quality on bounded tasks), `xai/grok-4-20-multi-agent` (sub-agent multiplier on cheap queries is wasteful), and `perplexity/sonar-deep-research` (5 RPM cap, multi-second latency, $0.41 per illustrative query).
 
@@ -360,7 +361,7 @@ coverage.
 - Evidence: [`models/anthropic/claude-sonnet-4-6/research-rounds/round-2-self-research.md`](models/anthropic/claude-sonnet-4-6/research-rounds/round-2-self-research.md) §§2 Long context, 5
 - Confidence: high
 
-**Backup:** `google/gemini-3.1-pro` — Same 1M context plus native audio/video stream ingestion within the window. Use when the long context includes media, not just text. Watch the >200k pricing tier ($4/$18).
+**Backup:** `google/gemini-3.1-pro`. It has the same 1M context plus native audio/video stream ingestion within the window. Use it when the long context includes media, not just text. Watch the >200k pricing tier ($4/$18).
 
 **Avoid:** `anthropic/claude-haiku-4-5` (200k cap), `perplexity/sonar-reasoning-pro` (128k — smallest in Perplexity's paid lineup), and `openai/gpt-5-3-chat-latest` (128k context, 16k output cap — silently drops 272k of context if migrating from chat-latest's 400k window).
 
@@ -393,7 +394,7 @@ coverage.
 - Evidence: [`models/anthropic/claude-haiku-4-5/research-rounds/round-2-self-research.md`](models/anthropic/claude-haiku-4-5/research-rounds/round-2-self-research.md)
 - Confidence: high
 
-**Backup:** `google/gemini-3.6-flash` ($0.50/$3.00) or `google/gemini-3-1-flash-lite` ($0.25/$1.50) — Flash-Lite is 8× cheaper than Gemini 3.1 Pro on input and 8× cheaper on output, defaults to `minimal` thinking. Route here when scale exceeds ~100 calls/session and the task is bounded extraction.
+**Backup:** `google/gemini-3.6-flash` ($0.50/$3.00) or `google/gemini-3-1-flash-lite` ($0.25/$1.50). Flash-Lite is 8× cheaper than Gemini 3.1 Pro on input and 8× cheaper on output, and it defaults to `minimal` thinking. Route here when scale exceeds about 100 calls per session and the task is bounded extraction.
 
 **Avoid:** All "Pro" tier models for tasks that don't need them. `xai/grok-4-20-multi-agent` is the worst pick (the multi-agent overhead defeats the purpose of cheap workloads).
 
@@ -407,7 +408,7 @@ coverage.
 - Evidence: [`models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md`](models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md) §2 Agentic
 - Confidence: medium (Opus leads the verified comparison, but GPT-5.5 hasn't been measured)
 
-**Backup:** `google/gemini-3.1-pro` — Native Computer Use via the Gemini 2.5 migration path (`gemini-2.5-computer-use` routing). Browser-first optimization; documented as weaker than specialized agents on OS-level desktop manipulation. Use for web-form navigation specifically.
+**Backup:** `google/gemini-3.1-pro`. It provides native Computer Use through the Gemini 2.5 migration path (`gemini-2.5-computer-use` routing). It is optimized for browsers and documented as weaker than specialized agents on operating-system-level desktop manipulation. Use it for web-form navigation specifically.
 
 **Avoid:** `perplexity/sonar-*` (no native browser/OS control beyond their own web search), `xai/grok-*` (no native computer use), and `anthropic/claude-sonnet-4-6` (over-eager GUI completion is a documented failure mode — claims "email sent" when the send button is broken).
 
@@ -431,7 +432,7 @@ coverage.
 - Evidence: [`models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md`](models/anthropic/claude-opus-4-7/research-rounds/round-2-self-research.md) §§2 Tool use, 5
 - Confidence: high
 
-**Backup:** `google/gemini-3.1-pro` — When the orchestrator also needs Search grounding to fact-check peer outputs in flight, or when audio/video are part of the corpus the Council is reasoning over. ARC-AGI-2 lead (77.1%) also useful for abstraction-heavy adjudication.
+**Backup:** `google/gemini-3.1-pro` when the orchestrator also needs Search grounding to fact-check peer outputs in flight, or when audio/video are part of the corpus the Council is reasoning over. Its ARC-AGI-2 lead (77.1%) is also useful for abstraction-heavy adjudication.
 
 **Avoid:** Smaller/cheaper siblings (Haiku, Flash, mini, nano) as the lead — the orchestrator's reasoning quality bounds the Council's output ceiling. Also avoid `xai/grok-4-20-multi-agent` as the lead specifically (its no-client-side-function-calling constraint adds friction when the orchestrator needs to call arbitrary custom tools, not just remote MCP).
 
