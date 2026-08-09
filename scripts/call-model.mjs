@@ -2,9 +2,9 @@
 /**
  * call-model.mjs — thin CLI wrapper around career-ops/lib/council.mjs
  *
- * Calls a single LLM via the council infrastructure (which handles auto-
- * escalation of retired model IDs, refusal retry, and provider-specific
- * client semantics). Writes the response to a file and prints usage to stdout.
+ * Calls a single LLM via the council infrastructure (which handles model-slot
+ * resolution, refusal retry, and provider-specific client semantics). Writes
+ * the response to a file and prints requested/resolved provenance to stdout.
  *
  * Usage:
  *   node call-model.mjs --model <slug> --prompt-file <path> --out-file <path> [--system-file <path>] [--temperature <n>]
@@ -25,10 +25,13 @@
  * Model slugs (passed through to lib/council.mjs PROVIDERS):
  *   anthropic:claude-opus-4-7
  *   openai:gpt-5
- *   google:gemini-2.5-pro     (auto-escalates to gemini-3.1-pro-preview)
+ *   google:gemini-3.1-pro     (resolves to gemini-3.1-pro-preview)
+ *   google:gemini-3.6-flash   (stable Flash)
+ *   google:gemini-2.5-pro     (COMPATIBILITY SLOT; resolves to current Pro)
  *   xai:grok-4                (auto-escalates to grok-4.3)
  *   xai:grok-4-x-search
  *   xai:grok-4-fast-reasoning
+ *   xai:grok-4-20-multi-agent  (high reasoning-effort = 16-agent research mode)
  *   perplexity:sonar-deep-research
  *   perplexity:sonar-reasoning-pro
  *
@@ -43,6 +46,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { callCouncil } from '/Users/mitchellwilliams/Documents/career-ops/lib/council.mjs';
+import { getRedditLimits } from '/Users/mitchellwilliams/Documents/career-ops/lib/reddit-budget.mjs';
 
 // Inline .env loader — avoids needing dotenv in council-os/node_modules.
 // override:true mirrors career-ops memory rule (shell pre-sets ANTHROPIC key
@@ -91,11 +95,12 @@ async function main() {
     'reasoning-effort': reasoningEffort,
     'thinking-level': thinkingLevel,
     'timeout-ms': timeoutMs,
+    'task-type': taskType,
     grounded,
   } = args;
 
   if (!model || !promptFile || !outFile) {
-    console.error('Usage: node call-model.mjs --model <slug> --prompt-file <path> --out-file <path> [--system-file <path>] [--temperature <n>] [--max-tokens <n>] [--reasoning-effort low|medium|high|xhigh] [--thinking-level minimal|low|medium|high] [--grounded true|false]');
+    console.error('Usage: node call-model.mjs --model <slug> --prompt-file <path> --out-file <path> [--system-file <path>] [--temperature <n>] [--max-tokens <n>] [--reasoning-effort low|medium|high|xhigh] [--thinking-level minimal|low|medium|high] [--task-type <archetype>] [--grounded true|false]');
     process.exit(1);
   }
 
@@ -105,6 +110,12 @@ async function main() {
   }
 
   const prompt = readFileSync(promptFile, 'utf-8');
+  const effectiveTaskType = taskType || (/\b(?:reddit|subreddit|community\s+posts?|reddit\s+scrape)\b/i.test(prompt)
+    ? 'reddit_scrape_synthesis'
+    : undefined);
+  const effectiveMaxTokens = effectiveTaskType === 'reddit_scrape_synthesis'
+    ? Math.min(maxTokens === undefined ? getRedditLimits().maxOutputTokens : Number(maxTokens), getRedditLimits().maxOutputTokens)
+    : maxTokens;
   const systemPrompt = systemFile && existsSync(systemFile)
     ? readFileSync(systemFile, 'utf-8')
     : undefined;
@@ -112,10 +123,11 @@ async function main() {
   const opts = {};
   if (systemPrompt !== undefined) opts.systemPrompt = systemPrompt;
   if (temperature !== undefined) opts.temperature = Number(temperature);
-  if (maxTokens !== undefined) opts.maxTokens = Number(maxTokens);
+  if (effectiveMaxTokens !== undefined) opts.maxTokens = Number(effectiveMaxTokens);
   if (reasoningEffort !== undefined) opts.reasoningEffort = reasoningEffort;
   if (thinkingLevel !== undefined) opts.thinkingLevel = thinkingLevel;
   if (timeoutMs !== undefined) opts.timeoutMs = Number(timeoutMs);
+  if (effectiveTaskType !== undefined) opts.taskType = effectiveTaskType;
   if (grounded !== undefined) opts.grounded = grounded !== 'false';
 
   console.error(`[call-model] calling ${model}...`);
@@ -164,9 +176,13 @@ async function main() {
 
   // Report usage
   const elapsed = Date.now() - t0;
+  const requestedSlot = r.requestedSlot || r.model;
+  const resolvedModel = r.resolvedModel || r.modelUsed || null;
   const usage = {
-    model_requested: r.model,
-    model_used: r.modelUsed || r.model,
+    model_requested: requestedSlot,
+    model_used: resolvedModel,
+    requested_slot: requestedSlot,
+    resolved_model: resolvedModel,
     tokens: r.tokens || {},
     citations_count: r.citations ? r.citations.length : 0,
     elapsed_ms: elapsed,
@@ -186,8 +202,8 @@ async function main() {
     appendCostLogRow({
       date: new Date().toISOString().slice(0, 10),
       phase: process.env.COUNCIL_OS_PHASE || 'researcher',
-      modelRequested: r.model,
-      modelUsed: r.modelUsed || r.model,
+      modelRequested: requestedSlot,
+      modelUsed: resolvedModel,
       tokens: typeof r.tokens === 'number' ? r.tokens : (r.tokens?.total_tokens ?? 0),
       contentChars: r.content.length,
       elapsedMs: elapsed,
@@ -220,8 +236,12 @@ function appendCostLogRow({ date, phase, modelRequested, modelUsed, tokens, cont
     'openai:gpt-5-4':            5,
     'openai:gpt-5-3-chat-latest': 3,          // Instant tier
     // Google per-model (source: ai.google.dev/pricing)
-    'google:gemini-2.5-pro':     5,           // gemini-3.1-pro-preview ~$2/$10 blended
-    'google:gemini-3-flash':     1.5,         // ~$0.50/$3.00 blended
+    'google:gemini-3.1-pro':     7,           // current Gemini 3.1 Pro Preview, ~$2/$12 blended
+    'google:gemini-3.6-flash':   1.5,         // current stable Flash
+    // Compatibility slots. They resolve through career-ops' canonical
+    // Gemini resolver; keep rates for historical cost rows and audits.
+    'google:gemini-2.5-pro':     5,
+    'google:gemini-3-flash':     1.5,
     'google:gemini-3-1-flash-lite': 0.6,      // $0.25/$1.50 blended
     // xAI per-model
     'xai:grok-4':                3,           // grok-4.3 ~$1.25/$2.50 blended

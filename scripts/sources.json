@@ -109,16 +109,30 @@
         {"url": "https://ai.google.dev/gemini-api/docs/live-api/best-practices", "purpose": "live-api-best-practices"}
       ],
       "models": {
-        "gemini-3-1-pro": {
-          "display_name": "Gemini 3.1 Pro",
+        "gemini-3.1-pro": {
+          "display_name": "Gemini 3.1 Pro Preview",
           "api_model_id": "gemini-3.1-pro-preview",
-          "positioning": "complex tasks, broad world knowledge, advanced multimodal reasoning",
+          "positioning": "current high-intelligence strategic route; complex tasks, broad world knowledge, advanced multimodal reasoning",
           "thinking_levels": ["off", "default", "max"]
         },
+        "gemini-3.6-flash": {
+          "display_name": "Gemini 3.6 Flash",
+          "api_model_id": "gemini-3.6-flash",
+          "positioning": "current stable Flash route"
+        },
+        "gemini-3-1-pro": {
+          "display_name": "Gemini 3.1 Pro (compatibility slot)",
+          "api_model_id": "gemini-3.1-pro-preview",
+          "resolves_to": "gemini-3.1-pro",
+          "compatibility_slot": true,
+          "positioning": "legacy spelling retained for older routing documents"
+        },
         "gemini-3-flash": {
-          "display_name": "Gemini 3 Flash",
-          "api_model_id": "gemini-3-flash",
-          "positioning": "Pro-level intelligence at Flash speed and pricing"
+          "display_name": "Gemini 3 Flash (compatibility slot)",
+          "api_model_id": "gemini-3.6-flash",
+          "resolves_to": "gemini-3.6-flash",
+          "compatibility_slot": true,
+          "positioning": "legacy slot retained for older routing documents"
         },
         "gemini-3-1-flash-lite": {
           "display_name": "Gemini 3.1 Flash-Lite",
@@ -182,8 +196,12 @@
         "grok-4-20-multi-agent": {
           "display_name": "Grok 4.20 Multi-Agent",
           "api_model_id": "grok-4.20-multi-agent-0309",
-          "positioning": "multi-agent collaboration variant",
-          "context_window": 2000000
+          "aliases": ["grok-4.20-multi-agent", "grok-4.20-multi-agent-latest"],
+          "positioning": "heavy multi-agent research and social corroboration",
+          "context_window": 1000000,
+          "pricing": {"input_per_1m": 1.25, "output_per_1m": 2.50, "currency": "USD"},
+          "built_in_tools": ["web_search", "x_search"],
+          "reasoning_effort": {"low_or_medium": "4 agents", "high_or_xhigh": "16 agents"}
         },
         "grok-3": {
           "display_name": "Grok 3",
