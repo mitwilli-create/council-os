@@ -4,7 +4,7 @@ model: sonar-deep-research
 capability: ideal-tasks
 chunk_id: 43-ideal-tasks
 last_research_round: 3
-last_updated: 2026-05-17
+last_updated: 2026-08-08
 verified_by_dealbreaker: false
 source_authority: self_research
 confidence: medium
@@ -35,6 +35,8 @@ peer_comparisons:
 4. **Cross-disciplinary synthesis** — "How have advances in reinforcement learning influenced modern recommender systems and online advertising?" Tasks requiring coherent weaving of knowledge from multiple domains where web-sourced material is rich.
 
 5. **Educational explainers with source references** — "Beginner guide to zk-SNARKs with links to foundational papers and tutorials." SDR surfaces varied resources while providing coherent explanations.
+
+**Operational Reddit routing boundary (verified 2026-08-08):** Use Sonar Deep Research to synthesize normalized public Reddit rows only after a bounded acquisition layer such as Apify has produced the source receipt and direct post URLs. The model must not claim that it performed the acquisition. Callers activate the spend guard only with the explicit `reddit_scrape_synthesis` task type; prompt wording never activates that policy implicitly.
 
 **Sibling crossover guidance (Sonar Pro vs. SDR — centerpiece decision for Perplexity users):**
 - Use Sonar Pro if: moderate search depth is sufficient, user wants results in seconds, cost sensitivity exists, or the task is document Q&A on user-supplied content.

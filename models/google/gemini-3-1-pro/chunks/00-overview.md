@@ -1,10 +1,12 @@
 ---
 provider: google
 model: gemini-3-1-pro
+canonical_slot: google:gemini-3.1-pro
+resolved_api_model: gemini-3.1-pro-preview
 capability: overview
 chunk_id: 00-overview
 last_research_round: 2
-last_updated: 2026-05-17
+last_updated: 2026-08-08
 verified_by_dealbreaker: true
 source_authority: dealbreaker_verified
 confidence: high
@@ -31,10 +33,11 @@ peer_comparisons:
     note: "8× more expensive but significantly higher reasoning capability; minimal thinking tier not available."
 ---
 
-**Summary** — Gemini 3.1 Pro is Google DeepMind's top general-purpose model in the Gemini 3 series, released February 19, 2026. It targets deep reasoning, long-context retrieval, and multi-step tool orchestration. It occupies the premium tier in the Gemini 3 family and is the only sibling that defaults to `high` thinking and does not support `minimal` thinking mode at all.
+**Summary:** Gemini 3.1 Pro is Google DeepMind's top general-purpose model in the Gemini 3 series, released February 19, 2026. Council OS keeps `gemini-3-1-pro` as the stable profile ID. Provider calls use the canonical slot `google:gemini-3.1-pro`, which currently resolves to `gemini-3.1-pro-preview`. The model targets deep reasoning, long-context retrieval, and multi-step tool orchestration. It occupies the premium tier in the Gemini 3 family and is the only sibling that defaults to `high` thinking and does not support `minimal` thinking mode at all.
 
 **Specifics:**
-- Official API model ID: `gemini-3.1-pro-preview`. The `-preview` suffix signals a forthcoming stable GA version. `[INFERRED]` (Source: profile Section 8)
+- Stable Council profile ID: `gemini-3-1-pro`. Canonical provider slot: `google:gemini-3.1-pro`. Resolved application programming interface (API) model: `gemini-3.1-pro-preview`. (Provider routing contract verified 2026-08-08.)
+- The `-preview` suffix signals a forthcoming stable generally available version. `[INFERRED]` (Source: profile Section 8)
 - Predecessor: Gemini 3 Pro, officially shut down March 9, 2026 — rapid succession cycle (< 3 weeks between deprecation and new release). (Source: profile Section 8)
 - Positioning: Google positions this model strictly for heavy abstract reasoning, long-context ingestion, and multi-step tool orchestration — not as a general-purpose chat model. Roughly 80% of standard tasks should route to cheaper Gemini siblings. (Source: profile Section 5)
 - Multimodal by default: natively handles text, image, audio (up to 8.4 hours), and video (up to 1 hour) within a 1M token context window. (Source: profile Section 2)

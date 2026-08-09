@@ -2,9 +2,9 @@
 /**
  * call-model.mjs — thin CLI wrapper around career-ops/lib/council.mjs
  *
- * Calls a single LLM via the council infrastructure (which handles auto-
- * escalation of retired model IDs, refusal retry, and provider-specific
- * client semantics). Writes the response to a file and prints usage to stdout.
+ * Calls a single LLM via the council infrastructure (which handles model-slot
+ * resolution, refusal retry, and provider-specific client semantics). Writes
+ * the response to a file and prints requested/resolved provenance to stdout.
  *
  * Usage:
  *   node call-model.mjs --model <slug> --prompt-file <path> --out-file <path> [--system-file <path>] [--temperature <n>]
@@ -25,10 +25,13 @@
  * Model slugs (passed through to lib/council.mjs PROVIDERS):
  *   anthropic:claude-opus-4-7
  *   openai:gpt-5
- *   google:gemini-2.5-pro     (auto-escalates to gemini-3.1-pro-preview)
+ *   google:gemini-3.1-pro     (resolves to gemini-3.1-pro-preview)
+ *   google:gemini-3.6-flash   (stable Flash)
+ *   google:gemini-2.5-pro     (COMPATIBILITY SLOT; resolves to current Pro)
  *   xai:grok-4                (auto-escalates to grok-4.3)
  *   xai:grok-4-x-search
  *   xai:grok-4-fast-reasoning
+ *   xai:grok-4-20-multi-agent  (high reasoning-effort = 16-agent research mode)
  *   perplexity:sonar-deep-research
  *   perplexity:sonar-reasoning-pro
  *
@@ -41,8 +44,20 @@
  */
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
-import { callCouncil } from '/Users/mitchellwilliams/Documents/career-ops/lib/council.mjs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+import {
+  buildCallPolicy,
+  estimateCostUsd,
+  REDDIT_TASK_TYPE,
+  resolveModelProvenance,
+} from './call-model-policy.mjs';
+
+const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const CAREER_OPS_ROOT = resolve(
+  process.env.CAREER_OPS_ROOT || join(REPO_ROOT, '..', 'career-ops'),
+);
 
 // Inline .env loader — avoids needing dotenv in council-os/node_modules.
 // override:true mirrors career-ops memory rule (shell pre-sets ANTHROPIC key
@@ -63,7 +78,17 @@ function loadEnv(path) {
   }
 }
 
-loadEnv('/Users/mitchellwilliams/Documents/career-ops/.env');
+loadEnv(join(CAREER_OPS_ROOT, '.env'));
+
+async function loadCareerModules({ needsRedditLimits }) {
+  const councilUrl = pathToFileURL(join(CAREER_OPS_ROOT, 'lib', 'council.mjs')).href;
+  const { callCouncil } = await import(councilUrl);
+  if (!needsRedditLimits) return { callCouncil, getRedditLimits: null };
+
+  const redditUrl = pathToFileURL(join(CAREER_OPS_ROOT, 'lib', 'reddit-budget.mjs')).href;
+  const { getRedditLimits } = await import(redditUrl);
+  return { callCouncil, getRedditLimits };
+}
 
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -91,11 +116,12 @@ async function main() {
     'reasoning-effort': reasoningEffort,
     'thinking-level': thinkingLevel,
     'timeout-ms': timeoutMs,
+    'task-type': taskType,
     grounded,
   } = args;
 
   if (!model || !promptFile || !outFile) {
-    console.error('Usage: node call-model.mjs --model <slug> --prompt-file <path> --out-file <path> [--system-file <path>] [--temperature <n>] [--max-tokens <n>] [--reasoning-effort low|medium|high|xhigh] [--thinking-level minimal|low|medium|high] [--grounded true|false]');
+    console.error('Usage: node call-model.mjs --model <slug> --prompt-file <path> --out-file <path> [--system-file <path>] [--temperature <n>] [--max-tokens <n>] [--reasoning-effort low|medium|high|xhigh] [--thinking-level minimal|low|medium|high] [--task-type <archetype>] [--grounded true|false]');
     process.exit(1);
   }
 
@@ -105,6 +131,14 @@ async function main() {
   }
 
   const prompt = readFileSync(promptFile, 'utf-8');
+  const needsRedditLimits = typeof taskType === 'string'
+    && taskType.trim() === REDDIT_TASK_TYPE;
+  const { callCouncil, getRedditLimits } = await loadCareerModules({ needsRedditLimits });
+  const callPolicy = buildCallPolicy({
+    taskType,
+    maxTokens,
+    redditLimits: getRedditLimits?.(),
+  });
   const systemPrompt = systemFile && existsSync(systemFile)
     ? readFileSync(systemFile, 'utf-8')
     : undefined;
@@ -112,10 +146,11 @@ async function main() {
   const opts = {};
   if (systemPrompt !== undefined) opts.systemPrompt = systemPrompt;
   if (temperature !== undefined) opts.temperature = Number(temperature);
-  if (maxTokens !== undefined) opts.maxTokens = Number(maxTokens);
+  if (callPolicy.maxTokens !== undefined) opts.maxTokens = callPolicy.maxTokens;
   if (reasoningEffort !== undefined) opts.reasoningEffort = reasoningEffort;
   if (thinkingLevel !== undefined) opts.thinkingLevel = thinkingLevel;
   if (timeoutMs !== undefined) opts.timeoutMs = Number(timeoutMs);
+  if (callPolicy.taskType !== undefined) opts.taskType = callPolicy.taskType;
   if (grounded !== undefined) opts.grounded = grounded !== 'false';
 
   console.error(`[call-model] calling ${model}...`);
@@ -164,9 +199,15 @@ async function main() {
 
   // Report usage
   const elapsed = Date.now() - t0;
+  const { requestedSlot, resolvedModel } = resolveModelProvenance({
+    requestedModel: model,
+    result: r,
+  });
   const usage = {
-    model_requested: r.model,
-    model_used: r.modelUsed || r.model,
+    model_requested: requestedSlot,
+    model_used: resolvedModel,
+    requested_slot: requestedSlot,
+    resolved_model: resolvedModel,
     tokens: r.tokens || {},
     citations_count: r.citations ? r.citations.length : 0,
     elapsed_ms: elapsed,
@@ -186,8 +227,8 @@ async function main() {
     appendCostLogRow({
       date: new Date().toISOString().slice(0, 10),
       phase: process.env.COUNCIL_OS_PHASE || 'researcher',
-      modelRequested: r.model,
-      modelUsed: r.modelUsed || r.model,
+      modelRequested: requestedSlot,
+      modelUsed: resolvedModel,
       tokens: typeof r.tokens === 'number' ? r.tokens : (r.tokens?.total_tokens ?? 0),
       contentChars: r.content.length,
       elapsedMs: elapsed,
@@ -201,50 +242,14 @@ async function main() {
 }
 
 function appendCostLogRow({ date, phase, modelRequested, modelUsed, tokens, contentChars, elapsedMs, outFile }) {
-  const costLogPath = '/Users/mitchellwilliams/Documents/council-os/COST_LOG.md';
+  const costLogPath = join(REPO_ROOT, 'COST_LOG.md');
   if (!existsSync(costLogPath)) return; // silently skip if file missing
 
-  // Per-model rate estimate. Updated 2026-05-18 (meta-audit v2 P0 #2) — the
-  // prior flat per-provider rates ($15 for all Anthropic) were misleading once
-  // Mythos Preview ($25/$125, 5× Opus) was confirmed and Opus 4.7's 1.0-1.35×
-  // tokenizer inflation was verified. Rates below are ~70/30 input/output
-  // blended, in $/1M tokens. Exact attribution: provider billing dashboards.
-  const ratesPerM = {
-    // Anthropic per-model (source: platform.claude.com/docs/en/docs/about-claude/models + Project Glasswing pricing via llm-stats.com)
-    'anthropic:claude-mythos-preview': 55,    // $25/$125 → ~55 blended; Glasswing partners only
-    'anthropic:claude-opus-4-7':       15,    // $5/$25 → ~11 blended, +tokenizer inflation 1.0-1.35× → 15
-    'anthropic:claude-sonnet-4-6':      6.6,  // $3/$15 → ~6.6 blended
-    'anthropic:claude-haiku-4-5':       2.2,  // $1/$5  → ~2.2 blended
-    // OpenAI per-model (source: openai.com/pricing)
-    'openai:gpt-5':              7,           // gpt-5.5 ~$5/$15 blended
-    'openai:gpt-5-4':            5,
-    'openai:gpt-5-3-chat-latest': 3,          // Instant tier
-    // Google per-model (source: ai.google.dev/pricing)
-    'google:gemini-2.5-pro':     5,           // gemini-3.1-pro-preview ~$2/$10 blended
-    'google:gemini-3-flash':     1.5,         // ~$0.50/$3.00 blended
-    'google:gemini-3-1-flash-lite': 0.6,      // $0.25/$1.50 blended
-    // xAI per-model
-    'xai:grok-4':                3,           // grok-4.3 ~$1.25/$2.50 blended
-    'xai:grok-4-x-search':       2,
-    'xai:grok-4-20-multi-agent': 4,           // multi-agent sub-agent multiplier
-    'xai:grok-3-mini':           0.4,
-    // Perplexity per-model
-    'perplexity:sonar-pro':              7,   // $3/$15 blended
-    'perplexity:sonar-reasoning-pro':    3,   // $1/$5 + $3/M reasoning tokens
-    'perplexity:sonar-deep-research':    5,   // $2/$8 + citation tokens
-    'perplexity:sonar':                  1,
-    // Provider-fallback rates (used if slot not in table above)
-    'anthropic': 6.6,   // default to Sonnet-equivalent
-    'openai':    5,
-    'google':    3,
-    'xai':       2,
-    'perplexity': 4,
-  };
-  // Try exact slot first, then provider fallback, then unknown-rate sentinel.
-  const exactRate = ratesPerM[modelRequested];
-  const provider = (modelRequested || '').split(':')[0] || 'unknown';
-  const rateUsd = exactRate ?? ratesPerM[provider] ?? 5;
-  const estCostUsd = (tokens * rateUsd / 1_000_000).toFixed(4);
+  const estCostUsd = estimateCostUsd({
+    requestedSlot: modelRequested,
+    resolvedModel: modelUsed,
+    tokens,
+  });
 
   const row = `| ${date} | ${phase} | ${modelRequested} → ${modelUsed} | call-model.mjs | ~$${estCostUsd} | ${tokens} tok, ${contentChars} chars out, ${elapsedMs}ms → ${outFile.split('/').slice(-3).join('/')} |\n`;
 

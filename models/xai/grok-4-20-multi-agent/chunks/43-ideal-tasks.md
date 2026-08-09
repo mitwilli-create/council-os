@@ -4,7 +4,7 @@ model: grok-4.20-multi-agent
 capability: ideal-tasks
 chunk_id: 43-ideal-tasks
 last_research_round: 2
-last_updated: 2026-05-17
+last_updated: 2026-08-08
 verified_by_dealbreaker: true
 source_authority: dealbreaker_verified
 confidence: high
@@ -45,6 +45,8 @@ Task 4 — Agentic synthesis where single-API parallel orchestration (4/16 agent
 Task 5 — Hard research questions where the cost of external scaffolding on peers exceeds the Multi-Agent token multiplier:
 - Breakeven: if replicating parallel-agent debate on Claude/GPT-5.5/Gemini externally costs more in engineering + compute than paying the 2-16x multiplier, Grok 4.20 MA wins on total cost.
 - This is task-specific; most tasks do not meet this threshold.
+
+**Operational Reddit corroboration boundary (verified 2026-08-08):** Use the high-reasoning 16-agent mode only to corroborate already acquired public Reddit rows when current X or wider social context materially helps. Preserve the requested slot and resolved model in the receipt. This is a corroboration leg, not a substitute for the acquisition receipt.
 
 **Compared to peers (sharpened by Dealbreaker):**
 - vs. xai/grok-4-3: Grok 4.20 MA is preferred over Grok 4.3 ONLY for these 5 task types. Outside this list, Grok 4.3 is the better xAI model.

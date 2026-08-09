@@ -1,10 +1,12 @@
 ---
 provider: google
 model: gemini-3-flash
+canonical_slot: google:gemini-3.6-flash
+resolved_api_model: gemini-3.6-flash
 capability: overview
 chunk_id: 00-overview
 last_research_round: 2
-last_updated: 2026-05-17
+last_updated: 2026-08-08
 verified_by_dealbreaker: true
 source_authority: dealbreaker_verified
 confidence: high
@@ -28,10 +30,11 @@ peer_comparisons:
     note: "Flash-Lite is 50% cheaper but defaults to minimal thinking; Flash supports full 4-stage thinking_level ladder"
 ---
 
-**Summary** — Gemini 3 Flash (`gemini-3-flash-preview`) is Google's flagship efficiency model for the Gemini 3 series, released December 17, 2025. Its official positioning is "Pro-level intelligence at the speed and pricing of Flash" — meaning it targets workloads that previously required Gemini 3.1 Pro quality but cannot absorb Pro-tier cost. It succeeds Gemini 2.5 Flash and sits between Flash-Lite (50% cheaper, minimal reasoning) and Gemini 3.1 Pro (4–8x more expensive, highest accuracy) in the Google model lineup.
+**Summary:** Gemini 3 Flash (`gemini-3-flash-preview`) is the researched model represented by the stable Council OS profile ID `gemini-3-flash`. Current provider calls use the canonical slot `google:gemini-3.6-flash`, which resolves to `gemini-3.6-flash`; the profile ID remains stable so its converged research history and links do not break. The researched model was released December 17, 2025 and was positioned as "Pro-level intelligence at the speed and pricing of Flash." It targets workloads that previously required Gemini 3.1 Pro quality but cannot absorb Pro-tier cost.
 
 **Specifics:**
-- Official API model ID: `gemini-3-flash-preview`. (Source: `_official-gemini-3-api.md`)
+- Stable Council profile ID: `gemini-3-flash`. Canonical provider slot: `google:gemini-3.6-flash`. Resolved application programming interface (API) model: `gemini-3.6-flash`. (Provider routing contract verified 2026-08-08.)
+- Research-round API model ID: `gemini-3-flash-preview`. (Source: `_official-gemini-3-api.md`)
 - Developer: Google. Release date: December 17, 2025. (Source: [Simon Willison](https://simonwillison.net/2025/Dec/17/gemini-3-flash/))
 - Predecessor: Gemini 2.5 Flash. (`_official-models-overview.md` line 26)
 - Provider positioning: "Pro-level intelligence at the speed and pricing of Flash" and "Frontier-class performance at a fraction of typical costs." (`_official-gemini-3-api.md` line 67)
