@@ -405,3 +405,5 @@ researcher/call-model.mjs hooks.
 | 2026-08-07 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0700 | 34988 tok, 7350 chars out, 35267ms → runs/researcher-20260807-155900/round-1-xai-grok-4-x-search.md |
 | 2026-08-07 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0099 | 3297 tok, 9878 chars out, 60240ms → runs/researcher-20260807-155900/round-1-perplexity-sonar-reasoning-pro.md |
 | 2026-08-07 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0057 | 1914 tok, 5382 chars out, 171516ms → runs/researcher-20260807-155900/round-1-perplexity-sonar-reasoning-pro-followup.md |
+| 2026-08-11 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0378 | 7554 tok, 37198 chars out, 129704ms → private/tmp/career-ops-apply-pack-research-perplexity.out.md |
+| 2026-08-11 | researcher | xai:grok-4-20-multi-agent → grok-4.20-multi-agent | call-model.mjs | ~$4.9351 | 1233786 tok, 11469 chars out, 93362ms → private/tmp/career-ops-apply-pack-research-grok.out.md |
