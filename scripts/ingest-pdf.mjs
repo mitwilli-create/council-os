@@ -38,6 +38,7 @@ import { dirname, basename } from 'node:path';
 import { execSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 function parseArgs() {
   const args = {};
@@ -113,7 +114,8 @@ ${text}
 `;
 
   // Write to api-guides
-  const outPath = `/Users/mitchellwilliams/Documents/council-os/api-guides/${provider}/_official-${purpose}.md`;
+  const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+  const outPath = join(REPO_ROOT, 'api-guides', provider, `_official-${purpose}.md`);
   const outDir = dirname(outPath);
   if (!existsSync(outDir)) {
     mkdirSync(outDir, { recursive: true });
