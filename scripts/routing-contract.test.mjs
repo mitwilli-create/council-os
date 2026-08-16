@@ -91,7 +91,7 @@ test('all local Markdown links in routing rules resolve', () => {
 
 test('modified executable sources contain no absolute user paths', () => {
   const scriptsDir = join(REPO_ROOT, 'scripts');
-  const scripts = readdirSync(scriptsDir).filter(f => f.endsWith('.mjs'));
+  const scripts = readdirSync(scriptsDir).filter(f => f.endsWith('.mjs') || f.endsWith('.sh'));
   for (const file of scripts) {
     const source = readFileSync(join(scriptsDir, file), 'utf8');
     assert.doesNotMatch(source, /\/Users\/mitchellwilliams\//, `File ${file} contains an absolute user path`);

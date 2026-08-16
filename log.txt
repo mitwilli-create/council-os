@@ -1,0 +1,2 @@
+797ff41 chore: nightly hygiene pass 2026-08-15
+3a20ad3 chore: checkpoint agent/autocheckpoint/council-os-1786431507865
