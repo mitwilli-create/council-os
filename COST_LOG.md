@@ -456,3 +456,5 @@ researcher/call-model.mjs hooks.
 | 2026-08-19 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0115 | 2308 tok, 5454 chars out, 55429ms → runs/researcher-20260819-153000/round-2-pplx.md |
 | 2026-08-20 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0559 | 27968 tok, 6890 chars out, 26691ms → runs/researcher-20260820-110500/round-1-grok.md |
 | 2026-08-20 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0065 | 1291 tok, 547 chars out, 266403ms → runs/researcher-20260820-110500/round-1-perplexity.md |
+| 2026-08-27 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0301 | 6013 tok, 29282 chars out, 146577ms → private/tmp/sierra-eve-perplexity-output.md |
+| 2026-08-27 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0443 | 8862 tok, 43341 chars out, 237072ms → career-ops/interview-prep/researcher-report-20260827T115148-todd-kerpelman.md |
