@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
@@ -90,9 +90,11 @@ test('all local Markdown links in routing rules resolve', () => {
 });
 
 test('modified executable sources contain no absolute user paths', () => {
-  for (const path of ['scripts/call-model.mjs', 'scripts/build-routing-tree.mjs']) {
-    const source = readFileSync(join(REPO_ROOT, path), 'utf8');
-    assert.doesNotMatch(source, /\/Users\/mitchellwilliams\//);
+  const scriptsDir = join(REPO_ROOT, 'scripts');
+  const scripts = readdirSync(scriptsDir).filter(f => f.endsWith('.mjs') || f.endsWith('.sh'));
+  for (const file of scripts) {
+    const source = readFileSync(join(scriptsDir, file), 'utf8');
+    assert.doesNotMatch(source, /\/Users\/mitchellwilliams\//, `File ${file} contains an absolute user path`);
   }
 });
 

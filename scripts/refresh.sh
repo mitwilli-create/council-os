@@ -10,7 +10,7 @@
 #   ~/Documents/council-os/scripts/refresh.sh
 #
 # Suggested cron (weekly Sunday 06:00 PT):
-#   0 6 * * 0 /Users/mitchellwilliams/Documents/council-os/scripts/refresh.sh > /tmp/council-os-refresh.log 2>&1
+#   0 6 * * 0 ~/Documents/council-os/scripts/refresh.sh > /tmp/council-os-refresh.log 2>&1
 #
 # Suggested launchd plist (~/Library/LaunchAgents/com.mitchellwilliams.council-os-refresh.plist):
 #   <?xml version="1.0" encoding="UTF-8"?>
@@ -18,7 +18,7 @@
 #   <plist version="1.0">
 #   <dict>
 #     <key>Label</key><string>com.mitchellwilliams.council-os-refresh</string>
-#     <key>ProgramArguments</key><array><string>/Users/mitchellwilliams/Documents/council-os/scripts/refresh.sh</string></array>
+#     <key>ProgramArguments</key><array><string>/bin/bash</string><string>-c</string><string>~/Documents/council-os/scripts/refresh.sh</string></array>
 #     <key>StartCalendarInterval</key><dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>6</integer><key>Minute</key><integer>0</integer></dict>
 #     <key>StandardOutPath</key><string>/tmp/council-os-refresh.log</string>
 #     <key>StandardErrorPath</key><string>/tmp/council-os-refresh.err.log</string>

@@ -1,0 +1,59 @@
+diff --git a/COST_LOG.md b/COST_LOG.md
+index b513e6f..8de15f8 100644
+--- a/COST_LOG.md
++++ b/COST_LOG.md
+@@ -405,3 +405,5 @@ researcher/call-model.mjs hooks.
+ | 2026-08-07 | researcher | xai:grok-4-x-search → grok-4-1-fast-reasoning+web_search+x_search | call-model.mjs | ~$0.0700 | 34988 tok, 7350 chars out, 35267ms → runs/researcher-20260807-155900/round-1-xai-grok-4-x-search.md |
+ | 2026-08-07 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0099 | 3297 tok, 9878 chars out, 60240ms → runs/researcher-20260807-155900/round-1-perplexity-sonar-reasoning-pro.md |
+ | 2026-08-07 | researcher | perplexity:sonar-reasoning-pro → perplexity:sonar-reasoning-pro | call-model.mjs | ~$0.0057 | 1914 tok, 5382 chars out, 171516ms → runs/researcher-20260807-155900/round-1-perplexity-sonar-reasoning-pro-followup.md |
++| 2026-08-11 | researcher | perplexity:sonar-deep-research → perplexity:sonar-deep-research | call-model.mjs | ~$0.0378 | 7554 tok, 37198 chars out, 129704ms → private/tmp/career-ops-apply-pack-research-perplexity.out.md |
++| 2026-08-11 | researcher | xai:grok-4-20-multi-agent → grok-4.20-multi-agent | call-model.mjs | ~$4.9351 | 1233786 tok, 11469 chars out, 93362ms → private/tmp/career-ops-apply-pack-research-grok.out.md |
+diff --git a/scripts/ingest-pdf.mjs b/scripts/ingest-pdf.mjs
+index 6500259..67d00cb 100755
+--- a/scripts/ingest-pdf.mjs
++++ b/scripts/ingest-pdf.mjs
+@@ -38,6 +38,7 @@ import { dirname, basename } from 'node:path';
+ import { execSync } from 'node:child_process';
+ import { tmpdir } from 'node:os';
+ import { join } from 'node:path';
++import { fileURLToPath } from 'node:url';
+ 
+ function parseArgs() {
+   const args = {};
+@@ -113,7 +114,8 @@ ${text}
+ `;
+ 
+   // Write to api-guides
+-  const outPath = `/Users/mitchellwilliams/Documents/council-os/api-guides/${provider}/_official-${purpose}.md`;
++  const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
++  const outPath = join(REPO_ROOT, 'api-guides', provider, `_official-${purpose}.md`);
+   const outDir = dirname(outPath);
+   if (!existsSync(outDir)) {
+     mkdirSync(outDir, { recursive: true });
+diff --git a/scripts/routing-contract.test.mjs b/scripts/routing-contract.test.mjs
+index ce47676..eef63e1 100644
+--- a/scripts/routing-contract.test.mjs
++++ b/scripts/routing-contract.test.mjs
+@@ -1,6 +1,6 @@
+ import assert from 'node:assert/strict';
+ import { createHash } from 'node:crypto';
+-import { existsSync, readFileSync } from 'node:fs';
++import { existsSync, readFileSync, readdirSync } from 'node:fs';
+ import { dirname, join } from 'node:path';
+ import test from 'node:test';
+ import { fileURLToPath } from 'node:url';
+@@ -90,9 +90,11 @@ test('all local Markdown links in routing rules resolve', () => {
+ });
+ 
+ test('modified executable sources contain no absolute user paths', () => {
+-  for (const path of ['scripts/call-model.mjs', 'scripts/build-routing-tree.mjs']) {
+-    const source = readFileSync(join(REPO_ROOT, path), 'utf8');
+-    assert.doesNotMatch(source, /\/Users\/mitchellwilliams\//);
++  const scriptsDir = join(REPO_ROOT, 'scripts');
++  const scripts = readdirSync(scriptsDir).filter(f => f.endsWith('.mjs'));
++  for (const file of scripts) {
++    const source = readFileSync(join(scriptsDir, file), 'utf8');
++    assert.doesNotMatch(source, /\/Users\/mitchellwilliams\//, `File ${file} contains an absolute user path`);
+   }
+ });
+ 

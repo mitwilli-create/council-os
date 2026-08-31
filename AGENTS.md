@@ -22,7 +22,7 @@ No `package.json`; scripts run directly:
 - Call a model + log cost: `node scripts/call-model.mjs` (Mitchell-triggered only; see Hard constraints)
 - Regenerate routing tree from chunks: `node scripts/build-routing-tree.mjs`
 - Orchestrated refresh: `scripts/refresh.sh` (Mitchell-triggered only; runbook: `scripts/orchestrate.md`)
-- No test suite; verify by regenerating `routing-tree.json` and checking it parses and reflects the chunk edits.
+- Contract tests: `node --test scripts/*.test.mjs` (routing-tree hashes, no-absolute-paths, markdown links, Gemini routing provenance). Also verify by regenerating `routing-tree.json` and checking it parses and reflects the chunk edits.
 
 ## Conventions
 
