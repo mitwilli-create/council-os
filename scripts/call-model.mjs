@@ -36,8 +36,6 @@
  *   perplexity:sonar-reasoning-pro
  *
  * Requires API keys in environment (loaded from career-ops/.env via dotenv).
- * COUNCIL_OS_COST_LOG_PATH (optional) writes cost rows to another existing
- * file instead of COST_LOG.md; a missing target is reported, not skipped.
  * Exit codes:
  *   0  — success, response written to --out-file
  *   1  — usage error (missing args, invalid model)
@@ -255,15 +253,8 @@ async function main() {
 }
 
 function appendCostLogRow({ date, phase, modelRequested, modelUsed, tokens, contentChars, elapsedMs, outFile }) {
-  // COUNCIL_OS_COST_LOG_PATH redirects the log (the tests use a temp copy).
-  // An override that points at a missing file is an error, never a silent
-  // skip, so it cannot be used to drop rows.
-  const override = process.env.COUNCIL_OS_COST_LOG_PATH;
-  const costLogPath = override || join(REPO_ROOT, 'COST_LOG.md');
-  if (!existsSync(costLogPath)) {
-    if (override) throw new Error(`COUNCIL_OS_COST_LOG_PATH does not exist: ${override}`);
-    return; // silently skip if the default file is missing
-  }
+  const costLogPath = join(REPO_ROOT, 'COST_LOG.md');
+  if (!existsSync(costLogPath)) return; // silently skip if file missing
 
   const estCostUsd = estimateCostUsd({
     requestedSlot: modelRequested,

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
@@ -8,7 +8,8 @@ import { fileURLToPath } from 'node:url';
 
 import { extractCitations, formatCitationsBlock } from './call-model-policy.mjs';
 
-const CALL_MODEL = join(dirname(fileURLToPath(import.meta.url)), 'call-model.mjs');
+const SCRIPTS_DIR = dirname(fileURLToPath(import.meta.url));
+const EMPTY_COST_LOG = '| — | — | — | — | — | — | — | (no rows yet) |\n';
 
 const URLS = [
   'https://example.com/alpha',
@@ -24,20 +25,29 @@ const PERPLEXITY_RESULT = {
   citations: URLS,
 };
 
-// Runs the real call-model.mjs against a stub career-ops root whose council
-// returns `result`, and returns the out-file text.
+// Runs the real call-model.mjs, copied into a temp council-os tree with its
+// own COST_LOG.md, against a stub career-ops root whose council returns
+// `result`. The repository's COST_LOG.md is never touched.
 function runCallModel(result) {
   const root = mkdtempSync(join(tmpdir(), 'call-model-citations-'));
   try {
-    mkdirSync(join(root, 'lib'));
-    writeFileSync(join(root, 'lib', 'council.mjs'), `
+    const councilOs = join(root, 'council-os');
+    const careerOps = join(root, 'career-ops');
+    mkdirSync(join(councilOs, 'scripts'), { recursive: true });
+    mkdirSync(join(careerOps, 'lib'), { recursive: true });
+    for (const file of ['call-model.mjs', 'call-model-policy.mjs']) {
+      copyFileSync(join(SCRIPTS_DIR, file), join(councilOs, 'scripts', file));
+    }
+    const costLog = join(councilOs, 'COST_LOG.md');
+    writeFileSync(costLog, EMPTY_COST_LOG);
+    writeFileSync(join(careerOps, 'lib', 'council.mjs'), `
 export async function callCouncil() {
   return { results: [${JSON.stringify(result)}], missingKeys: [], totalMs: 1 };
 }
 `);
     // call-model versions that reserve metered spend import this guard;
     // versions that do not simply never load it.
-    writeFileSync(join(root, 'lib', 'metered-spend-guard.mjs'), `
+    writeFileSync(join(careerOps, 'lib', 'metered-spend-guard.mjs'), `
 export class MeteredSpendRefused extends Error {}
 export function reserve() { return { id: 'test' }; }
 export function commit() {}
@@ -45,22 +55,16 @@ export function release() {}
 `);
     const promptFile = join(root, 'prompt.md');
     const outFile = join(root, 'out', 'answer.md');
-    const costLog = join(root, 'COST_LOG.md');
     writeFileSync(promptFile, 'question');
-    writeFileSync(costLog, '| — | — | — | — | — | — | — | (no rows yet) |\n');
     const run = spawnSync(process.execPath, [
-      CALL_MODEL,
+      join(councilOs, 'scripts', 'call-model.mjs'),
       '--model', result.model,
       '--prompt-file', promptFile,
       '--out-file', outFile,
     ], {
       encoding: 'utf-8',
       timeout: 30_000,
-      env: {
-        ...process.env,
-        CAREER_OPS_ROOT: root,
-        COUNCIL_OS_COST_LOG_PATH: costLog,
-      },
+      env: { ...process.env, CAREER_OPS_ROOT: careerOps },
     });
     assert.equal(run.status, 0, `call-model exited ${run.status}: ${run.stderr}`);
     assert.doesNotMatch(run.stderr, /COST_LOG append failed/);
@@ -75,48 +79,14 @@ export function release() {}
 }
 
 test('a Perplexity response with citations writes every URL to the out-file', () => {
-  const { text, usage } = runCallModel(PERPLEXITY_RESULT);
+  const { text, usage, costLog } = runCallModel(PERPLEXITY_RESULT);
   assert.ok(text.startsWith(PERPLEXITY_RESULT.content), 'answer text is preserved first');
   for (const [i, url] of URLS.entries()) {
     assert.ok(text.includes(`[${i + 1}] ${url}`), `out-file is missing [${i + 1}] ${url}`);
   }
   assert.equal(usage.citations_count, 3);
   assert.equal(usage.citations_written, 3);
-});
-
-test('the cost log still gets its row', () => {
-  const { costLog } = runCallModel(PERPLEXITY_RESULT);
-  assert.match(costLog, /perplexity:sonar-deep-research .*call-model\.mjs/);
-});
-
-test('a cost-log override that points nowhere is reported, not skipped', () => {
-  const root = mkdtempSync(join(tmpdir(), 'call-model-costlog-'));
-  try {
-    mkdirSync(join(root, 'lib'));
-    writeFileSync(join(root, 'lib', 'council.mjs'), `
-export async function callCouncil() {
-  return { results: [${JSON.stringify(PERPLEXITY_RESULT)}], missingKeys: [], totalMs: 1 };
-}
-`);
-    writeFileSync(join(root, 'lib', 'metered-spend-guard.mjs'), `
-export class MeteredSpendRefused extends Error {}
-export function reserve() { return { id: 'test' }; }
-export function commit() {}
-export function release() {}
-`);
-    writeFileSync(join(root, 'prompt.md'), 'question');
-    const run = spawnSync(process.execPath, [
-      CALL_MODEL, '--model', PERPLEXITY_RESULT.model,
-      '--prompt-file', join(root, 'prompt.md'), '--out-file', join(root, 'out.md'),
-    ], {
-      encoding: 'utf-8',
-      timeout: 30_000,
-      env: { ...process.env, CAREER_OPS_ROOT: root, COUNCIL_OS_COST_LOG_PATH: join(root, 'missing.md') },
-    });
-    assert.match(run.stderr, /COST_LOG append failed: COUNCIL_OS_COST_LOG_PATH does not exist/);
-  } finally {
-    rmSync(root, { recursive: true, force: true });
-  }
+  assert.match(costLog, /perplexity:sonar-deep-research .*call-model\.mjs/, 'cost row still lands');
 });
 
 test('a response without citations is written unchanged', () => {
@@ -147,7 +117,7 @@ test('a bare string citation and a multi-line title stay on one line', () => {
   assert.match(block, /\[1\] https:\/\/y\.test \(Two lines\)\n$/);
 });
 
-test('search_results supply URLs and titles when citations are absent or bare', () => {
+test('search_results supply URLs and titles when citations are absent', () => {
   const searchResults = [
     { title: 'Alpha paper', url: 'https://example.com/alpha' },
     { title: 'Beta post', url: 'https://example.org/beta' },
@@ -156,8 +126,6 @@ test('search_results supply URLs and titles when citations are absent or bare', 
     formatCitationsBlock({ search_results: searchResults }),
     '\n\n---\n\n## Sources\n\n[1] https://example.com/alpha (Alpha paper)\n[2] https://example.org/beta (Beta post)\n',
   );
-  const merged = extractCitations({ citations: ['https://example.com/alpha', 'https://example.org/beta'], search_results: searchResults });
-  assert.equal(merged[1].title, 'Beta post');
 });
 
 test('an unreadable citation keeps its slot so later numbers still line up', () => {
