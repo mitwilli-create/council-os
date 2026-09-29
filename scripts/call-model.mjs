@@ -50,6 +50,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   buildCallPolicy,
   estimateCostUsd,
+  extractCitations,
+  formatCitationsBlock,
   REDDIT_TASK_TYPE,
   resolveModelProvenance,
 } from './call-model-policy.mjs';
@@ -190,8 +192,13 @@ async function main() {
     mkdirSync(outDir, { recursive: true });
   }
 
+  // Citation URLs are part of the answer: the [n] markers in r.content point
+  // at nothing unless the list is written alongside them.
+  const citations = extractCitations(r);
+  const citationsBlock = formatCitationsBlock(r);
+
   try {
-    writeFileSync(outFile, r.content, 'utf-8');
+    writeFileSync(outFile, r.content + citationsBlock, 'utf-8');
   } catch (e) {
     console.error(`[call-model] write failed: ${e.message}`);
     process.exit(3);
@@ -209,7 +216,11 @@ async function main() {
     requested_slot: requestedSlot,
     resolved_model: resolvedModel,
     tokens: r.tokens || {},
-    citations_count: r.citations ? r.citations.length : 0,
+    citations_count: citations.length,
+    citations_written: citations.filter((c) => c.url).length,
+    // null means no explicit cap was passed and the provider default applied
+    // (32000 for sonar-deep-research in lib/council.mjs).
+    max_tokens_requested: opts.maxTokens ?? null,
     elapsed_ms: elapsed,
     content_chars: r.content.length,
     out_file: outFile,

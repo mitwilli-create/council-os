@@ -94,3 +94,54 @@ export function estimateCostUsd({ requestedSlot, resolvedModel, tokens } = {}) {
 
   return (safeTokenCount * rate / 1_000_000).toFixed(4);
 }
+
+function citationUrl(entry) {
+  if (typeof entry === 'string') return entry.trim() || null;
+  if (entry && typeof entry.url === 'string') return entry.url.trim() || null;
+  return null;
+}
+
+function oneLine(text) {
+  return typeof text === 'string' ? text.replace(/\s+/g, ' ').trim() : '';
+}
+
+function asList(value) {
+  if (Array.isArray(value)) return value;
+  if (typeof value === 'string' && value.trim()) return [value];
+  return [];
+}
+
+// Perplexity numbers its inline [n] markers against the order of the
+// `citations` array, 1-indexed. Positions are kept exactly (no dedupe, no
+// dropping of unreadable entries) so that [n] in the answer always names line
+// [n] here. `search_results` is used as the list only when `citations` is
+// absent; otherwise it only supplies titles, matched by URL, never by position.
+export function extractCitations(result = {}) {
+  const citations = asList(result.citations);
+  const searchResults = asList(result.search_results);
+  const titleByUrl = new Map();
+  for (const entry of searchResults) {
+    const url = citationUrl(entry);
+    const title = oneLine(entry?.title);
+    if (url && title && !titleByUrl.has(url)) titleByUrl.set(url, title);
+  }
+  const primary = citations.length > 0 ? citations : searchResults;
+  return primary.map((entry, i) => {
+    const url = citationUrl(entry);
+    const title = oneLine(entry?.title) || (url ? titleByUrl.get(url) ?? '' : '');
+    return { n: i + 1, url, title };
+  });
+}
+
+// Markdown block appended to the out-file so a run keeps its sources. Returns
+// '' when the response carried no citations, which leaves non-Perplexity
+// output byte-identical.
+export function formatCitationsBlock(result = {}) {
+  const entries = extractCitations(result);
+  if (entries.length === 0) return '';
+  const lines = entries.map(({ n, url, title }) => {
+    const target = url || '(no URL returned)';
+    return title ? `[${n}] ${target} (${title})` : `[${n}] ${target}`;
+  });
+  return `\n\n---\n\n## Sources\n\n${lines.join('\n')}\n`;
+}

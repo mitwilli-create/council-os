@@ -22,7 +22,7 @@ No `package.json`; scripts run directly:
 - Call a model + log cost: `node scripts/call-model.mjs` (Mitchell-triggered only; see Hard constraints)
 - Regenerate routing tree from chunks: `node scripts/build-routing-tree.mjs`
 - Orchestrated refresh: `scripts/refresh.sh` (Mitchell-triggered only; runbook: `scripts/orchestrate.md`)
-- No test suite; verify by regenerating `routing-tree.json` and checking it parses and reflects the chunk edits.
+- Tests: `node --test scripts/*.test.mjs` (no CI runs them, so run them before merging). For chunk edits, also regenerate `routing-tree.json` and check it parses and reflects the edits.
 
 ## Conventions
 
