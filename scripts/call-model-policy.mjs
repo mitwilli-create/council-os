@@ -94,3 +94,39 @@ export function estimateCostUsd({ requestedSlot, resolvedModel, tokens } = {}) {
 
   return (safeTokenCount * rate / 1_000_000).toFixed(4);
 }
+
+function citationUrl(entry) {
+  if (typeof entry === 'string') return entry.trim() || null;
+  if (entry && typeof entry.url === 'string') return entry.url.trim() || null;
+  return null;
+}
+
+// Perplexity numbers its inline [n] markers against the order of the
+// `citations` array, 1-indexed, and `search_results` carries the same sources
+// in the same order with titles attached. Positions are kept exactly (no
+// dedupe, no dropping of unreadable entries) so that [n] in the answer always
+// names line [n] here.
+export function extractCitations(result = {}) {
+  const citations = Array.isArray(result.citations) ? result.citations : [];
+  const searchResults = Array.isArray(result.search_results) ? result.search_results : [];
+  const primary = citations.length > 0 ? citations : searchResults;
+  return primary.map((entry, i) => {
+    const url = citationUrl(entry) ?? citationUrl(searchResults[i]);
+    const titleSource = entry && typeof entry === 'object' ? entry : searchResults[i];
+    const title = typeof titleSource?.title === 'string' ? titleSource.title.trim() : '';
+    return { n: i + 1, url, title };
+  });
+}
+
+// Markdown block appended to the out-file so a run keeps its sources. Returns
+// '' when the response carried no citations, which leaves non-Perplexity
+// output byte-identical.
+export function formatCitationsBlock(result = {}) {
+  const entries = extractCitations(result);
+  if (entries.length === 0) return '';
+  const lines = entries.map(({ n, url, title }) => {
+    const target = url || '(no URL returned)';
+    return title ? `[${n}] ${target} (${title})` : `[${n}] ${target}`;
+  });
+  return `\n\n---\n\n## Sources\n\n${lines.join('\n')}\n`;
+}

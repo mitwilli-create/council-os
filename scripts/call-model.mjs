@@ -50,6 +50,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   buildCallPolicy,
   estimateCostUsd,
+  extractCitations,
+  formatCitationsBlock,
   REDDIT_TASK_TYPE,
   resolveModelProvenance,
 } from './call-model-policy.mjs';
@@ -190,8 +192,14 @@ async function main() {
     mkdirSync(outDir, { recursive: true });
   }
 
+  // Citation URLs are part of the answer: the [n] markers in r.content are
+  // meaningless without them. Before 2026-09-28 only the count was recorded,
+  // and three /researcher runs lost every source URL.
+  const citations = extractCitations(r);
+  const citationsBlock = formatCitationsBlock(r);
+
   try {
-    writeFileSync(outFile, r.content, 'utf-8');
+    writeFileSync(outFile, r.content + citationsBlock, 'utf-8');
   } catch (e) {
     console.error(`[call-model] write failed: ${e.message}`);
     process.exit(3);
@@ -209,7 +217,9 @@ async function main() {
     requested_slot: requestedSlot,
     resolved_model: resolvedModel,
     tokens: r.tokens || {},
-    citations_count: r.citations ? r.citations.length : 0,
+    citations_count: citations.length,
+    citations_written: citations.filter((c) => c.url).length,
+    max_tokens_requested: opts.maxTokens ?? null,
     elapsed_ms: elapsed,
     content_chars: r.content.length,
     out_file: outFile,
@@ -242,7 +252,8 @@ async function main() {
 }
 
 function appendCostLogRow({ date, phase, modelRequested, modelUsed, tokens, contentChars, elapsedMs, outFile }) {
-  const costLogPath = join(REPO_ROOT, 'COST_LOG.md');
+  // COUNCIL_OS_COST_LOG_PATH lets tests point the log somewhere harmless.
+  const costLogPath = process.env.COUNCIL_OS_COST_LOG_PATH || join(REPO_ROOT, 'COST_LOG.md');
   if (!existsSync(costLogPath)) return; // silently skip if file missing
 
   const estCostUsd = estimateCostUsd({
