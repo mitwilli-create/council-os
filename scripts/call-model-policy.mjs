@@ -101,19 +101,34 @@ function citationUrl(entry) {
   return null;
 }
 
+function oneLine(text) {
+  return typeof text === 'string' ? text.replace(/\s+/g, ' ').trim() : '';
+}
+
+function asList(value) {
+  if (Array.isArray(value)) return value;
+  if (typeof value === 'string' && value.trim()) return [value];
+  return [];
+}
+
 // Perplexity numbers its inline [n] markers against the order of the
-// `citations` array, 1-indexed, and `search_results` carries the same sources
-// in the same order with titles attached. Positions are kept exactly (no
-// dedupe, no dropping of unreadable entries) so that [n] in the answer always
-// names line [n] here.
+// `citations` array, 1-indexed. Positions are kept exactly (no dedupe, no
+// dropping of unreadable entries) so that [n] in the answer always names line
+// [n] here. `search_results` is used as the list only when `citations` is
+// absent; otherwise it only supplies titles, matched by URL, never by position.
 export function extractCitations(result = {}) {
-  const citations = Array.isArray(result.citations) ? result.citations : [];
-  const searchResults = Array.isArray(result.search_results) ? result.search_results : [];
+  const citations = asList(result.citations);
+  const searchResults = asList(result.search_results);
+  const titleByUrl = new Map();
+  for (const entry of searchResults) {
+    const url = citationUrl(entry);
+    const title = oneLine(entry?.title);
+    if (url && title && !titleByUrl.has(url)) titleByUrl.set(url, title);
+  }
   const primary = citations.length > 0 ? citations : searchResults;
   return primary.map((entry, i) => {
-    const url = citationUrl(entry) ?? citationUrl(searchResults[i]);
-    const titleSource = entry && typeof entry === 'object' ? entry : searchResults[i];
-    const title = typeof titleSource?.title === 'string' ? titleSource.title.trim() : '';
+    const url = citationUrl(entry);
+    const title = oneLine(entry?.title) || (url ? titleByUrl.get(url) ?? '' : '');
     return { n: i + 1, url, title };
   });
 }

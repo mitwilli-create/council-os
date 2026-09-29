@@ -35,7 +35,8 @@ export async function callCouncil() {
   return { results: [${JSON.stringify(result)}], missingKeys: [], totalMs: 1 };
 }
 `);
-    // Only the post-2026-09-24 call-model imports this; harmless otherwise.
+    // call-model versions that reserve metered spend import this guard;
+    // versions that do not simply never load it.
     writeFileSync(join(root, 'lib', 'metered-spend-guard.mjs'), `
 export class MeteredSpendRefused extends Error {}
 export function reserve() { return { id: 'test' }; }
@@ -44,7 +45,9 @@ export function release() {}
 `);
     const promptFile = join(root, 'prompt.md');
     const outFile = join(root, 'out', 'answer.md');
+    const costLog = join(root, 'COST_LOG.md');
     writeFileSync(promptFile, 'question');
+    writeFileSync(costLog, '| — | — | — | — | — | — | — | (no rows yet) |\n');
     const run = spawnSync(process.execPath, [
       CALL_MODEL,
       '--model', result.model,
@@ -52,14 +55,20 @@ export function release() {}
       '--out-file', outFile,
     ], {
       encoding: 'utf-8',
+      timeout: 30_000,
       env: {
         ...process.env,
         CAREER_OPS_ROOT: root,
-        COUNCIL_OS_COST_LOG_PATH: join(root, 'no-cost-log.md'),
+        COUNCIL_OS_COST_LOG_PATH: costLog,
       },
     });
     assert.equal(run.status, 0, `call-model exited ${run.status}: ${run.stderr}`);
-    return { text: readFileSync(outFile, 'utf-8'), usage: JSON.parse(run.stdout) };
+    assert.doesNotMatch(run.stderr, /COST_LOG append failed/);
+    return {
+      text: readFileSync(outFile, 'utf-8'),
+      usage: JSON.parse(run.stdout),
+      costLog: readFileSync(costLog, 'utf-8'),
+    };
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -75,6 +84,41 @@ test('a Perplexity response with citations writes every URL to the out-file', ()
   assert.equal(usage.citations_written, 3);
 });
 
+test('the cost log still gets its row', () => {
+  const { costLog } = runCallModel(PERPLEXITY_RESULT);
+  assert.match(costLog, /perplexity:sonar-deep-research .*call-model\.mjs/);
+});
+
+test('a cost-log override that points nowhere is reported, not skipped', () => {
+  const root = mkdtempSync(join(tmpdir(), 'call-model-costlog-'));
+  try {
+    mkdirSync(join(root, 'lib'));
+    writeFileSync(join(root, 'lib', 'council.mjs'), `
+export async function callCouncil() {
+  return { results: [${JSON.stringify(PERPLEXITY_RESULT)}], missingKeys: [], totalMs: 1 };
+}
+`);
+    writeFileSync(join(root, 'lib', 'metered-spend-guard.mjs'), `
+export class MeteredSpendRefused extends Error {}
+export function reserve() { return { id: 'test' }; }
+export function commit() {}
+export function release() {}
+`);
+    writeFileSync(join(root, 'prompt.md'), 'question');
+    const run = spawnSync(process.execPath, [
+      CALL_MODEL, '--model', PERPLEXITY_RESULT.model,
+      '--prompt-file', join(root, 'prompt.md'), '--out-file', join(root, 'out.md'),
+    ], {
+      encoding: 'utf-8',
+      timeout: 30_000,
+      env: { ...process.env, CAREER_OPS_ROOT: root, COUNCIL_OS_COST_LOG_PATH: join(root, 'missing.md') },
+    });
+    assert.match(run.stderr, /COST_LOG append failed: COUNCIL_OS_COST_LOG_PATH does not exist/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test('a response without citations is written unchanged', () => {
   const { text } = runCallModel({ ...PERPLEXITY_RESULT, model: 'xai:grok-4', citations: [] });
   assert.equal(text, PERPLEXITY_RESULT.content);
@@ -85,6 +129,22 @@ test('numbering follows the citations array exactly, duplicates included', () =>
   assert.deepEqual(entries.map((e) => [e.n, e.url]), [
     [1, 'https://a.test'], [2, 'https://a.test'], [3, 'https://b.test'],
   ]);
+});
+
+test('titles are matched by URL, never by position', () => {
+  const entries = extractCitations({
+    citations: ['https://a.test', 'https://b.test'],
+    search_results: [{ url: 'https://b.test', title: 'B' }],
+  });
+  assert.deepEqual(entries.map((e) => [e.url, e.title]), [['https://a.test', ''], ['https://b.test', 'B']]);
+  const noUrl = extractCitations({ citations: [{ title: 'X' }], search_results: [{ url: 'https://u.test', title: 'Y' }] });
+  assert.deepEqual([noUrl[0].url, noUrl[0].title], [null, 'X']);
+});
+
+test('a bare string citation and a multi-line title stay on one line', () => {
+  assert.equal(extractCitations({ citations: 'https://x.test' })[0].url, 'https://x.test');
+  const block = formatCitationsBlock({ search_results: [{ url: 'https://y.test', title: 'Two\nlines' }] });
+  assert.match(block, /\[1\] https:\/\/y\.test \(Two lines\)\n$/);
 });
 
 test('search_results supply URLs and titles when citations are absent or bare', () => {
